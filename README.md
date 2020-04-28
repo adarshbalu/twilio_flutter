@@ -20,19 +20,18 @@ dependencies:
 ### How to use
 
 ```dart
+
 TwilioFlutter twilioFlutter; //  Create a new Object
 
-
-@override
-  void initState() { // Initialize with values
+@// Initialize with values
     twilioFlutter = TwilioFlutter(
         accountSid: '*************************', // replace *** with Account SID
         authToken: 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
         twilioNumber: '+...............'  // replace .... with Twilio Number
         );
 
-    super.initState();
-  }
+  
+  
 
 
     twilioFlutter.sendSMS(
@@ -42,13 +41,16 @@ TwilioFlutter twilioFlutter; //  Create a new Object
     twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
 
 
+    twilioFlutter.sendWhatsApp(toNumber: '+................', messageBody : 'hello world');
+
+
 ```
 
 # Features
 
 [x] Sms
 [ ] Call
-[ ] WhatsApp
+[*] WhatsApp - Experimental feature
 
 
 More features will get added soon. Contributions are also welcome.
