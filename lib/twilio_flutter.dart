@@ -12,16 +12,17 @@ class TwilioFlutter {
   String _url;
   final _baseUri = "api.twilio.com";
 
-  TwilioFlutter({@required String accountSid,
-    @required String authToken,
-    @required String twilioNumber}) {
+  TwilioFlutter(
+      {@required String accountSid,
+      @required String authToken,
+      @required String twilioNumber}) {
     this._auth['accountSid'] = accountSid;
     this._auth['authToken'] = authToken;
     this._auth['twilioNumber'] = this._twilioNumber = twilioNumber;
     this._auth['baseUri'] = _baseUri;
     this._auth['cred'] = '$accountSid:$authToken';
     this._url =
-    'https://$_baseUri/2010-04-01/Accounts/$accountSid/Messages.json';
+        'https://$_baseUri/2010-04-01/Accounts/$accountSid/Messages.json';
   }
 
   Future sendSMS(
@@ -60,7 +61,6 @@ class TwilioFlutter {
     this._twilioNumber = twilioNumber;
   }
 
-
   sendWhatsApp(
       {@required String toNumber, @required String messageBody}) async {
     String cred = this._auth['cred'];
@@ -92,5 +92,4 @@ class TwilioFlutter {
       print("More info : " + data['more_info']);
     }
   }
-
 }
