@@ -36,7 +36,8 @@ twilioFlutter = TwilioFlutter(
 #### Send SMS
 ```dart
 twilioFlutter.sendSMS(
-   toNumber : '+................', messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
+   toNumber : '+................', 
+   messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
 ```
 
 #### View SMS List
