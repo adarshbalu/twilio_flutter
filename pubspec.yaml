@@ -1,6 +1,6 @@
 name: twilio_flutter
 description: A Package that helps with twilio API.Currenty supports only sms sending functionality.With time more features will be released.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/adarshbalu/twilio_flutter
 
 environment:

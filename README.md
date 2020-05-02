@@ -19,29 +19,36 @@ dependencies:
 
 ### How to use
 
+
+#### Create a new Object
 ```dart
 
-//  Create a new Object
 TwilioFlutter twilioFlutter; 
+```
 
-// Initialize with values
+#### Initialize with values
+```dart
+
     twilioFlutter = TwilioFlutter(
-        accountSid: '*************************', // replace *** with Account SID
-        authToken: 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
-        twilioNumber: '+...............'  // replace .... with Twilio Number
+        accountSid : '*************************', // replace *** with Account SID
+        authToken : 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
+        twilioNumber : '+...............'  // replace .... with Twilio Number
         );
-
-//Send SMS
-
+```
+#### Send SMS
+```dart
   twilioFlutter.sendSMS(
-        toNumber: '+................', messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
+        toNumber : '+................', messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
+```
+#### Change Twilio Number
+```dart
 
-//Change Twilio Number
     twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
+```
 
-//Send WhatsApp Message (Experimental)
-
-    twilioFlutter.sendWhatsApp(toNumber: '+................', messageBody : 'hello world');
+##### Send WhatsApp Message (Experimental)
+```dart
+    twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello world');
 
 ```
 
@@ -59,7 +66,7 @@ More features will get added soon. Contributions are also welcome.
 Pull requests and contributions highly encouraged .Here are some basic rules to follow to ensure timely addition of your request:
 
 1.  Match coding style (braces, spacing, etc.) This is best achieved using `Reformat Code` feature of Android Studio `CMD`+`Option`+`L` on Mac and `CTRL` + `ALT` + `L` on Linux + Windows .
-2.  If its a feature, bugfix, or anything please only change code to what you specify.
+2.  If its a feature, bug fix, or anything please only change code to what you specify.
 3.  Please keep PR titles easy to read and descriptive of changes, this will make them easier to merge :)
 4.  Pull requests _must_ be made against `develop` branch. Any other branch (unless specified by the maintainers) will get rejected.
 5.  Check for existing [issues](https://github.com/adarshbalu/twilio_flutter/issues) first, before filing an issue.
