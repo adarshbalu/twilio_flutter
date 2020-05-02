@@ -38,6 +38,18 @@ twilioFlutter = TwilioFlutter(
 twilioFlutter.sendSMS(
    toNumber : '+................', messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
 ```
+
+#### View SMS List
+```dart
+var data;
+data= await twilioFlutter.getSmsList(); //Returns list of SMS and SMS URL .
+```
+
+#### View Single SMS
+```dart
+await twilioFlutter.getSMS(messageSID); //Use message sid from the individual messages.
+```
+
 #### Change Twilio Number
 ```dart
 twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number

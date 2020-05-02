@@ -1,5 +1,12 @@
 
-## [0.0.3] 2020-05-02
+
+## [0.0.4] 2020-05-02
+
+- Added Sms Listing .
+- Added Single Sms viewing.
+- Updated Readme.
+
+## [0.0.3] 2020-05-01
 
 - Updated README .
 

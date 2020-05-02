@@ -1,16 +1,20 @@
 library twilio_flutter;
 
 import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
+import 'package:twilio_flutter/models/sms.dart';
 import 'dart:convert';
+import 'package:twilio_flutter/services/network.dart';
 
 class TwilioFlutter {
   String _twilioNumber;
   String _toNumber, _messageBody;
-
+  NetworkHelper _networkHelper = NetworkHelper();
   Map<String, String> _auth = Map<String, String>();
   String _url;
-  final _baseUri = "api.twilio.com";
+  final _baseUri = "https://api.twilio.com";
+  String _version = '2010-04-01';
+  List<SMS> _smsList = [];
+  SMS _sms = SMS();
 
   TwilioFlutter(
       {@required String accountSid,
@@ -21,8 +25,7 @@ class TwilioFlutter {
     this._auth['twilioNumber'] = this._twilioNumber = twilioNumber;
     this._auth['baseUri'] = _baseUri;
     this._auth['cred'] = '$accountSid:$authToken';
-    this._url =
-        'https://$_baseUri/2010-04-01/Accounts/$accountSid/Messages.json';
+    this._url = '$_baseUri/$_version/Accounts/$accountSid/Messages.json';
   }
 
   Future sendSMS(
@@ -33,28 +36,17 @@ class TwilioFlutter {
     var bytes = utf8.encode(cred);
     var base64Str = base64.encode(bytes);
 
-    var response = await http.post(
-      _url,
-      headers: {
-        'Authorization': 'Basic $base64Str',
-        'Accept': 'application/json'
-      },
-      body: {
-        'From': this._twilioNumber,
-        'To': this._toNumber,
-        'Body': this._messageBody
-      },
-    );
+    var headers = {
+      'Authorization': 'Basic $base64Str',
+      'Accept': 'application/json'
+    };
+    var body = {
+      'From': this._twilioNumber,
+      'To': this._toNumber,
+      'Body': this._messageBody
+    };
 
-    if (response.statusCode == 201) {
-      print('Sms sent');
-    } else {
-      print('Sending Failed');
-      var data = jsonDecode(response.body);
-      print('Error Codde : ' + data['code']);
-      print('Error Message : ' + data['message']);
-      print("More info : " + data['more_info']);
-    }
+    _networkHelper.postMessageRequest(_url, headers, body);
   }
 
   changeTwilioNumber(String twilioNumber) {
@@ -68,28 +60,44 @@ class TwilioFlutter {
     this._messageBody = messageBody;
     var bytes = utf8.encode(cred);
     var base64Str = base64.encode(bytes);
+    var headers = {
+      'Authorization': 'Basic $base64Str',
+      'Accept': 'application/json'
+    };
+    var body = {
+      'From': 'whatsapp:' + this._twilioNumber,
+      'To': 'whatsapp:' + this._toNumber,
+      'Body': this._messageBody
+    };
 
-    var response = await http.post(
-      _url,
-      headers: {
-        'Authorization': 'Basic $base64Str',
-        'Accept': 'application/json'
-      },
-      body: {
-        'From': 'whatsapp:' + this._twilioNumber,
-        'To': 'whatsapp:' + this._toNumber,
-        'Body': this._messageBody
-      },
-    );
+    _networkHelper.postMessageRequest(_url, headers, body);
+  }
 
-    if (response.statusCode == 201) {
-      print('WhatsApp message sent');
-    } else {
-      print('Sending Failed');
-      var data = jsonDecode(response.body);
-      print('Error Codde : ' + data['code']);
-      print('Error Message : ' + data['message']);
-      print("More info : " + data['more_info']);
+  getSmsList() async {
+    var getUri = 'https://' +
+        this._auth['accountSid'] +
+        ':' +
+        this._auth['authToken'] +
+        '@api.twilio.com/' +
+        _version +
+        '/Accounts/' +
+        this._auth['accountSid'] +
+        '/Messages.json';
+    print(getUri);
+    this._smsList = await _sms.getSMSList(getUri);
+  }
+
+  getSMS(var messageSid) {
+    bool found = false;
+    for (var sms in this._smsList) {
+      if (sms.messageSid == messageSid) {
+        print('Message body : ' + sms.body);
+        print('To : ' + sms.to);
+        print('Sms status : ' + sms.status);
+        print('Message URL :' + 'https://api.twilio.com' + sms.messageURL);
+        found = true;
+      }
     }
+    if (!found) print('Not Found');
   }
 }
