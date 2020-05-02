@@ -8,7 +8,7 @@ A Flutter package for both android and iOS which helps developers with Twilio AP
 
 To use this package :
 
-- add the dependency to your [pubspec.yaml](https://github.com/adarshbalu/twilio_flutter/blob/master/pubspec.yaml) file.
+- add the dependency to your pubspec.yaml file.
 
 ```yaml
 dependencies:
@@ -22,34 +22,30 @@ dependencies:
 
 #### Create a new Object
 ```dart
-
 TwilioFlutter twilioFlutter; 
 ```
 
 #### Initialize with values
 ```dart
-
-    twilioFlutter = TwilioFlutter(
-        accountSid : '*************************', // replace *** with Account SID
-        authToken : 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
-        twilioNumber : '+...............'  // replace .... with Twilio Number
-        );
+twilioFlutter = TwilioFlutter(
+    accountSid : '*************************', // replace *** with Account SID
+    authToken : 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
+    twilioNumber : '+...............'  // replace .... with Twilio Number
+    );
 ```
 #### Send SMS
 ```dart
-  twilioFlutter.sendSMS(
-        toNumber : '+................', messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
+twilioFlutter.sendSMS(
+   toNumber : '+................', messageBody : 'hello world'); //Use sendSMS with the recipient number and message body.
 ```
 #### Change Twilio Number
 ```dart
-
-    twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
+twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
 ```
 
 ##### Send WhatsApp Message (Experimental)
 ```dart
-    twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello world');
-
+twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello world');
 ```
 
 # Features
