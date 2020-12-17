@@ -28,8 +28,20 @@ class TwilioFlutter {
     this._url = '$_baseUri/$_version/Accounts/$accountSid/Messages.json';
   }
 
-  Future sendSMS(
-      {@required String toNumber, @required String messageBody}) async {
+//
+//	sendSMS
+//	@param toNumber : The number to which text message has to be sent.
+//	@param messageBody : The content of the message to be sent.
+//	@return status : Status of response from the server.
+//	
+//	Method called to send text messages to the specified phone number with given content.
+//	
+//	returns status code from the server response.
+//	201 -> message sent successfully.
+//
+//	For more status codes refer https://www.twilio.com/docs/api/errors
+//
+  Future<int> sendSMS({@required String toNumber, @required String messageBody}) async {
     String cred = this._auth['cred'];
     this._toNumber = toNumber;
     this._messageBody = messageBody;
@@ -46,7 +58,8 @@ class TwilioFlutter {
       'Body': this._messageBody
     };
 
-    _networkHelper.postMessageRequest(_url, headers, body);
+    int status = await _networkHelper.postMessageRequest(_url, headers, body);
+    return status;
   }
 
   changeTwilioNumber(String twilioNumber) {
