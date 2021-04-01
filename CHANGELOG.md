@@ -1,3 +1,7 @@
+## [0.0.6] 2021-04-01
+
+- Upgraded dependencies.
+
 ## [0.0.5] 2020-05-10
 
 - Updated Readme.
