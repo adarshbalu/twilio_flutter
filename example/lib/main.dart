@@ -30,16 +30,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     twilioFlutter = TwilioFlutter(
-        accountSid: '**********************',
-        authToken: 'xxxxxxxxxxxxxxxxxxxxxxxxx',
-        twilioNumber: '+iiiiiiiiiiiiiiiiiiiiiiii');
+        accountSid: 'AC07a649c710761cf3a0e6b96048accf58',
+        authToken: '4c40559fd7c787c650a14eaa9a8939d1',
+        twilioNumber: '+12567403927');
 
     super.initState();
   }
 
   void sendSms() async {
     twilioFlutter.sendSMS(
-        toNumber: '+917012250352', messageBody: 'hello world');
+        toNumber: '+919495817833', messageBody: 'hello world');
   }
 
   void getSms() async {
