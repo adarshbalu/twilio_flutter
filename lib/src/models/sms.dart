@@ -1,4 +1,4 @@
-import 'package:twilio_flutter/services/network.dart';
+import 'package:twilio_flutter/src/services/network.dart';
 
 class SMS {
   String body,

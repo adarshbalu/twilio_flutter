@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 class NetworkHelper {
   NetworkHelper();
 
-  Future<int> postMessageRequest(var url, var headers, var body) async {
-    http.Response response = await http.post(url, headers: headers, body: body);
+  Future<int> postMessageRequest(String url, var headers, var body) async {
+    http.Response response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
     if (response.statusCode == 201) {
       print('Sms sent');
     } else {
