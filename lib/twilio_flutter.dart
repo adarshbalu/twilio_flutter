@@ -13,10 +13,6 @@ class TwilioFlutter {
   TwilioSmsRepository _smsRepository;
   TwilioCreds _twilioCreds;
 
-  List<SMS> _smsList = [];
-  SMS _sms = SMS();
-  SMS get sms => _sms;
-
   TwilioFlutter(
       {@required String accountSid,
       @required String authToken,
@@ -36,41 +32,30 @@ class TwilioFlutter {
         cred: creds);
   }
 
-//
-//	sendSMS
-//	@param toNumber : The number to which text message has to be sent.
-//	@param messageBody : The content of the message to be sent.
-//	@return status : Status of response from the server.
-//
-//	Method called to send text messages to the specified phone number with given content.
-//
-//	returns status code from the server response.
-//	201 -> message sent successfully.
-//
-//	For more status codes refer https://www.twilio.com/docs/api/errors
-//
+  ///	sendSMS
+  ///	 [toNumber] : The number to which text message has to be sent.
+  ///	 [messageBody] : The content of the message to be sent.
+  ///
+  ///	Method called to send text messages to the specified phone number with given content.
+  ///
+  /// Returns
+  ///	201 -> message sent successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  ///
+
   Future<int> sendSMS(
       {@required String toNumber, @required String messageBody}) async {
-    String cred = _twilioCreds.cred;
-    var bytes = utf8.encode(cred);
-    var base64Str = base64.encode(bytes);
-
-    var headers = {
-      'Authorization': 'Basic $base64Str',
-      'Accept': 'application/json'
-    };
-    var body = {
-      'From': _twilioCreds.twilioNumber,
-      'To': toNumber,
-      'Body': messageBody
-    };
-
-    int status =
-        await NetworkHelper.postMessageRequest(_twilioCreds.url, headers, body);
-    return status;
+    return await _smsRepository.sendSMS(
+        toNumber: toNumber,
+        messageBody: messageBody,
+        twilioCreds: _twilioCreds);
   }
 
-  changeTwilioNumber(String twilioNumber) {
+  /// changeTwilioNumber
+  /// [twilioNumber] : A non-null value for new twilio number
+  void changeTwilioNumber(String twilioNumber) {
     this._twilioCreds.twilioNumber = twilioNumber;
   }
 
@@ -108,8 +93,9 @@ class TwilioFlutter {
   }
 
   getSMS(var messageSid) {
+    List<SMS> _smsList = [];
     bool found = false;
-    for (var sms in this._smsList) {
+    for (var sms in _smsList) {
       if (sms.messageSid == messageSid) {
         print('Message body : ' + sms.body);
         print('To : ' + sms.to);
