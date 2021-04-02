@@ -3,6 +3,7 @@ library twilio_flutter;
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
+import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/sms.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/repositories/twilio_sms_repository.dart';
@@ -13,6 +14,11 @@ class TwilioFlutter {
   TwilioSmsRepository _smsRepository;
   TwilioCreds _twilioCreds;
 
+  /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
+  /// [accountSid] , [authToken] , [twilioNumber]  Your Account Sid and Auth Token from twilio.com/console
+  ///  Should be not null Strings.
+  ///
+  /// [twilioNumber] can later be changed.
   TwilioFlutter(
       {@required String accountSid,
       @required String authToken,
@@ -43,8 +49,6 @@ class TwilioFlutter {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  ///
-
   Future<int> sendSMS(
       {@required String toNumber, @required String messageBody}) async {
     return await _smsRepository.sendSMS(
@@ -78,35 +82,22 @@ class TwilioFlutter {
     NetworkHelper.postMessageRequest(_twilioCreds.url, headers, body);
   }
 
-  getSmsList() async {
-    // var getUri = 'https://' +
-    //     this._auth['accountSid'] +
-    //     ':' +
-    //     this._auth['authToken'] +
-    //     '@api.twilio.com/' +
-    //     _version +
-    //     '/Accounts/' +
-    //     this._auth['accountSid'] +
-    //     '/Messages.json';
-    // print(getUri);
-    //this._smsList = await getSMSList(getUri);
+  /// Get all messages associated with your account
+  /// Pass [pageSize] to get specific page sizes.
+  /// [pageSize] value defaults to 20
+  Future<SentSmsData> getSmsList({String pageSize}) async {
+    return await _smsRepository.getSmsList(
+        pageSize: pageSize ?? '20', twilioCreds: _twilioCreds);
   }
 
-  getSMS(var messageSid) {
-    List<SMS> _smsList = [];
-    bool found = false;
-    for (var sms in _smsList) {
-      if (sms.messageSid == messageSid) {
-        print('Message body : ' + sms.body);
-        print('To : ' + sms.to);
-        print('Sms status : ' + sms.status);
-        print('Message URL :' + 'https://api.twilio.com' + sms.messageURL);
-        found = true;
-      }
-    }
-    if (!found) print('Not Found');
+  /// Get all data of a specific message
+  /// Pass [messageSid] as a non null Message SID.
+  Future<Message> getSMS(String messageSid) async {
+    return await _smsRepository.getSmsData(
+        messageSID: messageSid, twilioCreds: _twilioCreds);
   }
 
+  @deprecated
   Future getSMSList(String url) async {
     var data = await NetworkHelper.getRequest(url);
     List<SMS> smsList = [];

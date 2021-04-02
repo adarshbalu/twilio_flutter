@@ -1,3 +1,8 @@
+## [0.0.7] 2021-04-03
+
+- Updated API DOCS.
+- Fixed issues with all current methods.
+
 ## [0.0.6] 2021-04-01
 
 - Upgraded dependencies.
