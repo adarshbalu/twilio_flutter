@@ -4,30 +4,36 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 import 'package:twilio_flutter/src/models/sms.dart';
+import 'package:twilio_flutter/src/models/twilio_creds.dart';
+import 'package:twilio_flutter/src/repositories/twilio_sms_repository.dart';
 import 'package:twilio_flutter/src/services/network.dart';
+import 'package:twilio_flutter/src/utils/utils.dart';
 
 class TwilioFlutter {
-  String _twilioNumber;
-  String _toNumber, _messageBody;
-  Map<String, String> _auth = Map<String, String>();
-  String _url;
-  final _baseUri = "https://api.twilio.com";
-  String _version = '2010-04-01';
+  TwilioSmsRepository _smsRepository;
+  TwilioCreds _twilioCreds;
+
   List<SMS> _smsList = [];
   SMS _sms = SMS();
-
   SMS get sms => _sms;
 
   TwilioFlutter(
       {@required String accountSid,
       @required String authToken,
-      @required String twilioNumber}) {
-    this._auth['accountSid'] = accountSid;
-    this._auth['authToken'] = authToken;
-    this._auth['twilioNumber'] = this._twilioNumber = twilioNumber;
-    this._auth['baseUri'] = _baseUri;
-    this._auth['cred'] = '$accountSid:$authToken';
-    this._url = '$_baseUri/$_version/Accounts/$accountSid/Messages.json';
+      @required String twilioNumber})
+      : assert(
+            accountSid != null && authToken != null && twilioNumber != null) {
+    _smsRepository = TwilioSMSRepositoryImpl();
+
+    String uri =
+        '${Utils.baseUri}/${Utils.version}/Accounts/$accountSid/Messages.json';
+    String creds = '$accountSid:$authToken';
+    _twilioCreds = TwilioCreds(
+        accountSid: accountSid,
+        authToken: authToken,
+        twilioNumber: twilioNumber,
+        url: uri,
+        cred: creds);
   }
 
 //
@@ -45,9 +51,7 @@ class TwilioFlutter {
 //
   Future<int> sendSMS(
       {@required String toNumber, @required String messageBody}) async {
-    String cred = this._auth['cred'];
-    this._toNumber = toNumber;
-    this._messageBody = messageBody;
+    String cred = _twilioCreds.cred;
     var bytes = utf8.encode(cred);
     var base64Str = base64.encode(bytes);
 
@@ -56,24 +60,24 @@ class TwilioFlutter {
       'Accept': 'application/json'
     };
     var body = {
-      'From': this._twilioNumber,
-      'To': this._toNumber,
-      'Body': this._messageBody
+      'From': _twilioCreds.twilioNumber,
+      'To': toNumber,
+      'Body': messageBody
     };
 
-    int status = await NetworkHelper.postMessageRequest(_url, headers, body);
+    int status =
+        await NetworkHelper.postMessageRequest(_twilioCreds.url, headers, body);
     return status;
   }
 
   changeTwilioNumber(String twilioNumber) {
-    this._twilioNumber = twilioNumber;
+    this._twilioCreds.twilioNumber = twilioNumber;
   }
 
   sendWhatsApp(
       {@required String toNumber, @required String messageBody}) async {
-    String cred = this._auth['cred'];
-    this._toNumber = toNumber;
-    this._messageBody = messageBody;
+    String cred = _twilioCreds.cred;
+
     var bytes = utf8.encode(cred);
     var base64Str = base64.encode(bytes);
     var headers = {
@@ -81,26 +85,26 @@ class TwilioFlutter {
       'Accept': 'application/json'
     };
     var body = {
-      'From': 'whatsapp:' + this._twilioNumber,
-      'To': 'whatsapp:' + this._toNumber,
-      'Body': this._messageBody
+      'From': 'whatsapp:' + _twilioCreds.twilioNumber,
+      'To': 'whatsapp:' + toNumber,
+      'Body': messageBody
     };
 
-    NetworkHelper.postMessageRequest(_url, headers, body);
+    NetworkHelper.postMessageRequest(_twilioCreds.url, headers, body);
   }
 
   getSmsList() async {
-    var getUri = 'https://' +
-        this._auth['accountSid'] +
-        ':' +
-        this._auth['authToken'] +
-        '@api.twilio.com/' +
-        _version +
-        '/Accounts/' +
-        this._auth['accountSid'] +
-        '/Messages.json';
-    print(getUri);
-    this._smsList = await getSMSList(getUri);
+    // var getUri = 'https://' +
+    //     this._auth['accountSid'] +
+    //     ':' +
+    //     this._auth['authToken'] +
+    //     '@api.twilio.com/' +
+    //     _version +
+    //     '/Accounts/' +
+    //     this._auth['accountSid'] +
+    //     '/Messages.json';
+    // print(getUri);
+    //this._smsList = await getSMSList(getUri);
   }
 
   getSMS(var messageSid) {
