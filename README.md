@@ -1,6 +1,14 @@
-# Twilio_Flutter
+# Twilio Flutter 
 
 A Flutter package for both android and iOS which helps developers with Twilio API services.
+
+## Features
+
+* Send SMS programmatically;
+* Get all SMS related to a Twilio account;
+* Get more info on each SMS sent from a Twilio account;
+* Send WhatsApp messages programmatically;
+
 
 ## Usage
 
@@ -14,7 +22,7 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter:
+  twilio_flutter: ^0.0.7
 ```
 
 ### How to use
@@ -62,33 +70,28 @@ twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
 twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello world');
 ```
 
-# Features
+## Supported Platforms
 
-- [x] Sms
-- [ ] Call
-- [ ] WhatsApp - Experimental feature
+* Android;
+* iOS;
+* Web;
+* MacOs;
+* Windows;
+* Linux;
 
 
-More features will get added soon. Contributions are also welcome.
+## Useful articles
 
-# Good read
+- [https://medium.com/flutterdevs/sms-using-twilio-in-flutter-f7240c94039a](https://medium.com/flutterdevs/sms-using-twilio-in-flutter-f7240c94039a)
 
-- https://medium.com/flutterdevs/sms-using-twilio-in-flutter-f7240c94039a
+## Issues
 
-# Pull Requests
+Please file any issues, bugs or feature requests as an issue on our [GitHub](https://github.com/adarshbalu/twilio_flutter/issues) page. Commercial support is available, you can contact us at <adarshlp98@gmail.com>.
 
-Pull requests and contributions highly encouraged .Here are some basic rules to follow to ensure timely addition of your request:
+## Want to contribute
 
-1.  Match coding style (braces, spacing, etc.) This is best achieved using `Reformat Code` feature of Android Studio `CMD`+`Option`+`L` on Mac and `CTRL` + `ALT` + `L` on Linux + Windows .
-2.  If its a feature, bug fix, or anything please only change code to what you specify.
-3.  Please keep PR titles easy to read and descriptive of changes, this will make them easier to merge :)
-4.  Pull requests _must_ be made against `develop` branch. Any other branch (unless specified by the maintainers) will get rejected.
-5.  Check for existing [issues](https://github.com/adarshbalu/twilio_flutter/issues) first, before filing an issue.
-6.  Make sure you follow the set standard as all other projects in this repo do
-7.  Have fun!
+If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](CONTRIBUTING.md) and send us your [pull request](https://github.com/adarshbalu/twilio_flutter/pulls).
 
-## Getting Started
+## Author
 
-For help getting started with Flutter, view our online [documentation](https://flutter.io/).
-
-For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
+This Twilio Flutter plugin for Flutter is developed by [Adarsh Balachandran](https://github.com/adarshbalu).
