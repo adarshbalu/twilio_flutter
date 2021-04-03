@@ -1,6 +1,7 @@
 ## [0.0.8] 2021-04-04
 
 - Updated Readme.
+- Improved API Docs.
 
 
 

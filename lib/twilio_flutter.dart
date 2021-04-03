@@ -4,16 +4,19 @@ import 'package:meta/meta.dart';
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/sms.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
-import 'package:twilio_flutter/src/repositories/twilio_calls_repository.dart';
 import 'package:twilio_flutter/src/repositories/twilio_sms_repository.dart';
 import 'package:twilio_flutter/src/repositories/twilio_whatsapp_repository.dart';
 import 'package:twilio_flutter/src/services/network.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
 
+///
+///Twilio’s Programmable SMS API helps you add robust messaging capabilities to your applications.
+/// To use [TwilioFlutter] you will use your Twilio Account SID as the username and your Auth Token as the password for HTTP Basic authentication with Twilio.
+///
 class TwilioFlutter {
   TwilioSmsRepository _smsRepository;
   TwilioWhatsAppRepository _whatsAppRepository;
-  TwilioCallsRepository _callsRepository;
+//  TwilioCallsRepository _callsRepository;
   TwilioCreds _twilioCreds;
 
   /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
@@ -29,7 +32,7 @@ class TwilioFlutter {
             accountSid != null && authToken != null && twilioNumber != null) {
     _smsRepository = TwilioSMSRepositoryImpl();
     _whatsAppRepository = TwilioWhatsAppRepositoryImpl();
-    _callsRepository = TwilioCallsRepositoryImpl();
+    // _callsRepository = TwilioCallsRepositoryImpl();
     String uri =
         '${Utils.baseUri}/${Utils.version}/Accounts/$accountSid/Messages.json';
     String creds = '$accountSid:$authToken';

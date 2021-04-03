@@ -14,9 +14,16 @@ abstract class TwilioSmsRepository {
       {@required String toNumber,
       @required String messageBody,
       @required TwilioCreds twilioCreds});
-
   Future<Message> getSmsData(
       {@required String messageSID, @required TwilioCreds twilioCreds});
+  Future<int> deleteMessage(
+      {@required String messageSID, @required TwilioCreds twilioCreds});
+  Future<SentSmsData> smsListFilterByTimePeriod(
+      {@required String pageSize, @required TwilioCreds twilioCreds});
+  Future<SentSmsData> smsListFilterBySentBefore(
+      {@required String pageSize, @required TwilioCreds twilioCreds});
+  Future<SentSmsData> smsListFilterByDateAndNumbers(
+      {@required String pageSize, @required TwilioCreds twilioCreds});
 }
 
 class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
@@ -102,5 +109,32 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       print('Request Failed');
       throw Exception();
     }
+  }
+
+  @override
+  Future<int> deleteMessage({String messageSID, TwilioCreds twilioCreds}) {
+    // TODO: implement deleteMessage
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SentSmsData> smsListFilterByDateAndNumbers(
+      {String pageSize, TwilioCreds twilioCreds}) {
+    // TODO: implement smsListFilterByDateAndNumbers
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SentSmsData> smsListFilterBySentBefore(
+      {String pageSize, TwilioCreds twilioCreds}) {
+    // TODO: implement smsListFilterBySentBefore
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SentSmsData> smsListFilterByTimePeriod(
+      {String pageSize, TwilioCreds twilioCreds}) {
+    // TODO: implement smsListFilterByTimePeriod
+    throw UnimplementedError();
   }
 }
