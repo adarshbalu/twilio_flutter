@@ -10,9 +10,9 @@ A Flutter package for both android and iOS which helps developers with Twilio AP
 * Send WhatsApp messages programmatically;
 
 
-## Usage
+## Getting Started
 
-[Example](https://github.com/adarshbalu/twilio_flutter/blob/master/example/lib/main.dart)
+Check out our comprehensive [Example](https://github.com/adarshbalu/twilio_flutter/blob/master/example/lib/main.dart) provided with this plugin.
 
 To use this package :
 
@@ -22,7 +22,7 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.0.7
+  twilio_flutter: ^0.0.9
 ```
 
 ### How to use
@@ -72,12 +72,12 @@ twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello 
 
 ## Supported Platforms
 
-* Android;
-* iOS;
-* Web;
-* MacOs;
-* Windows;
-* Linux;
+* Android
+* iOS
+* Web
+* MacOs
+* Windows
+* Linux
 
 
 ## Useful articles

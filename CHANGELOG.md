@@ -1,11 +1,16 @@
 ## [0.0.8] 2021-04-04
 
 - Updated Readme.
+
+
+## [0.0.8] 2021-04-03
+
+- Updated Readme.
 - Improved API Docs.
 
 
 
-## [0.0.7] 2021-04-03
+## [0.0.7] 2021-04-02
 
 - Updated API DOCS.
 - Fixed issues with all current methods.
