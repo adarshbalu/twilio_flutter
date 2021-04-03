@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
+import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
-import 'package:twilio_flutter/src/services/network.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
 
 abstract class TwilioSmsRepository {
@@ -63,10 +63,19 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       'To': toNumber,
       'Body': messageBody
     };
-
-    int status =
-        await NetworkHelper.postMessageRequest(twilioCreds.url, headers, body);
-    return status;
+    http.Response response = await http.post(Uri.parse(twilioCreds.url),
+        headers: headers, body: body);
+    if (response.statusCode == 201) {
+      print('Sms sent Success');
+      return response.statusCode;
+    } else {
+      print('Sending Failed');
+      ErrorData errorData = ErrorData.fromJson(jsonDecode(response.body));
+      print('Error Code : ' + errorData.code.toString());
+      print('Error Message : ' + errorData.message);
+      print("More info : " + errorData.moreInfo);
+      throw Exception();
+    }
   }
 
   @override
