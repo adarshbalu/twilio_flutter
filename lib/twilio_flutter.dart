@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/sms.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
+import 'package:twilio_flutter/src/repositories/twilio_calls_repository.dart';
 import 'package:twilio_flutter/src/repositories/twilio_sms_repository.dart';
 import 'package:twilio_flutter/src/repositories/twilio_whatsapp_repository.dart';
 import 'package:twilio_flutter/src/services/network.dart';
@@ -12,6 +13,7 @@ import 'package:twilio_flutter/src/utils/utils.dart';
 class TwilioFlutter {
   TwilioSmsRepository _smsRepository;
   TwilioWhatsAppRepository _whatsAppRepository;
+  TwilioCallsRepository _callsRepository;
   TwilioCreds _twilioCreds;
 
   /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
@@ -27,6 +29,7 @@ class TwilioFlutter {
             accountSid != null && authToken != null && twilioNumber != null) {
     _smsRepository = TwilioSMSRepositoryImpl();
     _whatsAppRepository = TwilioWhatsAppRepositoryImpl();
+    _callsRepository = TwilioCallsRepositoryImpl();
     String uri =
         '${Utils.baseUri}/${Utils.version}/Accounts/$accountSid/Messages.json';
     String creds = '$accountSid:$authToken';
@@ -37,6 +40,10 @@ class TwilioFlutter {
         url: uri,
         cred: creds);
   }
+
+  // Future makeCall() async {
+  //   return await _callsRepository.makeCall();
+  // }
 
   ///	sendSMS
   ///	 [toNumber] : The number to which text message has to be sent.
