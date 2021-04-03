@@ -71,6 +71,10 @@ twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello 
 
 More features will get added soon. Contributions are also welcome.
 
+# Good read
+
+- https://medium.com/flutterdevs/sms-using-twilio-in-flutter-f7240c94039a
+
 # Pull Requests
 
 Pull requests and contributions highly encouraged .Here are some basic rules to follow to ensure timely addition of your request:
