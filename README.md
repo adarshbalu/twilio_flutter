@@ -51,13 +51,12 @@ twilioFlutter.sendSMS(
 
 #### View SMS List
 ```dart
-var data;
-data= await twilioFlutter.getSmsList(); //Returns list of SMS and SMS URL .
+SentSmsData data= await twilioFlutter.getSmsList({String pageSize}); //Returns list of SMS , pageSize defaults to 20
 ```
 
 #### View Single SMS
 ```dart
-await twilioFlutter.getSMS(messageSID); //Use message sid from the individual messages.
+Message data= await twilioFlutter.getSMS(String messageSID); //Use message sid from the individual messages.
 ```
 
 #### Change Twilio Number
@@ -67,7 +66,8 @@ twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
 
 ##### Send WhatsApp Message (Experimental)
 ```dart
-twilioFlutter.sendWhatsApp(toNumber : '+................', messageBody : 'hello world');
+twilioFlutter.sendWhatsApp(toNumber : '+................',
+ messageBody : 'hello world');
 ```
 
 ## Supported Platforms

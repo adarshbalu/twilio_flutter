@@ -1,6 +1,7 @@
-## [0.0.8] 2021-04-04
+## [0.0.9] 2021-04-04
 
 - Updated Readme.
+- Migrated to Null safe code
 
 
 ## [0.0.8] 2021-04-03

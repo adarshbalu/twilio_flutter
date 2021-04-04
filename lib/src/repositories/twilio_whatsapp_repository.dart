@@ -1,22 +1,23 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 
 abstract class TwilioWhatsAppRepository {
   Future<int> sendWhatsAppMessage(
-      {@required String toNumber,
-      @required String messageBody,
-      @required TwilioCreds twilioCreds});
+      {required String toNumber,
+      required String messageBody,
+      required TwilioCreds? twilioCreds});
 }
 
 class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   @override
   Future<int> sendWhatsAppMessage(
-      {String toNumber, String messageBody, TwilioCreds twilioCreds}) async {
-    String cred = twilioCreds.cred;
+      {required String toNumber,
+      required String? messageBody,
+      required TwilioCreds? twilioCreds}) async {
+    String cred = twilioCreds!.cred;
 
     var bytes = utf8.encode(cred);
     var base64Str = base64.encode(bytes);
@@ -38,8 +39,8 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
       print('Sending Failed');
       ErrorData errorData = ErrorData.fromJson(jsonDecode(response.body));
       print('Error Code : ' + errorData.code.toString());
-      print('Error Message : ' + errorData.message);
-      print("More info : " + errorData.moreInfo);
+      print('Error Message : ' + errorData.message!);
+      print("More info : " + errorData.moreInfo!);
       throw Exception();
     }
   }

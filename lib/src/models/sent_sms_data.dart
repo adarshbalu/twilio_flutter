@@ -11,26 +11,26 @@ String sentSmsDataToJson(SentSmsData data) => json.encode(data.toJson());
 
 class SentSmsData {
   SentSmsData({
-    @required this.end,
-    @required this.firstPageUri,
-    @required this.nextPageUri,
-    @required this.page,
-    @required this.pageSize,
-    @required this.previousPageUri,
-    @required this.messages,
-    @required this.start,
-    @required this.uri,
+    required this.end,
+    required this.firstPageUri,
+    required this.nextPageUri,
+    required this.page,
+    required this.pageSize,
+    required this.previousPageUri,
+    required this.messages,
+    required this.start,
+    required this.uri,
   });
 
-  final int end;
-  final String firstPageUri;
-  final String nextPageUri;
-  final int page;
-  final int pageSize;
-  final String previousPageUri;
+  final int? end;
+  final String? firstPageUri;
+  final String? nextPageUri;
+  final int? page;
+  final int? pageSize;
+  final String? previousPageUri;
   final List<Message> messages;
-  final int start;
-  final String uri;
+  final int? start;
+  final String? uri;
 
   factory SentSmsData.fromJson(Map<String, dynamic> json) => SentSmsData(
         end: json["end"],
@@ -60,48 +60,48 @@ class SentSmsData {
 
 class Message {
   Message({
-    @required this.accountSid,
-    @required this.apiVersion,
-    @required this.body,
-    @required this.dateCreated,
-    @required this.dateSent,
-    @required this.dateUpdated,
-    @required this.direction,
-    @required this.errorCode,
-    @required this.errorMessage,
-    @required this.from,
-    @required this.messagingServiceSid,
-    @required this.numMedia,
-    @required this.numSegments,
-    @required this.price,
-    @required this.priceUnit,
-    @required this.sid,
-    @required this.status,
-    @required this.subresourceUris,
-    @required this.to,
-    @required this.uri,
+    required this.accountSid,
+    required this.apiVersion,
+    required this.body,
+    required this.dateCreated,
+    required this.dateSent,
+    required this.dateUpdated,
+    required this.direction,
+    required this.errorCode,
+    required this.errorMessage,
+    required this.from,
+    required this.messagingServiceSid,
+    required this.numMedia,
+    required this.numSegments,
+    required this.price,
+    required this.priceUnit,
+    required this.sid,
+    required this.status,
+    required this.subresourceUris,
+    required this.to,
+    required this.uri,
   });
 
-  final String accountSid;
+  final String? accountSid;
   final DateTime apiVersion;
-  final String body;
-  final String dateCreated;
-  final String dateSent;
-  final String dateUpdated;
-  final String direction;
-  final int errorCode;
-  final String errorMessage;
-  final String from;
+  final String? body;
+  final String? dateCreated;
+  final String? dateSent;
+  final String? dateUpdated;
+  final String? direction;
+  final int? errorCode;
+  final String? errorMessage;
+  final String? from;
   final dynamic messagingServiceSid;
-  final String numMedia;
-  final String numSegments;
-  final String price;
-  final String priceUnit;
-  final String sid;
-  final String status;
+  final String? numMedia;
+  final String? numSegments;
+  final String? price;
+  final String? priceUnit;
+  final String? sid;
+  final String? status;
   final SubresourceUris subresourceUris;
-  final String to;
-  final String uri;
+  final String? to;
+  final String? uri;
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
         accountSid: json["account_sid"],
@@ -154,12 +154,12 @@ class Message {
 
 class SubresourceUris {
   SubresourceUris({
-    @required this.media,
-    @required this.feedback,
+    required this.media,
+    required this.feedback,
   });
 
-  final String media;
-  final String feedback;
+  final String? media;
+  final String? feedback;
 
   factory SubresourceUris.fromJson(Map<String, dynamic> json) =>
       SubresourceUris(

@@ -1,6 +1,5 @@
 library twilio_flutter;
 
-import 'package:meta/meta.dart';
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/sms.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
@@ -14,10 +13,10 @@ import 'package:twilio_flutter/src/utils/utils.dart';
 /// To use [TwilioFlutter] you will use your Twilio Account SID as the username and your Auth Token as the password for HTTP Basic authentication with Twilio.
 ///
 class TwilioFlutter {
-  TwilioSmsRepository _smsRepository;
-  TwilioWhatsAppRepository _whatsAppRepository;
+  late TwilioSmsRepository _smsRepository;
+  late TwilioWhatsAppRepository _whatsAppRepository;
 //  TwilioCallsRepository _callsRepository;
-  TwilioCreds _twilioCreds;
+  TwilioCreds? _twilioCreds;
 
   /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
   /// [accountSid] , [authToken] , [twilioNumber]  Your Account Sid and Auth Token from twilio.com/console
@@ -25,11 +24,9 @@ class TwilioFlutter {
   ///
   /// [twilioNumber] can later be changed.
   TwilioFlutter(
-      {@required String accountSid,
-      @required String authToken,
-      @required String twilioNumber})
-      : assert(
-            accountSid != null && authToken != null && twilioNumber != null) {
+      {required String accountSid,
+      required String authToken,
+      required String twilioNumber}) {
     _smsRepository = TwilioSMSRepositoryImpl();
     _whatsAppRepository = TwilioWhatsAppRepositoryImpl();
     // _callsRepository = TwilioCallsRepositoryImpl();
@@ -60,7 +57,7 @@ class TwilioFlutter {
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
   Future<int> sendSMS(
-      {@required String toNumber, @required String messageBody}) async {
+      {required String toNumber, required String messageBody}) async {
     return await _smsRepository.sendSMS(
         toNumber: toNumber,
         messageBody: messageBody,
@@ -70,7 +67,7 @@ class TwilioFlutter {
   /// changeTwilioNumber
   /// [twilioNumber] : A non-null value for new twilio number
   void changeTwilioNumber(String twilioNumber) {
-    this._twilioCreds.twilioNumber = twilioNumber;
+    this._twilioCreds!.twilioNumber = twilioNumber;
   }
 
   ///	sendWhatsApp
@@ -85,7 +82,7 @@ class TwilioFlutter {
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
   Future<int> sendWhatsApp(
-      {@required String toNumber, @required String messageBody}) async {
+      {required String toNumber, required String messageBody}) async {
     return await _whatsAppRepository.sendWhatsAppMessage(
         toNumber: toNumber,
         messageBody: messageBody,
@@ -95,7 +92,7 @@ class TwilioFlutter {
   /// Get all messages associated with your account
   /// Pass [pageSize] to get specific page sizes.
   /// [pageSize] value defaults to 20
-  Future<SentSmsData> getSmsList({String pageSize}) async {
+  Future<SentSmsData> getSmsList({String? pageSize}) async {
     return await _smsRepository.getSmsList(
         pageSize: pageSize ?? '20', twilioCreds: _twilioCreds);
   }

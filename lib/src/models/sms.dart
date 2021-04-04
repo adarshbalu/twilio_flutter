@@ -1,5 +1,5 @@
 class SMS {
-  String body,
+  String? body,
       from,
       to,
       status,
