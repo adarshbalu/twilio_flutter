@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class TwilioCreds {
   ///[accountSid] : The SID of the Account that will create the resource.
   String accountSid, authToken, twilioNumber, url, cred;

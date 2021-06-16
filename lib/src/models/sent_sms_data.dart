@@ -2,8 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-
 SentSmsData sentSmsDataFromJson(String str) =>
     SentSmsData.fromJson(json.decode(str));
 
