@@ -8,5 +8,3 @@ environment:
 
 dependencies:
   http: ^0.13.1
-
-dev_dependencies:

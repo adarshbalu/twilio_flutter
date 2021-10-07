@@ -1,5 +1,3 @@
-//     final sentSmsData = sentSmsDataFromJson(jsonString);
-
 import 'dart:convert';
 
 SentSmsData sentSmsDataFromJson(String str) =>

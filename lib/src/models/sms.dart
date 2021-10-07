@@ -1,24 +1,35 @@
 class SMS {
-  String? body,
-      from,
-      to,
-      status,
-      messageSid,
-      direction,
-      dateSent,
-      dateCreated,
-      errorMessage,
-      messageURL;
+  String? messageSid;
+  String? dateCreated;
+  String? dateUpdated;
+  String? dateSent;
+  String? accountSid;
+  String? to;
+  String? from;
+  String? body;
+  String? status;
+  String? direction;
+  String? errorMessage;
+  String? messageURL;
+  int? segments;
 
-  SMS(
-      {this.body,
-      this.from,
-      this.to,
-      this.status,
-      this.messageSid,
-      this.direction,
-      this.dateSent,
-      this.dateCreated,
-      this.errorMessage,
-      this.messageURL});
+  SMS({
+    this.messageSid,
+    this.dateCreated,
+    this.dateUpdated,
+    this.dateSent,
+    this.accountSid,
+    this.to,
+    this.from,
+    this.body,
+    this.status,
+    this.direction,
+    this.errorMessage,
+    this.messageURL,
+    this.segments,
+  });
+
+  static SMS fromJson() {
+    return SMS();
+  }
 }

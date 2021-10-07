@@ -1,28 +1,29 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
 
-abstract class TwilioWhatsAppRepository {
-  Future<int> sendWhatsAppMessage({
+abstract class TwilioMmsRepository {
+  Future<int> sendMMS({
     required String from,
     required String to,
-    required String body,
+    String? body,
+    required String mediaUrl,
     required TwilioCreds twilioCreds,
-    String? mediaUrl,
+    String? statusCallback,
   });
 }
 
-class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
+class TwilioMMSRepositoryImpl extends TwilioMmsRepository {
   @override
-  Future<int> sendWhatsAppMessage({
+  Future<int> sendMMS({
     required String from,
     required String to,
-    required String body,
+    String? body,
+    required String mediaUrl,
     required TwilioCreds twilioCreds,
-    String? mediaUrl,
+    String? statusCallback,
   }) async {
     var bytes = utf8.encode('${twilioCreds.accountSid}:${twilioCreds.authToken}');
     var base64Str = base64.encode(bytes);
@@ -31,14 +32,19 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
       'Authorization': 'Basic $base64Str',
       'Accept': 'application/json',
     };
+
     var messageBody = {
-      'From': 'whatsapp:$from',
-      'To': 'whatsapp:$to',
-      'Body': '$body',
+      'From': from,
+      'To': to,
+      'MediaUrl': mediaUrl,
     };
 
-    if (mediaUrl != null) {
-      messageBody['MediaUrl'] = mediaUrl;
+    if (body != null) {
+      messageBody['Body'] = body;
+    }
+
+    if (statusCallback != null) {
+      messageBody['StatusCallback'] = statusCallback;
     }
 
     http.Response response = await http.post(

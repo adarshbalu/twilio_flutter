@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
@@ -7,41 +6,65 @@ import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
 
 abstract class TwilioSmsRepository {
-  Future<SentSmsData> getSmsList(
-      {required String pageSize, required TwilioCreds? twilioCreds});
-  Future<int> sendSMS(
-      {required String toNumber,
-      required String messageBody,
-      required TwilioCreds? twilioCreds});
-  Future<Message> getSmsData(
-      {required String messageSID, required TwilioCreds? twilioCreds});
-  Future<int> deleteMessage(
-      {required String messageSID, required TwilioCreds twilioCreds});
-  Future<SentSmsData> smsListFilterByTimePeriod(
-      {required String pageSize, required TwilioCreds twilioCreds});
-  Future<SentSmsData> smsListFilterBySentBefore(
-      {required String pageSize, required TwilioCreds twilioCreds});
-  Future<SentSmsData> smsListFilterByDateAndNumbers(
-      {required String pageSize, required TwilioCreds twilioCreds});
+  Future<int> sendSMS({
+    required String from,
+    required String to,
+    required String body,
+    required TwilioCreds twilioCreds,
+    String? statusCallback,
+  });
+
+  Future<SentSmsData> getSmsList({
+    required String pageSize,
+    required TwilioCreds twilioCreds,
+  });
+
+  Future<Message> getSmsData({
+    required String messageSID,
+    required TwilioCreds twilioCreds,
+  });
+
+  Future<int> deleteMessage({
+    required String messageSID,
+    required TwilioCreds twilioCreds,
+  });
+
+  Future<SentSmsData> smsListFilterByTimePeriod({
+    required String pageSize,
+    required TwilioCreds twilioCreds,
+  });
+
+  Future<SentSmsData> smsListFilterBySentBefore({
+    required String pageSize,
+    required TwilioCreds twilioCreds,
+  });
+
+  Future<SentSmsData> smsListFilterByDateAndNumbers({
+    required String pageSize,
+    required TwilioCreds twilioCreds,
+  });
 }
 
 class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   final http.Client client = http.Client();
   @override
-  Future<SentSmsData> getSmsList(
-      {required String pageSize, required TwilioCreds? twilioCreds}) async {
-    String url = twilioCreds!.url + '?PageSize=$pageSize';
-    String cred = twilioCreds.cred;
-    var bytes = utf8.encode(cred);
+  Future<SentSmsData> getSmsList({
+    required String pageSize,
+    required TwilioCreds twilioCreds,
+  }) async {
+    var bytes = utf8.encode('${twilioCreds.accountSid}:${twilioCreds.authToken}');
     var base64Str = base64.encode(bytes);
     var headers = {
       'Authorization': 'Basic $base64Str',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
     };
+
     http.Response response = await http.get(
-      Uri.parse(url),
+      Uri.parse(
+          '${Utils.baseUri}/${Utils.version}/Accounts/${twilioCreds.accountSid}/Messages.json?PageSize=$pageSize'),
       headers: headers,
     );
+
     if (response.statusCode == 200) {
       final sentSmsData = sentSmsDataFromJson(response.body);
       return sentSmsData;
@@ -52,27 +75,39 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<int> sendSMS(
-      {required String toNumber,
-      required String messageBody,
-      required TwilioCreds? twilioCreds}) async {
-    String cred = twilioCreds!.cred;
-    var bytes = utf8.encode(cred);
+  Future<int> sendSMS({
+    required String from,
+    required String to,
+    required String body,
+    required TwilioCreds twilioCreds,
+    String? statusCallback,
+  }) async {
+    var bytes = utf8.encode('${twilioCreds.accountSid}:${twilioCreds.authToken}');
     var base64Str = base64.encode(bytes);
 
     var headers = {
       'Authorization': 'Basic $base64Str',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
     };
-    var body = {
-      'From': twilioCreds.twilioNumber,
-      'To': toNumber,
-      'Body': messageBody
+    var messageBody = {
+      'From': from,
+      'To': to,
+      'Body': body,
     };
-    http.Response response = await http.post(Uri.parse(twilioCreds.url),
-        headers: headers, body: body);
+
+    if (statusCallback != null) {
+      messageBody['StatusCallback'] = statusCallback;
+    }
+
+    http.Response response = await http.post(
+      Uri.parse(
+          '${Utils.baseUri}/${Utils.version}/Accounts/${twilioCreds.accountSid}/Messages.json'),
+      headers: headers,
+      body: messageBody,
+    );
+
     if (response.statusCode == 201) {
-      print('Sms sent Success');
+      //print(response.body);
       return response.statusCode;
     } else {
       print('Sending Failed');
@@ -85,20 +120,16 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<Message> getSmsData(
-      {required String messageSID, required TwilioCreds? twilioCreds}) async {
-    String uri =
-        '${Utils.baseUri}/${Utils.version}/Accounts/${twilioCreds!.accountSid}/Messages/$messageSID';
-    uri = uri + '.json';
-    String cred = twilioCreds.cred;
-    var bytes = utf8.encode(cred);
+  Future<Message> getSmsData({
+    required String messageSID,
+    required TwilioCreds twilioCreds,
+  }) async {
+    var bytes = utf8.encode('${twilioCreds.accountSid}:${twilioCreds.authToken}');
     var base64Str = base64.encode(bytes);
-    var headers = {
-      'Authorization': 'Basic $base64Str',
-      'Accept': 'application/json'
-    };
+    var headers = {'Authorization': 'Basic $base64Str', 'Accept': 'application/json'};
     http.Response response = await http.get(
-      Uri.parse(uri),
+      Uri.parse(
+          '${Utils.baseUri}/${Utils.version}/Accounts/${twilioCreds.accountSid}/Messages/$messageSID.json'),
       headers: headers,
     );
     if (response.statusCode == 200) {
@@ -117,22 +148,19 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<SentSmsData> smsListFilterByDateAndNumbers(
-      {String? pageSize, TwilioCreds? twilioCreds}) {
+  Future<SentSmsData> smsListFilterByDateAndNumbers({String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterByDateAndNumbers
     throw UnimplementedError();
   }
 
   @override
-  Future<SentSmsData> smsListFilterBySentBefore(
-      {String? pageSize, TwilioCreds? twilioCreds}) {
+  Future<SentSmsData> smsListFilterBySentBefore({String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterBySentBefore
     throw UnimplementedError();
   }
 
   @override
-  Future<SentSmsData> smsListFilterByTimePeriod(
-      {String? pageSize, TwilioCreds? twilioCreds}) {
+  Future<SentSmsData> smsListFilterByTimePeriod({String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterByTimePeriod
     throw UnimplementedError();
   }
