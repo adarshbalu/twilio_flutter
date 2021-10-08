@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
+import 'package:twilio_flutter/src/models/exceptions.dart';
+import 'package:twilio_flutter/src/models/responses.dart';
 
 abstract class TwilioMmsRepository {
-  Future<int> sendMMS({
+  Future<SendMmsResponse> sendMms({
     required String from,
     required String to,
     String? body,
@@ -15,9 +16,9 @@ abstract class TwilioMmsRepository {
   });
 }
 
-class TwilioMMSRepositoryImpl extends TwilioMmsRepository {
+class TwilioMmsRepositoryImpl extends TwilioMmsRepository {
   @override
-  Future<int> sendMMS({
+  Future<SendMmsResponse> sendMms({
     required String from,
     required String to,
     String? body,
@@ -55,15 +56,9 @@ class TwilioMMSRepositoryImpl extends TwilioMmsRepository {
     );
 
     if (response.statusCode == 201) {
-      //print(response.body);
-      return response.statusCode;
+      return SendMmsResponse(jsonDecode(response.body));
     } else {
-      print('Sending Failed');
-      ErrorData errorData = ErrorData.fromJson(jsonDecode(response.body));
-      print('Error Code : ' + errorData.code.toString());
-      print('Error Message : ' + errorData.message!);
-      print("More info : " + errorData.moreInfo!);
-      throw Exception();
+      throw SendMmsError(jsonDecode(response.body));
     }
   }
 }

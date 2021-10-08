@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
+import 'package:twilio_flutter/src/models/exceptions.dart';
+import 'package:twilio_flutter/src/models/responses.dart';
 
 abstract class TwilioSmsRepository {
-  Future<int> sendSMS({
+  Future<SendSmsResponse> sendSms({
     required String from,
     required String to,
     required String body,
@@ -45,7 +46,7 @@ abstract class TwilioSmsRepository {
   });
 }
 
-class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
+class TwilioSmsRepositoryImpl extends TwilioSmsRepository {
   final http.Client client = http.Client();
   @override
   Future<SentSmsData> getSmsList({
@@ -75,7 +76,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<int> sendSMS({
+  Future<SendSmsResponse> sendSms({
     required String from,
     required String to,
     required String body,
@@ -107,15 +108,9 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
     );
 
     if (response.statusCode == 201) {
-      //print(response.body);
-      return response.statusCode;
+      return SendSmsResponse(jsonDecode(response.body));
     } else {
-      print('Sending Failed');
-      ErrorData errorData = ErrorData.fromJson(jsonDecode(response.body));
-      print('Error Code : ' + errorData.code.toString());
-      print('Error Message : ' + errorData.message!);
-      print("More info : " + errorData.moreInfo!);
-      throw Exception();
+      throw SendSmsError(jsonDecode(response.body));
     }
   }
 

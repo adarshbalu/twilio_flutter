@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/models/error.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/utils/utils.dart';
+import 'package:twilio_flutter/src/models/exceptions.dart';
+import 'package:twilio_flutter/src/models/responses.dart';
 
 abstract class TwilioWhatsAppRepository {
-  Future<int> sendWhatsAppMessage({
+  Future<SendWhatsAppResponse> sendWhatsApp({
     required String from,
     required String to,
     required String body,
@@ -17,7 +18,7 @@ abstract class TwilioWhatsAppRepository {
 
 class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   @override
-  Future<int> sendWhatsAppMessage({
+  Future<SendWhatsAppResponse> sendWhatsApp({
     required String from,
     required String to,
     required String body,
@@ -49,15 +50,9 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
     );
 
     if (response.statusCode == 201) {
-      //print(response.body);
-      return response.statusCode;
+      return SendWhatsAppResponse(jsonDecode(response.body));
     } else {
-      print('Sending Failed');
-      ErrorData errorData = ErrorData.fromJson(jsonDecode(response.body));
-      print('Error Code : ' + errorData.code.toString());
-      print('Error Message : ' + errorData.message!);
-      print("More info : " + errorData.moreInfo!);
-      throw Exception();
+      throw SendWhatsAppError(jsonDecode(response.body));
     }
   }
 }

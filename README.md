@@ -1,12 +1,13 @@
 # Twilio Flutter 
 
-A Flutter package for both android and iOS which helps developers with Twilio API services.
+A Flutter package for all platforms that helps developers with Twilio API services.
 
 ## Features
 
 * Send SMS programmatically;
 * Get all SMS related to a Twilio account;
 * Get more info on each SMS sent from a Twilio account;
+* Send MMS programmatically;
 * Send WhatsApp messages programmatically;
 
 
@@ -36,16 +37,17 @@ TwilioFlutter twilioFlutter;
 #### Initialize with values
 ```dart
 twilioFlutter = TwilioFlutter(
-    accountSid : '*************************', // replace *** with Account SID
-    authToken : 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
-    twilioNumber : '+...............'  // replace .... with Twilio Number
-    );
+  accountSid : '*************************', // replace *** with Account SID
+  authToken : 'xxxxxxxxxxxxxxxxxx',  // replace xxx with Auth Token
+  twilioNumber : '+...............',  // replace .... with Twilio Number
+);
 ```
 #### Send SMS
 ```dart
 twilioFlutter.sendSMS(
-   toNumber : '+................', 
-   messageBody : 'hello world'); 
+  to : '+................', 
+  body : 'hello world',
+); 
    //Use sendSMS with the recipient number and message body.
 ```
 
@@ -59,15 +61,22 @@ SentSmsData data= await twilioFlutter.getSmsList({String pageSize}); //Returns l
 Message data= await twilioFlutter.getSMS(String messageSID); //Use message sid from the individual messages.
 ```
 
-#### Change Twilio Number
+#### Send MMS
 ```dart
-twilioFlutter.changeTwilioNumber('+.........'); // To change the twilio number
+twilioFlutter.sendMMS(
+  to : '+................', 
+  mediaUrl : 'A/valid/http/or/https/url',
+); 
+   //Use sendMMS with the recipient number and media url.
 ```
 
-##### Send WhatsApp Message (Experimental)
+##### Send WhatsApp Message
 ```dart
-twilioFlutter.sendWhatsApp(toNumber : '+................',
- messageBody : 'hello world');
+twilioFlutter.sendWhatsApp(
+  to : '+................',
+  body : 'hello world',
+  mediaUrl : 'A/valid/http/or/https/url',
+);
 ```
 
 ## Supported Platforms

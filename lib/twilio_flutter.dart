@@ -2,6 +2,8 @@ library twilio_flutter;
 
 import 'package:twilio_flutter/src/models/sent_sms_data.dart';
 import 'package:twilio_flutter/src/models/sms.dart';
+import 'package:twilio_flutter/src/models/exceptions.dart';
+import 'package:twilio_flutter/src/models/responses.dart';
 import 'package:twilio_flutter/src/models/twilio_creds.dart';
 import 'package:twilio_flutter/src/repositories/twilio_sms_repository.dart';
 import 'package:twilio_flutter/src/repositories/twilio_mms_repository.dart';
@@ -29,8 +31,8 @@ class TwilioFlutter {
     required this.authToken,
     required this.twilioNumber,
   }) {
-    _smsRepository = TwilioSMSRepositoryImpl();
-    _mmsRepository = TwilioMMSRepositoryImpl();
+    _smsRepository = TwilioSmsRepositoryImpl();
+    _mmsRepository = TwilioMmsRepositoryImpl();
     _whatsAppRepository = TwilioWhatsAppRepositoryImpl();
     _twilioCreds = TwilioCreds(
       accountSid: accountSid,
@@ -39,23 +41,22 @@ class TwilioFlutter {
   }
 
   ///	sendSMS
-  ///	[toNumber] : The number to which text message has to be sent.
-  ///	[messageBody] : The content of the message to be sent.
+  /// [from] : The number from which you want to send message (If you have more than one number).
+  ///	[to] : The number to which text message has to be sent.
+  ///	[body] : The content of the message to be sent.
+  /// [statusCallback] : The url to which you want twilio to send status updates about the message.
   ///
-  ///	Method called to send text messages to the specified phone number with given content.
-  ///
-  /// Returns
-  ///	201 -> message sent successfully.
+  ///	Method called to send text messages.
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendSMS({
+  Future<SendSmsResponse> sendSms({
     String? from,
     required String to,
     required String body,
     String? statusCallback,
   }) async {
-    return await _smsRepository.sendSMS(
+    return await _smsRepository.sendSms(
       from: from ?? twilioNumber,
       to: to,
       body: body,
@@ -64,27 +65,24 @@ class TwilioFlutter {
     );
   }
 
-  ///	sendMMS
-  /// [from] : The number from which you want to send message.
-  ///	[to] : The number to which text message has to be sent.
-  ///	[body] : The content of the message to be sent.
+  /// sendMMS
+  /// [from] : The number from which you want to send message (If you have more than one number).
+  /// [to] : The number to which text message has to be sent.
+  /// [body] : The content of the message to be sent.
   /// [mediaUrl] : Url of the media which you want to send.
   /// [statusCallback] : The url to which you want twilio to send status updates about the message.
   ///
-  ///	Method called to send media messages.
-  ///
-  /// Returns
-  ///	201 -> message sent successfully.
+  /// Method called to send media messages.
   ///
   ///	For more status codes refer https://www.twilio.com/docs/api/errors
-  Future<int> sendMMS({
+  Future<SendMmsResponse> sendMms({
     String? from,
     required String to,
     String? body,
     required String mediaUrl,
     String? statusCallback,
   }) async {
-    return await _mmsRepository.sendMMS(
+    return await _mmsRepository.sendMms(
       from: from ?? twilioNumber,
       to: to,
       body: body,
@@ -95,23 +93,22 @@ class TwilioFlutter {
   }
 
   ///	sendWhatsApp
-  ///	 [toNumber] : The number to which text message has to be sent.
-  ///	 [messageBody] : The content of the message to be sent.
+  /// [from] : The number from which you want to send message (If you have more than one number).
+  ///	[to] : The number to which text message has to be sent.
+  ///	[body] : The content of the message to be sent.
+  /// [mediaUrl] : Url of the media which you want to send.
   ///
   ///	Method called to send whatsApp messages to the specified number with given content.
   ///
-  /// Returns
-  ///	201 -> message sent successfully.
-  ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendWhatsApp({
+  Future<SendWhatsAppResponse> sendWhatsApp({
     String? from,
     required String to,
     required String body,
     String? mediaUrl,
   }) async {
-    return await _whatsAppRepository.sendWhatsAppMessage(
+    return await _whatsAppRepository.sendWhatsApp(
       from: from ?? twilioNumber,
       to: to,
       body: body,
