@@ -9,24 +9,33 @@ import 'package:twilio_flutter/src/utils/utils.dart';
 abstract class TwilioSmsRepository {
   Future<SentSmsData> getSmsList(
       {required String pageSize, required TwilioCreds? twilioCreds});
-  Future<int> sendSMS(
-      {required String toNumber,
-      required String messageBody,
-      required TwilioCreds? twilioCreds});
+
+  Future<int> sendSMS({
+    required String toNumber,
+    required String messageBody,
+    required TwilioCreds? twilioCreds,
+    String? from,
+  });
+
   Future<Message> getSmsData(
       {required String messageSID, required TwilioCreds? twilioCreds});
+
   Future<int> deleteMessage(
       {required String messageSID, required TwilioCreds twilioCreds});
+
   Future<SentSmsData> smsListFilterByTimePeriod(
       {required String pageSize, required TwilioCreds twilioCreds});
+
   Future<SentSmsData> smsListFilterBySentBefore(
       {required String pageSize, required TwilioCreds twilioCreds});
+
   Future<SentSmsData> smsListFilterByDateAndNumbers(
       {required String pageSize, required TwilioCreds twilioCreds});
 }
 
 class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   final http.Client client = http.Client();
+
   @override
   Future<SentSmsData> getSmsList(
       {required String pageSize, required TwilioCreds? twilioCreds}) async {
@@ -55,7 +64,9 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds? twilioCreds}) async {
+      required TwilioCreds? twilioCreds,
+      String? from,
+      }) async {
     String cred = twilioCreds!.cred;
     var bytes = utf8.encode(cred);
     var base64Str = base64.encode(bytes);
@@ -65,7 +76,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       'Accept': 'application/json'
     };
     var body = {
-      'From': twilioCreds.twilioNumber,
+      'From': from ?? twilioCreds.twilioNumber,
       'To': toNumber,
       'Body': messageBody
     };
