@@ -1,6 +1,7 @@
 # Twilio Flutter 
 
-A Flutter package for both android and iOS which helps developers with Twilio API services.
+A Dart package for both android and iOS which helps developers with Twilio API services.
+This Dart Package can be integrated into any Flutter application to make use of Twilio API.
 
 ## Features
 
@@ -29,6 +30,7 @@ dependencies:
 
 
 #### Create a new Object
+
 ```dart
 TwilioFlutter twilioFlutter; 
 ```
@@ -86,7 +88,7 @@ twilioFlutter.sendWhatsApp(toNumber : '+................',
 
 ## Issues
 
-Please file any issues, bugs or feature requests as an issue on our [GitHub](https://github.com/adarshbalu/twilio_flutter/issues) page. Commercial support is available, you can contact us at <adarshlp98@gmail.com>.
+Please file any issues, bugs or feature requests as an issue on our [GitHub](https://github.com/adarshbalu/twilio_flutter/issues) page.
 
 ## Want to contribute
 
