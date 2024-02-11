@@ -1,12 +1,13 @@
 library twilio_flutter;
 
-import 'package:twilio_flutter/src/models/sent_sms_data.dart';
-import 'package:twilio_flutter/src/models/sms.dart';
-import 'package:twilio_flutter/src/models/twilio_creds.dart';
-import 'package:twilio_flutter/src/repositories/twilio_sms_repository.dart';
-import 'package:twilio_flutter/src/repositories/twilio_whatsapp_repository.dart';
-import 'package:twilio_flutter/src/services/network.dart';
-import 'package:twilio_flutter/src/utils/utils.dart';
+import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
+import 'package:twilio_flutter/src/sms/repository/twilio_sms_repository.dart';
+import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
+import 'package:twilio_flutter/src/shared/services/network.dart';
+import 'package:twilio_flutter/src/shared/utils/utils.dart';
+
+import 'src/sms/dto/sms.dart';
 
 ///
 ///Twilio’s Programmable SMS API helps you add robust messaging capabilities to your applications.

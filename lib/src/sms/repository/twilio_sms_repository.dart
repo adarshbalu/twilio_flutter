@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/models/error.dart';
-import 'package:twilio_flutter/src/models/sent_sms_data.dart';
-import 'package:twilio_flutter/src/models/twilio_creds.dart';
-import 'package:twilio_flutter/src/utils/utils.dart';
+import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
+import 'package:twilio_flutter/src/shared/utils/utils.dart';
+
+import '../../shared/dto/error_data.dart';
 
 abstract class TwilioSmsRepository {
   Future<SentSmsData> getSmsList(
