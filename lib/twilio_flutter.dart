@@ -1,23 +1,21 @@
 library twilio_flutter;
 
-import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
-import 'package:twilio_flutter/src/sms/repository/twilio_sms_repository.dart';
-import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
 import 'package:twilio_flutter/src/shared/services/network.dart';
 import 'package:twilio_flutter/src/shared/utils/utils.dart';
+import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 
+import 'src/shared/services/service_locator.dart';
 import 'src/sms/dto/sms.dart';
+import 'src/sms/services/twilio_sms_service.dart';
 
 ///
 ///Twilio’s Programmable SMS API helps you add robust messaging capabilities to your applications.
 /// To use [TwilioFlutter] you will use your Twilio Account SID as the username and your Auth Token as the password for HTTP Basic authentication with Twilio.
 ///
 class TwilioFlutter {
-  late TwilioSmsRepository _smsRepository;
-  late TwilioWhatsAppRepository _whatsAppRepository;
-//  TwilioCallsRepository _callsRepository;
-  TwilioCreds? _twilioCreds;
+  late TwilioCreds _twilioCreds;
+  late TwilioSMSService _smsService;
 
   /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
   /// [accountSid] , [authToken] , [twilioNumber]  Your Account Sid and Auth Token from twilio.com/console
@@ -28,23 +26,18 @@ class TwilioFlutter {
       {required String accountSid,
       required String authToken,
       required String twilioNumber}) {
-    _smsRepository = TwilioSMSRepositoryImpl();
-    _whatsAppRepository = TwilioWhatsAppRepositoryImpl();
-    // _callsRepository = TwilioCallsRepositoryImpl();
-    String uri =
-        '${Utils.baseUri}/${Utils.version}/Accounts/$accountSid/Messages.json';
-    String creds = '$accountSid:$authToken';
+    registerServices();
+    String uri = Utils.generateMessagesUrl(accountSid);
+    String creds = Utils.generateAuthString(accountSid, authToken);
     _twilioCreds = TwilioCreds(
         accountSid: accountSid,
         authToken: authToken,
         twilioNumber: twilioNumber,
         url: uri,
         cred: creds);
+    _smsService =
+        locator.get<TwilioSMSService>(instanceName: "TwilioSMSServiceImpl");
   }
-
-  // Future makeCall() async {
-  //   return await _callsRepository.makeCall();
-  // }
 
   ///	sendSMS
   ///	 [toNumber] : The number to which text message has to be sent.
@@ -59,7 +52,7 @@ class TwilioFlutter {
   /// * https://www.twilio.com/docs/api/errors
   Future<int> sendSMS(
       {required String toNumber, required String messageBody}) async {
-    return await _smsRepository.sendSMS(
+    return await _smsService.sendSMS(
         toNumber: toNumber,
         messageBody: messageBody,
         twilioCreds: _twilioCreds);
@@ -71,37 +64,18 @@ class TwilioFlutter {
     this._twilioCreds!.twilioNumber = twilioNumber;
   }
 
-  ///	sendWhatsApp
-  ///	 [toNumber] : The number to which text message has to be sent.
-  ///	 [messageBody] : The content of the message to be sent.
-  ///
-  ///	Method called to send whatsApp messages to the specified number with given content.
-  ///
-  /// Returns
-  ///	201 -> message sent successfully.
-  ///
-  ///	For more status codes refer
-  /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendWhatsApp(
-      {required String toNumber, required String messageBody}) async {
-    return await _whatsAppRepository.sendWhatsAppMessage(
-        toNumber: toNumber,
-        messageBody: messageBody,
-        twilioCreds: _twilioCreds);
-  }
-
   /// Get all messages associated with your account
   /// Pass [pageSize] to get specific page sizes.
   /// [pageSize] value defaults to 20
   Future<SentSmsData> getSmsList({String? pageSize}) async {
-    return await _smsRepository.getSmsList(
+    return await _smsService.getSmsList(
         pageSize: pageSize ?? '20', twilioCreds: _twilioCreds);
   }
 
   /// Get all data of a specific message
   /// Pass [messageSid] as a non null Message SID.
   Future<Message> getSMS(String messageSid) async {
-    return await _smsRepository.getSmsData(
+    return await _smsService.getSmsData(
         messageSID: messageSid, twilioCreds: _twilioCreds);
   }
 

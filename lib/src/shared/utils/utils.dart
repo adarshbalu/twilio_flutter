@@ -5,4 +5,12 @@ class Utils {
   static String get baseUri => _baseUri;
 
   static String get version => _version;
+
+  static String generateMessagesUrl(String accountSid) {
+    return '${baseUri}/${version}/Accounts/$accountSid/Messages.json';
+  }
+
+  static String generateAuthString(String accountSid, String authToken) {
+    return '$accountSid:$authToken';
+  }
 }
