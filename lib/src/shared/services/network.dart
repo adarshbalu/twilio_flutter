@@ -22,10 +22,9 @@ class NetworkHelper {
       }
       logger.info('(Twilio API) GET Request Success');
       return jsonDecode(response.body);
-    } catch (e) {
+    } on Exception catch (e) {
       throw HttpCallException(
-        message: '(Twilio API) Error in GET request',
-      );
+          message: '(Twilio API) Error in GET request', thrownException: e);
     }
   }
 
@@ -43,10 +42,8 @@ class NetworkHelper {
         );
       }
       return response;
-    } catch (e) {
-      final exception = e as Exception;
-      throw HttpCallException(
-          message: e.toString(), thrownException: exception);
+    } on Exception catch (e) {
+      throw HttpCallException(message: e.toString(), thrownException: e);
     }
   }
 }

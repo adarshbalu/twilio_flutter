@@ -6,6 +6,6 @@ class TwilioFlutterException implements Exception {
 
   @override
   String toString() {
-    return '$message : ${thrownException.toString()}';
+    return '$message';
   }
 }

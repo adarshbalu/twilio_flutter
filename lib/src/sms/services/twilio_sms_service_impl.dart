@@ -7,9 +7,11 @@ import '../../shared/exceptions/twilio_flutter_exception.dart';
 import '../../shared/utils/log_helper.dart';
 import '../dto/message.dart';
 import '../repository/twilio_sms_repository.dart';
+import '../validation/twilio_sms_validator.dart';
 
 class TwilioSMSServiceImpl extends TwilioSMSService {
   late TwilioSmsRepository _smsRepository;
+  final TwilioSmsValidator _smsValidator = TwilioSmsValidator();
 
   TwilioSMSServiceImpl() {
     _smsRepository = locator.get<TwilioSmsRepository>(
@@ -29,8 +31,9 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
           toNumber: toNumber,
           messageBody: messageBody,
           twilioCreds: twilioCreds);
-    } catch (e) {
-      throw TwilioFlutterException(message: "Failed to Send SMS");
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send SMS", thrownException: e);
     }
   }
 
@@ -42,8 +45,9 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
           .info("Get SMS List Initiated with Page Size: [${pageSize ?? '20'}]");
       return _smsRepository.getSmsList(
           pageSize: pageSize ?? '20', twilioCreds: twilioCreds);
-    } catch (e) {
-      throw TwilioFlutterException(message: "Failed to get SMS List");
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to get SMS List", thrownException: e);
     }
   }
 
@@ -54,8 +58,30 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
       logger.info("Get SMS Details Initiated for message: [${messageSID}]");
       return _smsRepository.getSmsData(
           messageSID: messageSID, twilioCreds: twilioCreds);
-    } catch (e) {
-      throw TwilioFlutterException(message: "Failed to get SMS details");
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to get SMS details", thrownException: e);
+    }
+  }
+
+  @override
+  Future<int> sendScheduledSms(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioCreds twilioCreds,
+      required String sendAt}) {
+    try {
+      _smsValidator.validateTwilio(twilioCreds);
+      _smsValidator.validateDateTime(sendAt);
+      logger.info("Scheduled SMS Initiated from [${twilioCreds.twilioNumber}]");
+      return _smsRepository.sendScheduledSms(
+          toNumber: toNumber,
+          messageBody: messageBody,
+          twilioCreds: twilioCreds,
+          sendAt: sendAt);
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send Scheduled SMS", thrownException: e);
     }
   }
 }

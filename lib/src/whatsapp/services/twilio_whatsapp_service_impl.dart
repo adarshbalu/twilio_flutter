@@ -28,8 +28,9 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
           toNumber: toNumber,
           messageBody: messageBody,
           twilioCreds: twilioCreds);
-    } catch (e) {
-      throw TwilioFlutterException(message: "Unable to Send Whatsapp Message");
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Unable to Send Whatsapp Message", thrownException: e);
     }
   }
 }

@@ -13,4 +13,10 @@ abstract class TwilioSMSService {
 
   Future<Message> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds});
+
+  Future<int> sendScheduledSms(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioCreds twilioCreds,
+      required String sendAt});
 }

@@ -19,6 +19,7 @@ class TwilioFlutter {
   late TwilioWhatsAppService _whatsAppService;
 
   /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
+  /// Optional parameter [messagingServiceSid] can be passed in if [sendScheduledSms] is required.
   /// [accountSid] , [authToken] , [twilioNumber]  Your Account Sid and Auth Token from twilio.com/console
   ///  Should be not null Strings.
   ///
@@ -26,7 +27,8 @@ class TwilioFlutter {
   TwilioFlutter(
       {required String accountSid,
       required String authToken,
-      required String twilioNumber}) {
+      required String twilioNumber,
+      String? messagingServiceSid}) {
     registerServices();
     String uri = RequestUtils.generateMessagesUrl(accountSid);
     String creds = RequestUtils.generateAuthString(accountSid, authToken);
@@ -34,6 +36,7 @@ class TwilioFlutter {
         accountSid: accountSid,
         authToken: authToken,
         twilioNumber: twilioNumber,
+        messagingServiceSid: messagingServiceSid,
         url: uri,
         cred: creds);
     _smsService =
@@ -84,7 +87,7 @@ class TwilioFlutter {
         messageSID: messageSid, twilioCreds: _twilioCreds);
   }
 
-  ///	sendWhatsappMessage
+  ///	sendWhatsApp
   ///	 [toNumber] : The number to which whatsapp message has to be sent.
   ///	 [messageBody] : The content of the message to be sent.
   ///
@@ -101,5 +104,28 @@ class TwilioFlutter {
         toNumber: toNumber,
         messageBody: messageBody,
         twilioCreds: _twilioCreds);
+  }
+
+  ///	sendScheduledSms
+  ///	 [toNumber] : The number to which sms message has to be sent.
+  ///	 [messageBody] : The content of the message to be sent.
+  /// [sendAt] : Time at which the sms has to be sent
+  ///	Method called to send scheduled sms messages to the specified phone number with given content.
+  /// This requires a Messaging service SID registered with twilio and
+  /// it has to be passed in while creating TwilioFlutter
+  /// Returns
+  ///	201 -> message sent successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<int> sendScheduledSms(
+      {required String toNumber,
+      required String messageBody,
+      required String sendAt}) async {
+    return await _smsService.sendScheduledSms(
+        toNumber: toNumber,
+        messageBody: messageBody,
+        twilioCreds: _twilioCreds,
+        sendAt: sendAt);
   }
 }

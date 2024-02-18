@@ -6,11 +6,13 @@ class TwilioCreds {
   /// [cred]: Generated Auth String
   final String accountSid, authToken, url, cred;
   String twilioNumber;
+  String? messagingServiceSid;
 
   TwilioCreds(
       {required this.accountSid,
       required this.authToken,
       required this.twilioNumber,
       required this.url,
-      required this.cred}) {}
+      required this.cred,
+      this.messagingServiceSid}) {}
 }

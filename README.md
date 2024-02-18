@@ -9,6 +9,7 @@ This Dart Package can be integrated into any Flutter application to make use of 
 * Get all SMS related to a Twilio account;
 * Get more info on each SMS sent from a Twilio account;
 * Send WhatsApp messages programmatically;
+* Send Scheduled messages;
 
 ## Getting Started
 
@@ -41,11 +42,13 @@ twilioFlutter = TwilioFlutter
 (
 accountSid : '*************************', // replace *** with Account SID
 authToken : 'xxxxxxxxxxxxxxxxxx', // replace xxx with Auth Token
-twilioNumber
-:
+twilioNumber:'+...............', // replace .... with Twilio Number
+messagingServiceSid:'$
+$
+$
+$
 '
-+...............
-' // replace .... with Twilio Number
+, // optional replace $$ with messaging service sid, required for features like scheduled sms
 );
 ```
 

@@ -58,6 +58,27 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
+  Future<int> sendScheduledSms(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioCreds twilioCreds,
+      required String sendAt}) async {
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final body = {
+      'To': toNumber,
+      'Body': messageBody,
+      'ScheduleType': 'fixed',
+      'MessagingServiceSid': twilioCreds.messagingServiceSid,
+      'SendAt': sendAt
+    };
+    final http.Response response =
+        await NetworkHelper.createRequest(twilioCreds.url, headers, body);
+    logger.info("SMS Scheduled at [$sendAt] to [$toNumber] - [$messageBody]");
+    logger.info(response.body);
+    return response.statusCode;
+  }
+
+  @override
   Future<int> deleteMessage({String? messageSID, TwilioCreds? twilioCreds}) {
     // TODO: implement deleteMessage
     throw UnimplementedError();
