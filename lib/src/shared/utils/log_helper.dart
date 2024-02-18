@@ -9,6 +9,7 @@ class LogHelper {
   }
 
   info(String message) {
+    _logger.info(message);
     print("[twilio_flutter]: $message");
   }
 }

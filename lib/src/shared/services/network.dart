@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/shared/dto/error_data.dart';
 import 'package:twilio_flutter/src/shared/exceptions/http_exception.dart';
 
 import '../utils/log_helper.dart';
@@ -36,7 +35,7 @@ class NetworkHelper {
       if (response.statusCode == 201) {
         logger.info('(Twilio API) POST Request Success');
       } else {
-        final errorData = ErrorData.fromJson(jsonDecode(response.body));
+        // final errorData = ErrorData.fromJson(jsonDecode(response.body));
         throw HttpCallException(
           message: '(Twilio API) Error in POST request',
         );
