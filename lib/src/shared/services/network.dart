@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -25,13 +26,21 @@ class NetworkHelper {
     return response.statusCode;
   }
 
-  static Future getRequest(String url) async {
-    http.Response response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var data = response.body;
-      return jsonDecode(data);
-    } else {
-      print(response.statusCode);
+  static Future<dynamic> getRequest(
+      String url, Map<String, String> headers) async {
+    try {
+      final http.Response response =
+          await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode != 200) {
+        throw HttpCallException(
+          message: '(Twilio API) Error in GET request',
+        );
+      }
+      return jsonDecode(response.body);
+    } catch (e) {
+      throw HttpCallException(
+        message: '(Twilio API) Error in GET request',
+      );
     }
   }
 

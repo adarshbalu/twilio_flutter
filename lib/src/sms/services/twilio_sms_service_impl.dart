@@ -4,6 +4,7 @@ import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 
 import '../../shared/utils/log_helper.dart';
+import '../dto/message.dart';
 import '../repository/twilio_sms_repository.dart';
 
 class TwilioSMSServiceImpl extends TwilioSMSService {
@@ -28,14 +29,14 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
 
   @override
   Future<SentSmsData> getSmsList(
-      {required String pageSize, required TwilioCreds? twilioCreds}) {
+      {required String? pageSize, required TwilioCreds twilioCreds}) {
     return _smsRepository.getSmsList(
-        pageSize: pageSize, twilioCreds: twilioCreds);
+        pageSize: pageSize ?? '20', twilioCreds: twilioCreds);
   }
 
   @override
   Future<Message> getSmsData(
-      {required String messageSID, required TwilioCreds? twilioCreds}) {
+      {required String messageSID, required TwilioCreds twilioCreds}) {
     return _smsRepository.getSmsData(
         messageSID: messageSID, twilioCreds: twilioCreds);
   }

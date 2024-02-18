@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/src/shared/services/network.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/shared/utils/log_helper.dart';
-import 'package:twilio_flutter/src/shared/utils/request_util.dart';
-import 'package:twilio_flutter/src/shared/utils/utils.dart';
+import 'package:twilio_flutter/src/shared/utils/request_utils.dart';
 
 import '../../shared/dto/twilio_creds.dart';
+import '../dto/message.dart';
 import '../dto/sent_sms_data.dart';
 import 'twilio_sms_repository.dart';
 
@@ -25,13 +23,13 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds}) async {
-    var headers = RequestUtil.generateHeaderWithBase64(twilioCreds.cred);
-    var body = {
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final body = {
       'From': twilioCreds.twilioNumber,
       'To': toNumber,
       'Body': messageBody
     };
-    http.Response response =
+    final http.Response response =
         await NetworkHelper.createRequest(twilioCreds.url, headers, body);
     logger.info("SMS Sent to [$toNumber] - [$messageBody]");
     return response.statusCode;
@@ -39,52 +37,22 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
 
   @override
   Future<SentSmsData> getSmsList(
-      {required String pageSize, required TwilioCreds? twilioCreds}) async {
-    String url = twilioCreds!.url + '?PageSize=$pageSize';
-    String cred = twilioCreds.cred;
-    var bytes = utf8.encode(cred);
-    var base64Str = base64.encode(bytes);
-    var headers = {
-      'Authorization': 'Basic $base64Str',
-      'Accept': 'application/json'
-    };
-    http.Response response = await http.get(
-      Uri.parse(url),
-      headers: headers,
-    );
-    if (response.statusCode == 200) {
-      final sentSmsData = sentSmsDataFromJson(response.body);
-      return sentSmsData;
-    } else {
-      print('Request Failed');
-      throw Exception();
-    }
+      {required String pageSize, required TwilioCreds twilioCreds}) async {
+    final String url =
+        RequestUtils.generateSmsListUrl(twilioCreds.accountSid, pageSize);
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final response = await NetworkHelper.getRequest(url, headers);
+    return SentSmsData.fromJson(response);
   }
 
   @override
   Future<Message> getSmsData(
-      {required String messageSID, required TwilioCreds? twilioCreds}) async {
-    String uri =
-        '${Utils.baseUri}/${Utils.version}/Accounts/${twilioCreds!.accountSid}/Messages/$messageSID';
-    uri = uri + '.json';
-    String cred = twilioCreds.cred;
-    var bytes = utf8.encode(cred);
-    var base64Str = base64.encode(bytes);
-    var headers = {
-      'Authorization': 'Basic $base64Str',
-      'Accept': 'application/json'
-    };
-    http.Response response = await http.get(
-      Uri.parse(uri),
-      headers: headers,
-    );
-    if (response.statusCode == 200) {
-      final messageData = Message.fromJson(jsonDecode(response.body));
-      return messageData;
-    } else {
-      print('Request Failed');
-      throw Exception();
-    }
+      {required String messageSID, required TwilioCreds twilioCreds}) async {
+    String url =
+        RequestUtils.generateSmsDataUrl(twilioCreds.accountSid, messageSID);
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final response = await NetworkHelper.getRequest(url, headers);
+    return Message.fromJson(response);
   }
 
   @override

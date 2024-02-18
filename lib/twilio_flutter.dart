@@ -1,12 +1,11 @@
 library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
-import 'package:twilio_flutter/src/shared/services/network.dart';
-import 'package:twilio_flutter/src/shared/utils/utils.dart';
+import 'package:twilio_flutter/src/shared/utils/request_utils.dart';
 import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 
 import 'src/shared/services/service_locator.dart';
-import 'src/sms/dto/sms.dart';
+import 'src/sms/dto/message.dart';
 import 'src/sms/services/twilio_sms_service.dart';
 
 ///
@@ -27,8 +26,8 @@ class TwilioFlutter {
       required String authToken,
       required String twilioNumber}) {
     registerServices();
-    String uri = Utils.generateMessagesUrl(accountSid);
-    String creds = Utils.generateAuthString(accountSid, authToken);
+    String uri = RequestUtils.generateMessagesUrl(accountSid);
+    String creds = RequestUtils.generateAuthString(accountSid, authToken);
     _twilioCreds = TwilioCreds(
         accountSid: accountSid,
         authToken: authToken,
@@ -61,7 +60,7 @@ class TwilioFlutter {
   /// changeTwilioNumber
   /// [twilioNumber] : A non-null value for new twilio number
   void changeTwilioNumber(String twilioNumber) {
-    this._twilioCreds!.twilioNumber = twilioNumber;
+    this._twilioCreds.twilioNumber = twilioNumber;
   }
 
   /// Get all messages associated with your account
@@ -69,7 +68,7 @@ class TwilioFlutter {
   /// [pageSize] value defaults to 20
   Future<SentSmsData> getSmsList({String? pageSize}) async {
     return await _smsService.getSmsList(
-        pageSize: pageSize ?? '20', twilioCreds: _twilioCreds);
+        pageSize: pageSize, twilioCreds: _twilioCreds);
   }
 
   /// Get all data of a specific message
@@ -77,28 +76,5 @@ class TwilioFlutter {
   Future<Message> getSMS(String messageSid) async {
     return await _smsService.getSmsData(
         messageSID: messageSid, twilioCreds: _twilioCreds);
-  }
-
-  @deprecated
-  Future getSMSList(String url) async {
-    var data = await NetworkHelper.getRequest(url);
-    List<SMS> smsList = [];
-    var messages = data['messages'];
-    for (var message in messages) {
-      SMS sms = SMS();
-      sms.body = message['body'];
-      sms.dateCreated = message['date_created'];
-      sms.dateSent = message['date_sent'];
-      sms.direction = message['direction'];
-      sms.errorMessage = message['error_message'];
-      sms.from = message['from'];
-      sms.to = message['to'];
-      sms.messageSid = message['sid'];
-      sms.messageURL = message['uri'];
-      sms.status = message['status'];
-      smsList.add(sms);
-    }
-    if (smsList.isEmpty) print('Failed');
-    return smsList;
   }
 }

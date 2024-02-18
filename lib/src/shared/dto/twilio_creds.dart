@@ -4,7 +4,8 @@ class TwilioCreds {
   /// [twilioNumber]: Twilio number from which the sms needs to be sent
   /// [url] : Generated URL
   /// [cred]: Generated Auth String
-  String accountSid, authToken, twilioNumber, url, cred;
+  final String accountSid, authToken, url, cred;
+  String twilioNumber;
 
   TwilioCreds(
       {required this.accountSid,
