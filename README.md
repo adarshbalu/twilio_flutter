@@ -101,6 +101,21 @@ toNumber : '+................',
 messageBody : 'hello world');
 ```
 
+##### Send Scheduled SMS Message
+
+```dart
+twilioFlutter.sendScheduledSms
+(
+toNumber : '+................',
+messageBody : 'hello world',
+sendAt
+:
+'
+2024-02-18T16:18:55Z
+'
+);
+```
+
 ## Supported Platforms
 
 * Android

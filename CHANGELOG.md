@@ -1,15 +1,18 @@
+## [0.1.0] 2024-02-18
+
+- Updated SMS and WhatsApp features for improving performance
+- Added Scheduled SMS feature
+- Updated Readme
+
 ## [0.0.9] 2021-04-04
 
 - Updated Readme.
 - Migrated to Null safe code
 
-
 ## [0.0.8] 2021-04-03
 
 - Updated Readme.
 - Improved API Docs.
-
-
 
 ## [0.0.7] 2021-04-02
 

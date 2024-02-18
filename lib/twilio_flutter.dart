@@ -109,10 +109,10 @@ class TwilioFlutter {
   ///	sendScheduledSms
   ///	 [toNumber] : The number to which sms message has to be sent.
   ///	 [messageBody] : The content of the message to be sent.
-  /// [sendAt] : Time at which the sms has to be sent
+  /// [sendAt] : Time at which the sms has to be sent (Minimum 15 minutes after current time)
   ///	Method called to send scheduled sms messages to the specified phone number with given content.
   /// This requires a Messaging service SID registered with twilio and
-  /// it has to be passed in while creating TwilioFlutter
+  /// it has to be passed in while creating TwilioFlutter.
   /// Returns
   ///	201 -> message sent successfully.
   ///
