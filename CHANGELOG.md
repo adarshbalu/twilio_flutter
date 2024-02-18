@@ -1,3 +1,7 @@
+## [0.1.1] 2024-02-19
+
+- Minor improvements
+
 ## [0.1.0] 2024-02-18
 
 - Updated SMS and WhatsApp features for improving performance
