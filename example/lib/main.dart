@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -25,23 +25,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TwilioFlutter twilioFlutter;
+  late TwilioFlutter twilioFlutter;
 
   @override
   void initState() {
     twilioFlutter = TwilioFlutter(
-        accountSid : '', // Account SID
-        authToken : '',  //  Auth Token
-        twilioNumber : ''  // Twilio Number
-    );
-
+        accountSid: "",
+        authToken: "",
+        messagingServiceSid: "",
+        twilioNumber: "");
     super.initState();
   }
 
   void sendSms() async {
-    /// Can Send AlphaNumeric name
-    twilioFlutter.sendSMS(name: "",toNumber: '', messageBody: 'hello world');
+    twilioFlutter.sendSMS(toNumber: '', messageBody: 'hello world');
   }
+
+  void sendSmsAlphaNumeric() async {
+    twilioFlutter.sendSMS(name: "", toNumber: '', messageBody: 'hello world');
+  }
+  
+
 
   void sendWhatsApp() {
     twilioFlutter.sendWhatsApp(toNumber: '', messageBody: 'hello world');
@@ -52,6 +56,13 @@ class _MyHomePageState extends State<MyHomePage> {
     print(data);
 
     await twilioFlutter.getSMS('***************************');
+  }
+
+  void sendScheduledSms() async {
+    await twilioFlutter.sendScheduledSms(
+        toNumber: '',
+        messageBody: 'hello world',
+        sendAt: '2024-02-18T16:18:55Z');
   }
 
   @override
