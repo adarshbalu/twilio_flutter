@@ -24,7 +24,7 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.0.9
+  twilio_flutter: ^0.1.1
 ```
 
 ### How to use
@@ -109,9 +109,13 @@ twilioFlutter.sendScheduledSms
 toNumber : '+................',
 messageBody : 'hello world',
 sendAt
-:
+    :
 '
-2024-02-18T16:18:55Z
+2024-02-18T16:
+18
+:
+55
+Z
 '
 );
 ```
