@@ -3,28 +3,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/src/shared/dto/error_data.dart';
-import 'package:twilio_flutter/src/shared/http_exception.dart';
+import 'package:twilio_flutter/src/shared/exceptions/http_exception.dart';
 
 import '../utils/log_helper.dart';
 
 class NetworkHelper {
   static final logger = LogHelper(className: 'NetworkHelper');
-
-  static Future<int> postMessageRequest(String url, Map<String, String> headers,
-      Map<String, dynamic> body) async {
-    http.Response response =
-        await http.post(Uri.parse(url), headers: headers, body: body);
-    if (response.statusCode == 201) {
-      print('Sms sent');
-    } else {
-      print('Sending Failed');
-      var data = jsonDecode(response.body);
-      print('Error Code : ' + data['code'].toString());
-      print('Error Message : ' + data['message']);
-      print("More info : " + data['more_info']);
-    }
-    return response.statusCode;
-  }
 
   static Future<dynamic> getRequest(
       String url, Map<String, String> headers) async {
@@ -36,6 +20,7 @@ class NetworkHelper {
           message: '(Twilio API) Error in GET request',
         );
       }
+      logger.info('(Twilio API) GET Request Success');
       return jsonDecode(response.body);
     } catch (e) {
       throw HttpCallException(
@@ -50,7 +35,7 @@ class NetworkHelper {
       final http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
       if (response.statusCode == 201) {
-        logger.info('(Twilio API) Request Success');
+        logger.info('(Twilio API) POST Request Success');
       } else {
         final errorData = ErrorData.fromJson(jsonDecode(response.body));
         throw HttpCallException(

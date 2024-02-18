@@ -42,6 +42,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
         RequestUtils.generateSmsListUrl(twilioCreds.accountSid, pageSize);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final response = await NetworkHelper.getRequest(url, headers);
+    logger.info("Received SMS List Successfully");
     return SentSmsData.fromJson(response);
   }
 
@@ -52,6 +53,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
         RequestUtils.generateSmsDataUrl(twilioCreds.accountSid, messageSID);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final response = await NetworkHelper.getRequest(url, headers);
+    logger.info("Received SMS Details Successfully");
     return Message.fromJson(response);
   }
 
