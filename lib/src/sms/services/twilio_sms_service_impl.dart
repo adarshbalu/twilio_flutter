@@ -24,18 +24,22 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) {
+      required TwilioCreds twilioCreds,
+      String? from}) {
     try {
       logger.info("SMS Initiated from [${twilioCreds.twilioNumber}]");
       return _smsRepository.sendSMS(
           toNumber: toNumber,
           messageBody: messageBody,
-          twilioCreds: twilioCreds);
+          twilioCreds: twilioCreds,
+          from: from,
+      );
     } on Exception catch (e) {
       throw TwilioFlutterException(
           message: "Failed to Send SMS", thrownException: e);
     }
   }
+
 
   @override
   Future<SentSmsData> getSmsList(

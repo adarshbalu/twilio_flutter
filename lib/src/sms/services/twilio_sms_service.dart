@@ -6,7 +6,8 @@ abstract class TwilioSMSService {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds});
+      required TwilioCreds twilioCreds,
+      String? from});
 
   Future<SentSmsData> getSmsList(
       {required String? pageSize, required TwilioCreds twilioCreds});
