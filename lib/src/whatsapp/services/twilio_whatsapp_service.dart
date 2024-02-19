@@ -5,4 +5,10 @@ abstract class TwilioWhatsAppService {
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds});
+
+  Future<int> sendScheduledWhatsAppMessage(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioCreds twilioCreds,
+      required String sendAt});
 }

@@ -74,7 +74,6 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
     final http.Response response =
         await NetworkHelper.createRequest(twilioCreds.url, headers, body);
     logger.info("SMS Scheduled at [$sendAt] to [$toNumber] - [$messageBody]");
-    logger.info(response.body);
     return response.statusCode;
   }
 

@@ -1,6 +1,6 @@
 name: twilio_flutter
 description: A Package that helps with twilio API. Supports Twilio Programmable SMS.
-version: 0.1.1
+version: 0.2.0
 homepage: https://github.com/adarshbalu/twilio_flutter
 
 environment:

@@ -24,7 +24,7 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.1.1
+  twilio_flutter: ^0.2.0
 ```
 
 ### How to use
