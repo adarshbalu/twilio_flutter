@@ -5,11 +5,12 @@ This Dart Package can be integrated into any Flutter application to make use of 
 
 ## Features
 
-* Send SMS programmatically;
-* Get all SMS related to a Twilio account;
-* Get more info on each SMS sent from a Twilio account;
-* Send WhatsApp messages programmatically;
-* Send Scheduled messages;
+* Send SMS programmatically
+* Get all SMS related to a Twilio account
+* Get more info on each SMS sent from a Twilio account
+* Send WhatsApp messages programmatically
+* Send Scheduled SMS
+* Send WhatsApp message
 
 ## Getting Started
 
@@ -24,99 +25,81 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.2.0
+  twilio_flutter: ^0.2.1
 ```
 
 ### How to use
-
-#### Create a new Object
-
-```dart
-TwilioFlutter twilioFlutter; 
-```
-
-#### Initialize with values
+Please find the following values from Twilio Console:
+- accountSid
+- Twilio Number
+- Auth Token
+- Messaging Service Sid (Optional, required for features like scheduled messages)
+#### Create a new Object and Initialize with values
 
 ```dart
-twilioFlutter = TwilioFlutter
-(
-accountSid : '*************************', // replace *** with Account SID
-authToken : 'xxxxxxxxxxxxxxxxxx', // replace xxx with Auth Token
-twilioNumber:'+...............', // replace .... with Twilio Number
-messagingServiceSid:'$
-$
-$
-$
-'
-, // optional replace $$ with messaging service sid, required for features like scheduled sms
+TwilioFlutter twilioFlutter = TwilioFlutter(
+accountSid : '', // replace with Account SID
+authToken : '', // replace with Auth Token
+twilioNumber:'', // replace with Twilio Number(With country code)
+messagingServiceSid:'' // optional replace $$ with messaging service sid, required for features like scheduled sms
 );
 ```
 
 #### Send SMS
+Use sendSMS with the recipient number and message body.
 
 ```dart
-twilioFlutter.sendSMS
-(
-toNumber : '+................',
+await twilioFlutter.sendSMS(
+toNumber : '',// replace with Mobile Number(With country code)
 messageBody : 'hello world');
-//Use sendSMS with the recipient number and message body.
 ```
 
 #### View SMS List
 
 ```dart
 
-SentSmsData data = await
-twilioFlutter.getSmsList
-({String pageSize}); //Returns list of SMS , pageSize defaults to 20
+final data = await twilioFlutter.getSmsList({String pageSize}); //Returns list of SMS , pageSize defaults to 20
 ```
 
 #### View Single SMS
 
 ```dart
 
-Message data = await
-twilioFlutter.getSMS
-(
-String
-messageSID
-); //Use message sid from the individual messages.
+final data = await twilioFlutter.getSMS(String messageSID); //Use message sid from the individual messages.
 ```
 
 #### Change Twilio Number
 
 ```dart
-twilioFlutter.changeTwilioNumber
-('+.........
-'
-); // To change the twilio number
+twilioFlutter.changeTwilioNumber(''); // To change the twilio number(With country code)
 ```
 
 ##### Send WhatsApp Message
 
 ```dart
-twilioFlutter.sendWhatsApp
-(
-toNumber : '+................',
+await twilioFlutter.sendWhatsApp(toNumber : '+',// replace with Mobile Number(With country code)
 messageBody : 'hello world');
 ```
 
 ##### Send Scheduled SMS Message
+Scheduled messages can be sent if the `sendAt` is at least 15 after the current time.
 
 ```dart
-twilioFlutter.sendScheduledSms
-(
-toNumber : '+................',
+await twilioFlutter.sendScheduledSms(
+toNumber : '',
 messageBody : 'hello world',
-sendAt
-    :
-'
-2024-02-18T16:
-18
-:
-55
-Z
-'
+sendAt:'2024-02-18T16:18:55Z'// Datetime has to be in the same format
+);
+```
+
+##### Send Scheduled WhatsApp Message
+Scheduled messages can be sent if the `sendAt` is at least 15 after the current time.
+
+```dart
+await twilioFlutter.sendScheduledWhatsAppMessage(
+toNumber : '',
+messageBody : 'hello world',
+sendAt:'2024-02-18T16:18:55Z'// Datetime has to be in the same format
 );
 ```
 
