@@ -10,7 +10,7 @@ This Dart Package can be integrated into any Flutter application to make use of 
 * Get more info on each SMS sent from a Twilio account
 * Send WhatsApp messages programmatically
 * Send Scheduled SMS
-* Send WhatsApp message
+* Send Scheduled WhatsApp message
 
 ## Getting Started
 
@@ -25,11 +25,11 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.2.1
+  twilio_flutter: ^0.2.2
 ```
 
 ### How to use
-Please find the following values from Twilio Console:
+Please find the following values from [Twilio Console](https://console.twilio.com/):
 - accountSid
 - Twilio Number
 - Auth Token
@@ -77,7 +77,7 @@ twilioFlutter.changeTwilioNumber(''); // To change the twilio number(With countr
 ##### Send WhatsApp Message
 
 ```dart
-await twilioFlutter.sendWhatsApp(toNumber : '+',// replace with Mobile Number(With country code)
+await twilioFlutter.sendWhatsApp(toNumber : '',// replace with Mobile Number(With country code)
 messageBody : 'hello world');
 ```
 
@@ -102,6 +102,15 @@ messageBody : 'hello world',
 sendAt:'2024-02-18T16:18:55Z'// Datetime has to be in the same format
 );
 ```
+
+### Future Features
+- [ ] Cancel Scheduled Messages
+- [ ] Email Sending Support
+- [ ] Update a Message resource
+- [ ] Delete a Message resource
+- [ ] Alphanumeric Sender IDs in Messaging Services
+- [ ] More Support for Messaging Service
+- [ ] Send message through Facebook Messenger
 
 ## Supported Platforms
 
