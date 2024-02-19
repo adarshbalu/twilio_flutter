@@ -22,10 +22,11 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) async {
+      required TwilioCreds twilioCreds,
+      String? from}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {
-      'From': twilioCreds.twilioNumber,
+      'From': from ?? twilioCreds.twilioNumber,
       'To': toNumber,
       'Body': messageBody
     };

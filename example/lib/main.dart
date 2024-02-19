@@ -41,6 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
     twilioFlutter.sendSMS(toNumber: '', messageBody: 'hello world');
   }
 
+  void sendSmsAlphaNumeric() async {
+    twilioFlutter.sendSMS(name: "", toNumber: '', messageBody: 'hello world');
+  }
+  
+
+
   void sendWhatsApp() {
     twilioFlutter.sendWhatsApp(toNumber: '', messageBody: 'hello world');
   }
