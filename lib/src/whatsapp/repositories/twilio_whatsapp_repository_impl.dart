@@ -10,7 +10,7 @@ import '../../shared/utils/request_utils.dart';
 class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   late http.Client client;
 
-  TwilioSMSRepositoryImpl() {
+  TwilioWhatsAppRepositoryImpl() {
     client = locator.get<http.Client>(instanceName: "http.client");
   }
 
