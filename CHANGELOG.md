@@ -1,3 +1,7 @@
+## [0.2.2] 2024-02-20
+
+- Improve documentation
+
 ## [0.2.1] 2024-02-20
 
 - Improve documentation
