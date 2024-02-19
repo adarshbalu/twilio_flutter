@@ -33,4 +33,25 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
     logger.info("Whatsapp Message Sent to [$toNumber] - [$messageBody]");
     return response.statusCode;
   }
+
+  @override
+  Future<int> sendScheduledWhatsAppMessage(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioCreds twilioCreds,
+      required String sendAt}) async {
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final body = {
+      'To': 'whatsapp:' + toNumber,
+      'Body': messageBody,
+      'ScheduleType': 'fixed',
+      'MessagingServiceSid': twilioCreds.messagingServiceSid,
+      'SendAt': sendAt
+    };
+    final http.Response response =
+        await NetworkHelper.createRequest(twilioCreds.url, headers, body);
+    logger.info(
+        "WhatsApp Message Scheduled at [$sendAt] to [$toNumber] - [$messageBody]");
+    return response.statusCode;
+  }
 }

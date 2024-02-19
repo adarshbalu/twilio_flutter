@@ -1,3 +1,7 @@
+## [0.2.0] 2024-02-20
+
+- Added Scheduled WhatsApp message feature
+
 ## [0.1.1] 2024-02-19
 
 - Minor improvements
