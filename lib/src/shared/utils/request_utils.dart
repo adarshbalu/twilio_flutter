@@ -16,7 +16,7 @@ class RequestUtils {
     return generateMessagesUrl(accountSid) + '?PageSize=$pageSize';
   }
 
-  static String generateSmsDataUrl(String accountSid, String messageSid) {
+  static String generateSpecificSmsUrl(String accountSid, String messageSid) {
     return '${_baseUri}/${_version}/Accounts/${accountSid}/Messages/${messageSid}' +
         '.json';
   }

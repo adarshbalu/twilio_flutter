@@ -50,7 +50,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   Future<Message> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds}) async {
     String url =
-        RequestUtils.generateSmsDataUrl(twilioCreds.accountSid, messageSID);
+        RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSID);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final response = await NetworkHelper.getRequest(url, headers);
     logger.info("Received SMS Details Successfully");
@@ -74,6 +74,19 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
     final http.Response response =
         await NetworkHelper.createRequest(twilioCreds.url, headers, body);
     logger.info("SMS Scheduled at [$sendAt] to [$toNumber] - [$messageBody]");
+    return response.statusCode;
+  }
+
+  @override
+  Future<int> cancelScheduledSms(
+      {required String messageSid, required TwilioCreds twilioCreds}) async {
+    final String url =
+        RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSid);
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final body = {'Status': 'canceled'};
+    final http.Response response =
+        await NetworkHelper.createRequest(url, headers, body);
+    logger.info("Cancelled SMS [$messageSid] Successfully");
     return response.statusCode;
   }
 

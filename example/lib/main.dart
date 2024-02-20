@@ -29,11 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    twilioFlutter = TwilioFlutter(
-        accountSid: "",
-        authToken: "",
-        messagingServiceSid: "",
-        twilioNumber: "");
+    twilioFlutter =
+        TwilioFlutter(accountSid: "", authToken: "", twilioNumber: "");
     super.initState();
   }
 
@@ -49,14 +46,18 @@ class _MyHomePageState extends State<MyHomePage> {
     var data = await twilioFlutter.getSmsList();
     print(data);
 
-    await twilioFlutter.getSMS('***************************');
+    await twilioFlutter.getSMS('');
   }
 
   void sendScheduledSms() async {
     await twilioFlutter.sendScheduledSms(
         toNumber: '',
         messageBody: 'hello world',
-        sendAt: '2024-02-18T16:18:55Z');
+        sendAt: '2024-03-18T16:18:55Z');
+  }
+
+  void cancelScheduledSMS() async {
+    await twilioFlutter.cancelScheduledSms(messageSid: '');
   }
 
   @override
