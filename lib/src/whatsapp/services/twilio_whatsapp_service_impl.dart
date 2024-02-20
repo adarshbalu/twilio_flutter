@@ -58,4 +58,19 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
           thrownException: e);
     }
   }
+
+  @override
+  Future<int> cancelScheduledWhatsAppMessage(
+      {required String messageSid, required TwilioCreds twilioCreds}) async {
+    try {
+      logger.info(
+          "Cancel Scheduled WhatsApp Message initiated for : [${messageSid}]");
+      return await _whatsAppRepository.cancelScheduledWhatsAppMessage(
+          messageSid: messageSid, twilioCreds: twilioCreds);
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to cancel scheduled WhatsApp Message details",
+          thrownException: e);
+    }
+  }
 }

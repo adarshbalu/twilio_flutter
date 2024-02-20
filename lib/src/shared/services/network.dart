@@ -32,7 +32,7 @@ class NetworkHelper {
     try {
       final http.Response response =
           await http.post(Uri.parse(url), headers: headers, body: body);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         logger.info('(Twilio API) POST Request Success');
       } else {
         // final errorData = ErrorData.fromJson(jsonDecode(response.body));

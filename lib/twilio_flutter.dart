@@ -114,7 +114,7 @@ class TwilioFlutter {
   /// This requires a Messaging service SID registered with twilio and
   /// it has to be passed in while creating TwilioFlutter.
   /// Returns
-  ///	201 -> message sent successfully.
+  ///	201 -> message scheduled successfully.
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
@@ -137,7 +137,7 @@ class TwilioFlutter {
   /// This requires a Messaging service SID registered with twilio and
   /// it has to be passed in while creating TwilioFlutter.
   /// Returns
-  ///	201 -> message sent successfully.
+  ///	201 -> message scheduled successfully.
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
@@ -150,5 +150,30 @@ class TwilioFlutter {
         messageBody: messageBody,
         twilioCreds: _twilioCreds,
         sendAt: sendAt);
+  }
+
+  ///	cancelScheduledSms
+  ///	 [messageSid] : The unique sid of message for which has to be cancelled.
+  /// Returns
+  ///	200 -> scheduled message cancelled successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<int> cancelScheduledSms({required String messageSid}) async {
+    return await _smsService.cancelScheduledSms(
+        twilioCreds: _twilioCreds, messageSid: messageSid);
+  }
+
+  ///	cancelScheduledWhatsAppMessage
+  ///	 [messageSid] : The unique sid of message for which has to be cancelled.
+  /// Returns
+  ///	200 -> scheduled message cancelled successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<int> cancelScheduledWhatsAppMessage(
+      {required String messageSid}) async {
+    return await _whatsAppService.cancelScheduledWhatsAppMessage(
+        twilioCreds: _twilioCreds, messageSid: messageSid);
   }
 }

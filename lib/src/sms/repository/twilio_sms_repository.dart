@@ -21,6 +21,11 @@ abstract class TwilioSmsRepository {
       required TwilioCreds twilioCreds,
       required String sendAt});
 
+  Future<int> cancelScheduledSms({
+    required String messageSid,
+    required TwilioCreds twilioCreds,
+  });
+
   Future<int> deleteMessage(
       {required String messageSID, required TwilioCreds twilioCreds});
 

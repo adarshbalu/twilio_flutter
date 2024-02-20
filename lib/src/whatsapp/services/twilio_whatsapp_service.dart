@@ -11,4 +11,9 @@ abstract class TwilioWhatsAppService {
       required String messageBody,
       required TwilioCreds twilioCreds,
       required String sendAt});
+
+  Future<int> cancelScheduledWhatsAppMessage({
+    required String messageSid,
+    required TwilioCreds twilioCreds,
+  });
 }
