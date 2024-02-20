@@ -153,7 +153,7 @@ class TwilioFlutter {
   }
 
   ///	cancelScheduledSms
-  ///	 [messageSid] : The unique sid of message for which has tp be cancelled.
+  ///	 [messageSid] : The unique sid of message for which has to be cancelled.
   /// Returns
   ///	200 -> scheduled message cancelled successfully.
   ///
@@ -161,6 +161,19 @@ class TwilioFlutter {
   /// * https://www.twilio.com/docs/api/errors
   Future<int> cancelScheduledSms({required String messageSid}) async {
     return await _smsService.cancelScheduledSms(
+        twilioCreds: _twilioCreds, messageSid: messageSid);
+  }
+
+  ///	cancelScheduledWhatsAppMessage
+  ///	 [messageSid] : The unique sid of message for which has to be cancelled.
+  /// Returns
+  ///	200 -> scheduled message cancelled successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<int> cancelScheduledWhatsAppMessage(
+      {required String messageSid}) async {
+    return await _whatsAppService.cancelScheduledWhatsAppMessage(
         twilioCreds: _twilioCreds, messageSid: messageSid);
   }
 }

@@ -54,4 +54,17 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
         "WhatsApp Message Scheduled at [$sendAt] to [$toNumber] - [$messageBody]");
     return response.statusCode;
   }
+
+  @override
+  Future<int> cancelScheduledWhatsAppMessage(
+      {required String messageSid, required TwilioCreds twilioCreds}) async {
+    final String url =
+        RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSid);
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final body = {'Status': 'canceled'};
+    final http.Response response =
+        await NetworkHelper.createRequest(url, headers, body);
+    logger.info("Cancelled Whatsapp Message [$messageSid] Successfully");
+    return response.statusCode;
+  }
 }
