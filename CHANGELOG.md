@@ -1,3 +1,8 @@
+## [0.3.0] 2024-02-21
+
+- Add Cancel scheduled SMS messages
+- Add Cancel scheduled WhatsApp messages
+
 ## [0.2.2] 2024-02-20
 
 - Improve documentation
