@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:twilio_flutter/src/email/repositories/twilio_email_repository.dart';
+import 'package:twilio_flutter/src/email/repositories/twilio_email_repository_impl.dart';
 import 'package:twilio_flutter/src/sms/repository/twilio_sms_repository_impl.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service_impl.dart';
@@ -38,5 +40,11 @@ void registerServices() {
     locator.registerSingleton<TwilioWhatsAppService>(
         TwilioWhatsAppServiceImpl(),
         instanceName: "TwilioWhatsAppServiceImpl");
+  }
+  if (!locator.isRegistered<TwilioEmailRepository>(
+      instanceName: "TwilioEmailRepositoryImpl")) {
+    locator.registerSingleton<TwilioEmailRepository>(
+        TwilioEmailRepositoryImpl(),
+        instanceName: "TwilioEmailRepositoryImpl");
   }
 }

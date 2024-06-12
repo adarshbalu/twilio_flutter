@@ -9,6 +9,9 @@ import 'src/sms/dto/message.dart';
 import 'src/sms/services/twilio_sms_service.dart';
 import 'src/whatsapp/services/twilio_whatsapp_service.dart';
 
+export 'src/shared/exceptions/http_exception.dart';
+export 'src/shared/exceptions/twilio_flutter_exception.dart';
+
 ///
 ///Twilio’s Programmable SMS API helps you add robust messaging capabilities to your applications.
 /// To use [TwilioFlutter] you will use your Twilio Account SID as the username and your Auth Token as the password for HTTP Basic authentication with Twilio.
