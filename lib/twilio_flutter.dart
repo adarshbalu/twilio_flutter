@@ -1,7 +1,6 @@
 library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
-import 'package:twilio_flutter/src/shared/utils/request_utils.dart';
 import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 
 import 'src/shared/services/service_locator.dart';
@@ -32,16 +31,17 @@ class TwilioFlutter {
       required String authToken,
       required String twilioNumber,
       String? messagingServiceSid}) {
+    // Register services
     registerServices();
-    String uri = RequestUtils.generateMessagesUrl(accountSid);
-    String creds = RequestUtils.generateAuthString(accountSid, authToken);
+
+    // Create Twilio Credentials object
     _twilioCreds = TwilioCreds(
         accountSid: accountSid,
         authToken: authToken,
         twilioNumber: twilioNumber,
-        messagingServiceSid: messagingServiceSid,
-        url: uri,
-        cred: creds);
+        messagingServiceSid: messagingServiceSid);
+
+    // Initialize all services
     _smsService =
         locator.get<TwilioSMSService>(instanceName: "TwilioSMSServiceImpl");
     _whatsAppService = locator.get<TwilioWhatsAppService>(

@@ -10,3 +10,6 @@ dependencies:
   http: ^1.2.0
   get_it: ^7.6.7
   logging: ^1.0.0
+
+dev_dependencies:
+  lints: ^4.0.0
