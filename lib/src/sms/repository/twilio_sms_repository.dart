@@ -10,7 +10,8 @@ abstract class TwilioSmsRepository {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds});
+      required TwilioCreds twilioCreds,
+      String? fromNumber});
 
   Future<Message> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds});
@@ -19,7 +20,8 @@ abstract class TwilioSmsRepository {
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
-      required String sendAt});
+      required String sendAt,
+      String? fromNumber});
 
   Future<int> cancelScheduledSms({
     required String messageSid,

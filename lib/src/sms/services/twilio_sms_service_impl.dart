@@ -25,13 +25,15 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) async {
+      required TwilioCreds twilioCreds,
+      String? fromNumber}) async {
     try {
       logger.info("SMS Initiated from [${twilioCreds.twilioNumber}]");
       return await _smsRepository.sendSMS(
           toNumber: toNumber,
           messageBody: messageBody,
-          twilioCreds: twilioCreds);
+          twilioCreds: twilioCreds,
+          fromNumber: fromNumber);
     } on HttpCallException catch (e) {
       throw TwilioFlutterException(
           message: "Failed to Send SMS", thrownException: e);
@@ -79,7 +81,8 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
-      required String sendAt}) async {
+      required String sendAt,
+      String? fromNumber}) async {
     try {
       _smsValidator.validateTwilio(twilioCreds);
       _smsValidator.validateDateTime(sendAt);
@@ -88,7 +91,8 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
           toNumber: toNumber,
           messageBody: messageBody,
           twilioCreds: twilioCreds,
-          sendAt: sendAt);
+          sendAt: sendAt,
+          fromNumber: fromNumber);
     } on HttpCallException catch (e) {
       throw TwilioFlutterException(
           message: "Failed to Send scheduled SMS", thrownException: e);

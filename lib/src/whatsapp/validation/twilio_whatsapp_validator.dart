@@ -8,6 +8,13 @@ class TwilioWhatsAppValidator {
     }
   }
 
+  void validateFromNumber(String fromNumber) {
+    final RegExp regex = RegExp(r'^\+[1-9][0-9]{1,3}[0-9]{10}$');
+    if (!regex.hasMatch(fromNumber)) {
+      throw Exception("Input Twilio number is invalid");
+    }
+  }
+
   void validateDateTime(String date) {
     final DateTime? inputDateTime = DateTime.tryParse(date);
     if (inputDateTime == null) {

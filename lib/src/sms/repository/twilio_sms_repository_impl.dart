@@ -22,10 +22,11 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) async {
+      required TwilioCreds twilioCreds,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {
-      'From': twilioCreds.twilioNumber,
+      'From': fromNumber ?? twilioCreds.twilioNumber,
       'To': toNumber,
       'Body': messageBody
     };
@@ -62,7 +63,8 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
-      required String sendAt}) async {
+      required String sendAt,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {
       'To': toNumber,

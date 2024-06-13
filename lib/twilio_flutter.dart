@@ -69,7 +69,15 @@ class TwilioFlutter {
 
   /// changeTwilioNumber
   /// [twilioNumber] : A non-null value for new twilio number
+  @Deprecated(
+      'Use changeDefaultTwilioNumber instead. Deprecated since version 0.4.0')
   void changeTwilioNumber(String twilioNumber) {
+    this._twilioCreds.twilioNumber = twilioNumber;
+  }
+
+  /// changeDefaultTwilioNumber
+  /// [twilioNumber] : A non-null value for new twilio number
+  void changeDefaultTwilioNumber(String twilioNumber) {
     this._twilioCreds.twilioNumber = twilioNumber;
   }
 

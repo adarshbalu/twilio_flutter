@@ -20,11 +20,12 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   Future<int> sendWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) async {
+      required TwilioCreds twilioCreds,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
 
     final body = {
-      'From': 'whatsapp:' + twilioCreds.twilioNumber,
+      'From': 'whatsapp:' + (fromNumber ?? twilioCreds.twilioNumber),
       'To': 'whatsapp:' + toNumber,
       'Body': messageBody
     };
@@ -39,7 +40,8 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
-      required String sendAt}) async {
+      required String sendAt,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {
       'To': 'whatsapp:' + toNumber,
