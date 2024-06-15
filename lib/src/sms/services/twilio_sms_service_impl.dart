@@ -1,4 +1,6 @@
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
+import 'package:twilio_flutter/src/shared/exceptions/http_exception.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
@@ -24,16 +26,21 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   Future<int> sendSMS(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) async {
+      required TwilioCreds twilioCreds,
+      String? fromNumber}) async {
     try {
       logger.info("SMS Initiated from [${twilioCreds.twilioNumber}]");
       return await _smsRepository.sendSMS(
           toNumber: toNumber,
           messageBody: messageBody,
-          twilioCreds: twilioCreds);
-    } on Exception catch (e) {
+          twilioCreds: twilioCreds,
+          fromNumber: fromNumber);
+    } on HttpCallException catch (e) {
       throw TwilioFlutterException(
           message: "Failed to Send SMS", thrownException: e);
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Unknown Error: Failed to Send SMS", thrownException: e);
     }
   }
 
@@ -45,9 +52,12 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
           .info("Get SMS List Initiated with Page Size: [${pageSize ?? '20'}]");
       return await _smsRepository.getSmsList(
           pageSize: pageSize ?? '20', twilioCreds: twilioCreds);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Get SMS list", thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Failed to get SMS List", thrownException: e);
+          message: "Unknown Error: Failed to Get SMS List", thrownException: e);
     }
   }
 
@@ -58,9 +68,12 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
       logger.info("Get SMS Details Initiated for message: [${messageSID}]");
       return await _smsRepository.getSmsData(
           messageSID: messageSID, twilioCreds: twilioCreds);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Get SMS data", thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Failed to get SMS details", thrownException: e);
+          message: "Unknown Error: Failed to Get SMS data", thrownException: e);
     }
   }
 
@@ -68,33 +81,43 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   Future<int> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
-      required String sendAt}) async {
+      required TwilioMessagingServiceCreds twilioCreds,
+      required String sendAt,
+      String? fromNumber}) async {
     try {
-      _smsValidator.validateTwilio(twilioCreds);
       _smsValidator.validateDateTime(sendAt);
-      logger.info("Scheduled SMS Initiated from [${twilioCreds.twilioNumber}]");
+      logger.info(
+          "Scheduled SMS Initiated from [${twilioCreds.messagingServiceSid}]");
       return await _smsRepository.sendScheduledSms(
           toNumber: toNumber,
           messageBody: messageBody,
           twilioCreds: twilioCreds,
-          sendAt: sendAt);
+          sendAt: sendAt,
+          fromNumber: fromNumber);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send scheduled SMS", thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Failed to Send Scheduled SMS", thrownException: e);
+          message: "Unknown Error: Failed to Send scheduled SMS",
+          thrownException: e);
     }
   }
 
   @override
   Future<int> cancelScheduledSms(
-      {required String messageSid, required TwilioCreds twilioCreds}) async {
+      {required String messageSid,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
     try {
       logger.info("Cancel Scheduled SMS initiated for : [${messageSid}]");
       return await _smsRepository.cancelScheduledSms(
           messageSid: messageSid, twilioCreds: twilioCreds);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to cancel scheduled SMS", thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Failed to cancel scheduled SMS details",
+          message: "Unknown Error: Failed to cancel scheduled SMS",
           thrownException: e);
     }
   }

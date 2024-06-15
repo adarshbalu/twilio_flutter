@@ -1,6 +1,6 @@
 name: twilio_flutter
 description: A Package that helps with twilio API services. Features include sending SMS and WhatsApp messages among others.
-version: 0.3.0
+version: 0.4.0
 homepage: https://github.com/adarshbalu/twilio_flutter
 
 environment:
@@ -10,3 +10,6 @@ dependencies:
   http: ^1.2.0
   get_it: ^7.6.7
   logging: ^1.0.0
+
+dev_dependencies:
+  lints: ^4.0.0

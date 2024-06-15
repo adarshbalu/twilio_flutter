@@ -1,13 +1,16 @@
 library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
-import 'package:twilio_flutter/src/shared/utils/request_utils.dart';
 import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 
 import 'src/shared/services/service_locator.dart';
 import 'src/sms/dto/message.dart';
 import 'src/sms/services/twilio_sms_service.dart';
 import 'src/whatsapp/services/twilio_whatsapp_service.dart';
+
+export 'src/common/twilio_messaging_service.dart';
+export 'src/shared/exceptions/http_exception.dart';
+export 'src/shared/exceptions/twilio_flutter_exception.dart';
 
 ///
 ///Twilio’s Programmable SMS API helps you add robust messaging capabilities to your applications.
@@ -29,16 +32,16 @@ class TwilioFlutter {
       required String authToken,
       required String twilioNumber,
       String? messagingServiceSid}) {
+    // Register services
     registerServices();
-    String uri = RequestUtils.generateMessagesUrl(accountSid);
-    String creds = RequestUtils.generateAuthString(accountSid, authToken);
+
+    // Create Twilio Credentials object
     _twilioCreds = TwilioCreds(
         accountSid: accountSid,
         authToken: authToken,
-        twilioNumber: twilioNumber,
-        messagingServiceSid: messagingServiceSid,
-        url: uri,
-        cred: creds);
+        twilioNumber: twilioNumber);
+
+    // Initialize all services
     _smsService =
         locator.get<TwilioSMSService>(instanceName: "TwilioSMSServiceImpl");
     _whatsAppService = locator.get<TwilioWhatsAppService>(
@@ -66,7 +69,15 @@ class TwilioFlutter {
 
   /// changeTwilioNumber
   /// [twilioNumber] : A non-null value for new twilio number
+  @Deprecated(
+      'Use changeDefaultTwilioNumber instead. Deprecated since version 0.4.0')
   void changeTwilioNumber(String twilioNumber) {
+    this._twilioCreds.twilioNumber = twilioNumber;
+  }
+
+  /// changeDefaultTwilioNumber
+  /// [twilioNumber] : A non-null value for new twilio number
+  void changeDefaultTwilioNumber(String twilioNumber) {
     this._twilioCreds.twilioNumber = twilioNumber;
   }
 
@@ -104,76 +115,5 @@ class TwilioFlutter {
         toNumber: toNumber,
         messageBody: messageBody,
         twilioCreds: _twilioCreds);
-  }
-
-  ///	sendScheduledSms
-  ///	 [toNumber] : The number to which sms message has to be sent.
-  ///	 [messageBody] : The content of the message to be sent.
-  /// [sendAt] : Time at which the sms has to be sent (Minimum 15 minutes after current time)
-  ///	Method called to send scheduled sms messages to the specified phone number with given content.
-  /// This requires a Messaging service SID registered with twilio and
-  /// it has to be passed in while creating TwilioFlutter.
-  /// Returns
-  ///	201 -> message scheduled successfully.
-  ///
-  ///	For more status codes refer
-  /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendScheduledSms(
-      {required String toNumber,
-      required String messageBody,
-      required String sendAt}) async {
-    return await _smsService.sendScheduledSms(
-        toNumber: toNumber,
-        messageBody: messageBody,
-        twilioCreds: _twilioCreds,
-        sendAt: sendAt);
-  }
-
-  ///	sendScheduledWhatsAppMessage
-  ///	 [toNumber] : The whatsapp number to which sms message has to be sent.
-  ///	 [messageBody] : The content of the message to be sent.
-  /// [sendAt] : Time at which the whatsapp message has to be sent (Minimum 15 minutes after current time)
-  ///	Method called to send scheduled whatsapp messages to the specified phone number with given content.
-  /// This requires a Messaging service SID registered with twilio and
-  /// it has to be passed in while creating TwilioFlutter.
-  /// Returns
-  ///	201 -> message scheduled successfully.
-  ///
-  ///	For more status codes refer
-  /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendScheduledWhatsAppMessage(
-      {required String toNumber,
-      required String messageBody,
-      required String sendAt}) async {
-    return await _whatsAppService.sendScheduledWhatsAppMessage(
-        toNumber: toNumber,
-        messageBody: messageBody,
-        twilioCreds: _twilioCreds,
-        sendAt: sendAt);
-  }
-
-  ///	cancelScheduledSms
-  ///	 [messageSid] : The unique sid of message for which has to be cancelled.
-  /// Returns
-  ///	200 -> scheduled message cancelled successfully.
-  ///
-  ///	For more status codes refer
-  /// * https://www.twilio.com/docs/api/errors
-  Future<int> cancelScheduledSms({required String messageSid}) async {
-    return await _smsService.cancelScheduledSms(
-        twilioCreds: _twilioCreds, messageSid: messageSid);
-  }
-
-  ///	cancelScheduledWhatsAppMessage
-  ///	 [messageSid] : The unique sid of message for which has to be cancelled.
-  /// Returns
-  ///	200 -> scheduled message cancelled successfully.
-  ///
-  ///	For more status codes refer
-  /// * https://www.twilio.com/docs/api/errors
-  Future<int> cancelScheduledWhatsAppMessage(
-      {required String messageSid}) async {
-    return await _whatsAppService.cancelScheduledWhatsAppMessage(
-        twilioCreds: _twilioCreds, messageSid: messageSid);
   }
 }

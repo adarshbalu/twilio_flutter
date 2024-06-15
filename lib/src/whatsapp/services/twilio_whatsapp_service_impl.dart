@@ -1,8 +1,9 @@
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
-import 'package:twilio_flutter/src/shared/exceptions/twilio_flutter_exception.dart';
 import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
 import 'package:twilio_flutter/src/whatsapp/validation/twilio_whatsapp_validator.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
 
 import '../../shared/services/service_locator.dart';
 import '../../shared/utils/log_helper.dart';
@@ -30,9 +31,13 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
           toNumber: toNumber,
           messageBody: messageBody,
           twilioCreds: twilioCreds);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send Whatsapp message", thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Unable to Send Whatsapp Message", thrownException: e);
+          message: "Unknown Error: Failed to Send Whatsapp message",
+          thrownException: e);
     }
   }
 
@@ -40,36 +45,44 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
   Future<int> sendScheduledWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
+      required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt}) {
     try {
-      _validator.validateTwilio(twilioCreds);
       _validator.validateDateTime(sendAt);
       logger.info(
-          "Scheduled WhatsApp Message Initiated from [${twilioCreds.twilioNumber}]");
+          "Scheduled WhatsApp Message Initiated from [${twilioCreds.messagingServiceSid}]");
       return _whatsAppRepository.sendScheduledWhatsAppMessage(
           toNumber: toNumber,
           messageBody: messageBody,
           twilioCreds: twilioCreds,
           sendAt: sendAt);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send scheduled Whatsapp message",
+          thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Failed to Send Scheduled WhatsApp Message",
+          message: "Unknown Error: Failed to Send scheduled Whatsapp message",
           thrownException: e);
     }
   }
 
   @override
   Future<int> cancelScheduledWhatsAppMessage(
-      {required String messageSid, required TwilioCreds twilioCreds}) async {
+      {required String messageSid,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
     try {
       logger.info(
           "Cancel Scheduled WhatsApp Message initiated for : [${messageSid}]");
       return await _whatsAppRepository.cancelScheduledWhatsAppMessage(
           messageSid: messageSid, twilioCreds: twilioCreds);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to cancel scheduled Whatsapp message",
+          thrownException: e);
     } on Exception catch (e) {
       throw TwilioFlutterException(
-          message: "Failed to cancel scheduled WhatsApp Message details",
+          message: "Unknown Error: Failed to cancel scheduled Whatsapp message",
           thrownException: e);
     }
   }

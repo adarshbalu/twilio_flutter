@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
 
@@ -20,11 +21,12 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   Future<int> sendWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds}) async {
+      required TwilioCreds twilioCreds,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
 
     final body = {
-      'From': 'whatsapp:' + twilioCreds.twilioNumber,
+      'From': 'whatsapp:' + (fromNumber ?? twilioCreds.twilioNumber),
       'To': 'whatsapp:' + toNumber,
       'Body': messageBody
     };
@@ -38,8 +40,9 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   Future<int> sendScheduledWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
-      required String sendAt}) async {
+      required TwilioMessagingServiceCreds twilioCreds,
+      required String sendAt,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {
       'To': 'whatsapp:' + toNumber,
@@ -57,7 +60,8 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
 
   @override
   Future<int> cancelScheduledWhatsAppMessage(
-      {required String messageSid, required TwilioCreds twilioCreds}) async {
+      {required String messageSid,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
     final String url =
         RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSid);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);

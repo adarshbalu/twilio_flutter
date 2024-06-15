@@ -1,10 +1,10 @@
-import '../../shared/dto/twilio_creds.dart';
+
 
 class TwilioWhatsAppValidator {
-  void validateTwilio(TwilioCreds twilioCreds) {
-    if (twilioCreds.messagingServiceSid == null ||
-        twilioCreds.messagingServiceSid!.isEmpty) {
-      throw Exception("Messaging Service SID is required for this operation");
+  void validateFromNumber(String fromNumber) {
+    final RegExp regex = RegExp(r'^\+[1-9][0-9]{1,3}[0-9]{10}$');
+    if (!regex.hasMatch(fromNumber)) {
+      throw Exception("Input Twilio number is invalid");
     }
   }
 
