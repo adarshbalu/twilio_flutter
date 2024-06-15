@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
 import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
 
 import '../../shared/services/network.dart';
