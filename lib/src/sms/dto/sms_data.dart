@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'message.dart';
 
-SentSmsData sentSmsDataFromJson(String str) =>
-    SentSmsData.fromJson(json.decode(str));
+SmsData sentSmsDataFromJson(String str) => SmsData.fromJson(json.decode(str));
 
-String sentSmsDataToJson(SentSmsData data) => json.encode(data.toJson());
+String sentSmsDataToJson(SmsData data) => json.encode(data.toJson());
 
-class SentSmsData {
-  SentSmsData({
+class SmsData {
+  SmsData({
     required this.end,
     required this.firstPageUri,
     required this.nextPageUri,
@@ -30,7 +29,7 @@ class SentSmsData {
   final int? start;
   final String? uri;
 
-  factory SentSmsData.fromJson(Map<String, dynamic> json) => SentSmsData(
+  factory SmsData.fromJson(Map<String, dynamic> json) => SmsData(
         end: json["end"],
         firstPageUri: json["first_page_uri"],
         nextPageUri: json["next_page_uri"],
