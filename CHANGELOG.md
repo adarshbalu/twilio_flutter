@@ -1,3 +1,7 @@
+## [0.4.1] 2024-06-15
+
+- Minor fixes and improvements
+
 ## [0.4.0] 2024-06-15
 
 - #### Breaking changes for Scheduled SMS and Whatsapp messages
