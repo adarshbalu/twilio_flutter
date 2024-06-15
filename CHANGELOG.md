@@ -1,3 +1,5 @@
+## [0.6.0]
+
 ## [0.5.0] 2024-06-15
 
 - Export return types for use after processing

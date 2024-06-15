@@ -1,7 +1,5 @@
-import 'subresource_uris.dart';
-
-class Message {
-  Message({
+class TwilioMessage {
+  TwilioMessage({
     required this.accountSid,
     required this.apiVersion,
     required this.body,
@@ -19,7 +17,6 @@ class Message {
     required this.priceUnit,
     required this.sid,
     required this.status,
-    required this.subresourceUris,
     required this.to,
     required this.uri,
   });
@@ -41,11 +38,10 @@ class Message {
   final String? priceUnit;
   final String? sid;
   final String? status;
-  final SubresourceUris subresourceUris;
   final String? to;
   final String? uri;
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
+  factory TwilioMessage.fromJson(Map<String, dynamic> json) => TwilioMessage(
         accountSid: json["account_sid"],
         apiVersion: DateTime.parse(json["api_version"]),
         body: json["body"],
@@ -64,15 +60,12 @@ class Message {
         priceUnit: json["price_unit"],
         sid: json["sid"],
         status: json["status"],
-        subresourceUris: SubresourceUris.fromJson(json["subresource_uris"]),
         to: json["to"],
         uri: json["uri"],
       );
 
   Map<String, dynamic> toJson() => {
         "account_sid": accountSid,
-        "api_version":
-            "${apiVersion.year.toString().padLeft(4, '0')}-${apiVersion.month.toString().padLeft(2, '0')}-${apiVersion.day.toString().padLeft(2, '0')}",
         "body": body,
         "date_created": dateCreated,
         "date_sent": dateSent,
@@ -88,7 +81,6 @@ class Message {
         "price_unit": priceUnit,
         "sid": sid,
         "status": status,
-        "subresource_uris": subresourceUris.toJson(),
         "to": to,
         "uri": uri,
       };

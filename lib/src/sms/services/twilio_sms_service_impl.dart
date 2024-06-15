@@ -2,12 +2,12 @@ import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
 import 'package:twilio_flutter/src/shared/exceptions/http_exception.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
-import 'package:twilio_flutter/src/sms/dto/sms_data.dart';
+import 'package:twilio_flutter/src/sms/dto/twilio_message_list.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 
 import '../../shared/exceptions/twilio_flutter_exception.dart';
 import '../../shared/utils/log_helper.dart';
-import '../dto/message.dart';
+import '../dto/twilio_message.dart';
 import '../repository/twilio_sms_repository.dart';
 import '../validation/twilio_sms_validator.dart';
 
@@ -45,7 +45,7 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   }
 
   @override
-  Future<SmsData> getSmsList(
+  Future<TwilioMessageList> getSmsList(
       {required String? pageSize, required TwilioCreds twilioCreds}) async {
     try {
       logger
@@ -62,7 +62,7 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   }
 
   @override
-  Future<Message> getSmsData(
+  Future<TwilioMessage> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds}) async {
     try {
       logger.info("Get SMS Details Initiated for message: [${messageSID}]");

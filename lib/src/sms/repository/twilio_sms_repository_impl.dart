@@ -6,8 +6,8 @@ import 'package:twilio_flutter/src/shared/utils/log_helper.dart';
 import 'package:twilio_flutter/src/shared/utils/request_utils.dart';
 
 import '../../shared/dto/twilio_creds.dart';
-import '../dto/message.dart';
-import '../dto/sms_data.dart';
+import '../dto/twilio_message.dart';
+import '../dto/twilio_message_list.dart';
 import 'twilio_sms_repository.dart';
 
 class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
@@ -38,25 +38,25 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<SmsData> getSmsList(
+  Future<TwilioMessageList> getSmsList(
       {required String pageSize, required TwilioCreds twilioCreds}) async {
     final String url =
         RequestUtils.generateSmsListUrl(twilioCreds.accountSid, pageSize);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final response = await NetworkHelper.getRequest(url, headers);
     logger.info("Received SMS List Successfully");
-    return SmsData.fromJson(response);
+    return TwilioMessageList.fromJson(response);
   }
 
   @override
-  Future<Message> getSmsData(
+  Future<TwilioMessage> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds}) async {
     String url =
         RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSID);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final response = await NetworkHelper.getRequest(url, headers);
     logger.info("Received SMS Details Successfully");
-    return Message.fromJson(response);
+    return TwilioMessage.fromJson(response);
   }
 
   @override
@@ -101,21 +101,21 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<SmsData> smsListFilterByDateAndNumbers(
+  Future<TwilioMessageList> smsListFilterByDateAndNumbers(
       {String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterByDateAndNumbers
     throw UnimplementedError();
   }
 
   @override
-  Future<SmsData> smsListFilterBySentBefore(
+  Future<TwilioMessageList> smsListFilterBySentBefore(
       {String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterBySentBefore
     throw UnimplementedError();
   }
 
   @override
-  Future<SmsData> smsListFilterByTimePeriod(
+  Future<TwilioMessageList> smsListFilterByTimePeriod(
       {String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterByTimePeriod
     throw UnimplementedError();

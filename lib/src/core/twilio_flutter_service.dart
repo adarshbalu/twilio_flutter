@@ -2,8 +2,8 @@ library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
-import 'package:twilio_flutter/src/sms/dto/message.dart';
-import 'package:twilio_flutter/src/sms/dto/sms_data.dart';
+import 'package:twilio_flutter/src/sms/dto/twilio_message.dart';
+import 'package:twilio_flutter/src/sms/dto/twilio_message_list.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
 
@@ -80,7 +80,7 @@ class TwilioFlutter {
   /// Get all messages associated with your account
   /// Pass [pageSize] to get specific page sizes.
   /// [pageSize] value defaults to 20
-  Future<SmsData> getSmsList({String? pageSize}) async {
+  Future<TwilioMessageList> getSmsList({String? pageSize}) async {
     return await _smsService.getSmsList(
         pageSize: pageSize, twilioCreds: _twilioCreds);
   }
@@ -88,7 +88,7 @@ class TwilioFlutter {
   /// getSMS
   /// Get all data of a specific message
   /// Pass [messageSid] as a non null Message SID.
-  Future<Message> getSMS(String messageSid) async {
+  Future<TwilioMessage> getSMS(String messageSid) async {
     return await _smsService.getSmsData(
         messageSID: messageSid, twilioCreds: _twilioCreds);
   }
