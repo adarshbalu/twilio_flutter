@@ -1,3 +1,7 @@
+## [0.5.0] 2024-06-15
+
+- Export return types for use after processing
+
 ## [0.4.1] 2024-06-15
 
 - Minor fixes and improvements

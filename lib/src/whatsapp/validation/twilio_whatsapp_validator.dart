@@ -1,5 +1,3 @@
-
-
 class TwilioWhatsAppValidator {
   void validateFromNumber(String fromNumber) {
     final RegExp regex = RegExp(r'^\+[1-9][0-9]{1,3}[0-9]{10}$');
