@@ -27,21 +27,21 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.4.1
+  twilio_flutter: ^0.5.0
 ```
 
 ## How to use
 
 Please find the following values from [Twilio Console](https://console.twilio.com/):
 
-- accountSid
+- Account SID
 - Twilio Number
 - Auth Token
-- Messaging Service Sid (Optional, required for features like scheduled messages)
+- Messaging Service SID (Optional, required for features like scheduled messages)
 
 ### TwilioFlutter features
 
-Create a new TwilioFlutter object and initialize with required values
+Create a new **TwilioFlutter** object and initialize with required values
 ```dart
 
 final TwilioFlutter twilioFlutter = TwilioFlutter(
@@ -105,7 +105,7 @@ messageBody : 'hello world');
 ```
 
 ### TwilioMessagingService features
-Create a new TwilioMessagingService object and initialize with required values
+Create a new **TwilioMessagingService** object and initialize with required values
 ```dart
 
 final TwilioMessagingService twilioMessagingService = TwilioMessagingService(
@@ -116,7 +116,7 @@ final TwilioMessagingService twilioMessagingService = TwilioMessagingService(
 ```
 #### Send Scheduled SMS Message
 
-Scheduled messages can be sent if the `sendAt` is at least 15 after the current time.
+Scheduled messages can be sent using `twilioMessagingService.sendScheduledSms()` if the `sendAt` is at least 15 after the current time.
 
 ```dart
 await twilioMessagingService.sendScheduledSms(
@@ -129,7 +129,7 @@ sendAt:'2024-02-18T16:18:55Z'
 
 ### Cancel Scheduled SMS
 
-Scheduled SMS can be cancelled using the messageSid.
+Scheduled SMS can be cancelled using the messageSid with `twilioMessagingService.cancelScheduledSms()`.
 
 ```dart
 await twilioMessagingService.cancelScheduledSms(messageSID:''// replace with message SID);
@@ -137,7 +137,7 @@ await twilioMessagingService.cancelScheduledSms(messageSID:''// replace with mes
 
 #### Send Scheduled WhatsApp Message
 
-Scheduled messages can be sent if the `sendAt` is at least 15 after the current time.
+Scheduled messages can be sent using `twilioMessagingService.sendScheduledWhatsAppMessage()` if the `sendAt` is at least 15 after the current time.
 
 ```dart
 await twilioMessagingService.sendScheduledWhatsAppMessage(
@@ -150,12 +150,24 @@ sendAt:'2024-02-18T16:18:55Z'
 
 #### Cancel Scheduled WhatsApp Message
 
-Scheduled whatsapp messages can be cancelled using the messageSid.
+Scheduled whatsapp messages can be cancelled using the messageSid with `twilioMessagingService.cancelScheduledWhatsAppMessage()`.
 
 ```dart
 await twilioMessagingService.cancelScheduledWhatsAppMessage(messageSID:''// replace with message SID
 );
 ```
+## Features and service list
+
+| Service                | Feature                           | Feature info                                  |
+|------------------------|-----------------------------------|-----------------------------------------------|
+| TwilioFlutter          | Send SMS                          | Send SMS to mobile number                     |
+| TwilioFlutter          | Send WhatsApp message             | Send whatsApp message to any number           |
+| TwilioFlutter          | Get SMS list                      | Get all SMS from the account                  |
+| TwilioFlutter          | Get SMS details                   | Get all data related to a single SMS resource |
+| TwilioMessagingService | Send scheduled SMS                | Send SMS messages according to a time set     |
+| TwilioMessagingService | Cancel scheduled SMS              | Cancel scheduled SMS message                  |
+| TwilioMessagingService | Send scheduled whatsapp message   | Send WhatsApp message according to a time set |
+| TwilioMessagingService | Cancel scheduled whatsapp message | Cancel a scheduled whatsapp message           |
 
 ## Future Features
 
@@ -189,8 +201,7 @@ our [GitHub](https://github.com/adarshbalu/twilio_flutter/issues) page.
 ## Want to contribute
 
 If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new
-feature), please carefully review our [contribution guide](CONTRIBUTING.md) and send us
-your [pull request](https://github.com/adarshbalu/twilio_flutter/pulls).
+feature), please carefully review our [contribution guide](CONTRIBUTING.md) and send us your [pull request](https://github.com/adarshbalu/twilio_flutter/pulls).
 
 
 ## Author

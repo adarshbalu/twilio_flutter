@@ -2,7 +2,7 @@ import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dar
 
 import '../../shared/dto/twilio_creds.dart';
 import '../dto/message.dart';
-import '../dto/sent_sms_data.dart';
+import '../dto/sms_data.dart';
 
 abstract class TwilioSMSService {
   Future<int> sendSMS(
@@ -11,7 +11,7 @@ abstract class TwilioSMSService {
       required TwilioCreds twilioCreds,
       String? fromNumber});
 
-  Future<SentSmsData> getSmsList(
+  Future<SmsData> getSmsList(
       {required String? pageSize, required TwilioCreds twilioCreds});
 
   Future<Message> getSmsData(

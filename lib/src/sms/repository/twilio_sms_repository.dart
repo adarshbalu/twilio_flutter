@@ -1,11 +1,11 @@
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
-import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
+import 'package:twilio_flutter/src/sms/dto/sms_data.dart';
 
 import '../dto/message.dart';
 
 abstract class TwilioSmsRepository {
-  Future<SentSmsData> getSmsList(
+  Future<SmsData> getSmsList(
       {required String pageSize, required TwilioCreds twilioCreds});
 
   Future<int> sendSMS(
@@ -32,12 +32,12 @@ abstract class TwilioSmsRepository {
   Future<int> deleteMessage(
       {required String messageSID, required TwilioCreds twilioCreds});
 
-  Future<SentSmsData> smsListFilterByTimePeriod(
+  Future<SmsData> smsListFilterByTimePeriod(
       {required String pageSize, required TwilioCreds twilioCreds});
 
-  Future<SentSmsData> smsListFilterBySentBefore(
+  Future<SmsData> smsListFilterBySentBefore(
       {required String pageSize, required TwilioCreds twilioCreds});
 
-  Future<SentSmsData> smsListFilterByDateAndNumbers(
+  Future<SmsData> smsListFilterByDateAndNumbers(
       {required String pageSize, required TwilioCreds twilioCreds});
 }
