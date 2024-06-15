@@ -1,3 +1,4 @@
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/sms/dto/sent_sms_data.dart';
 
@@ -19,13 +20,13 @@ abstract class TwilioSmsRepository {
   Future<int> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
+      required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt,
       String? fromNumber});
 
   Future<int> cancelScheduledSms({
     required String messageSid,
-    required TwilioCreds twilioCreds,
+    required TwilioMessagingServiceCreds twilioCreds,
   });
 
   Future<int> deleteMessage(

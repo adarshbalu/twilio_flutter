@@ -1,3 +1,10 @@
+## [0.4.0] 2024-06-15
+
+- #### Breaking changes for Scheduled SMS and Whatsapp messages
+- #### Introduce `TwilioMessagingService` to deal with Twilio messaging service related functions
+- Option to pass twilio number other than default twilio number
+- Better exception support
+
 ## [0.3.0] 2024-02-21
 
 - Add Cancel scheduled SMS messages

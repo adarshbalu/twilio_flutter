@@ -39,87 +39,90 @@ Please find the following values from [Twilio Console](https://console.twilio.co
 - Auth Token
 - Messaging Service Sid (Optional, required for features like scheduled messages)
 
-### Create a new Object and Initialize with values
+### TwilioFlutter features
 
+Create a new TwilioFlutter object and initialize with required values
 ```dart
 
 final TwilioFlutter twilioFlutter = TwilioFlutter(
     accountSid: '', // replace with Account SID
     authToken: '', // replace with Auth Token
-    twilioNumber: '', // replace with Twilio Number(With country code)
-    messagingServiceSid: '' // optional replace with messaging service sid, required for features like scheduled sms
+    twilioNumber: '' // replace with Twilio Number(With country code)
 );
 ```
 
-### Send SMS
+#### Send SMS
 
-Use sendSMS with the recipient number and message body.
+`twilioFlutter.sendSMS()` can be used to send SMS with required message body to any mobile number by providing the number and proper country code. There is two ways to use the function:
+
+- Use sendSMS with the recipient number and message body using the default `twilioNumber`.
 
 ```dart
-await
-twilioFlutter.sendSMS
-(
+await twilioFlutter.sendSMS(
 toNumber : '',// replace with Mobile Number(With country code)
 messageBody : 'hello world');
 ```
 
-### View SMS List
+- Use sendSMS with the recipient number and message body using custom `twilioNumber`.
 
 ```dart
-
-final data = await
-twilioFlutter.getSmsList
-({String pageSize}); //Returns list of SMS , pageSize defaults to 20
-```
-
-### View Single SMS
-
-```dart
-
-final data = await
-twilioFlutter.getSMS
-(
-String
-messageSID
-); //Use message sid from the individual messages.
-```
-
-### Change Twilio Number
-
-```dart
-twilioFlutter.changeTwilioNumber
-(''
-); // To change the twilio number(With country code)
-```
-
-### Send WhatsApp Message
-
-```dart
-await
-twilioFlutter.sendWhatsApp
-(
+await twilioFlutter.sendSMS(
 toNumber : '',// replace with Mobile Number(With country code)
+messageBody : 'hello world',
+from:''// replace with Mobile Number(With country code)
+);
+```
+
+#### View SMS List
+
+The `twilioFlutter.getSmsList()` can be used to view all the SMS messages that was sent using the twilio account, an optional `pageSize` parameter can be passed which defaults to 20.
+
+```dart
+final data = await twilioFlutter.getSmsList({String pageSize}); //pageSize defaults to 20
+```
+
+#### View Single SMS
+
+The `twilioFlutter.getSMS()` can be used to view the details of a single SMS message resource using the SID of the message. The SID can be found using the `twilioFlutter.getSmsList()`.
+
+```dart
+
+final data = await twilioFlutter.getSMS(String messageSID); //Use message sid from the individual messages.
+```
+
+#### Change Twilio Number
+The `twilioFlutter.changeDefaultTwilioNumber()` can be used to update the default Twilio number that was used to initialize the `TwilioFlutter` object.
+
+```dart
+twilioFlutter.changeDefaultTwilioNumber(''); // To change the twilio number(With country code)
+```
+
+#### Send WhatsApp Message
+`twilioFlutter.sendWhatsApp()` can be used to send WhatsApp message with required message body to any mobile number by providing the number and proper country code.
+```dart
+await twilioFlutter.sendWhatsApp(toNumber : '',// replace with Mobile Number(With country code)
 messageBody : 'hello world');
 ```
 
-### Send Scheduled SMS Message
+### TwilioMessagingService features
+Create a new TwilioMessagingService object and initialize with required values
+```dart
+
+final TwilioMessagingService twilioMessagingService = TwilioMessagingService(
+    accountSid: '', // replace with Account SID
+    authToken: '', // replace with Auth Token
+    messagingServiceSid: '' // replace with messaging service sid from twilio console
+);
+```
+#### Send Scheduled SMS Message
 
 Scheduled messages can be sent if the `sendAt` is at least 15 after the current time.
 
 ```dart
-await
-twilioFlutter.sendScheduledSms
-(
+await twilioMessagingService.sendScheduledSms(
 toNumber : '',
 messageBody : 'hello world',
-sendAt
-    :
-'
-2024-02-18T16:18
-:
-55
-Z
-'
+sendAt:'2024-02-18T16:18:55Z'
 // Datetime has to be in the same format
 );
 ```
@@ -129,50 +132,28 @@ Z
 Scheduled SMS can be cancelled using the messageSid.
 
 ```dart
-await
-twilioFlutter.cancelScheduledSms
-(
-messageSID
-:
-'
-'
-);
+await twilioMessagingService.cancelScheduledSms(messageSID:''// replace with message SID);
 ```
 
-### Send Scheduled WhatsApp Message
+#### Send Scheduled WhatsApp Message
 
 Scheduled messages can be sent if the `sendAt` is at least 15 after the current time.
 
 ```dart
-await
-twilioFlutter.sendScheduledWhatsAppMessage
-(
+await twilioMessagingService.sendScheduledWhatsAppMessage(
 toNumber : '',
 messageBody : 'hello world',
-sendAt
-    :
-'
-2024-02-18T16:18
-:
-55
-Z
-'
+sendAt:'2024-02-18T16:18:55Z'
 // Datetime has to be in the same format
 );
 ```
 
-### Cancel Scheduled WhatsApp Message
+#### Cancel Scheduled WhatsApp Message
 
 Scheduled whatsapp messages can be cancelled using the messageSid.
 
 ```dart
-await
-twilioFlutter.cancelScheduledWhatsAppMessage
-(
-messageSID
-:
-'
-'
+await twilioMessagingService.cancelScheduledWhatsAppMessage(messageSID:''// replace with message SID
 );
 ```
 
@@ -210,6 +191,7 @@ our [GitHub](https://github.com/adarshbalu/twilio_flutter/issues) page.
 If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new
 feature), please carefully review our [contribution guide](CONTRIBUTING.md) and send us
 your [pull request](https://github.com/adarshbalu/twilio_flutter/pulls).
+
 
 ## Author
 
