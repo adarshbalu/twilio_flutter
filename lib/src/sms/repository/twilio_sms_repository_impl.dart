@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/services/network.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/shared/utils/log_helper.dart';
@@ -62,7 +63,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   Future<int> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
+      required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt,
       String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
@@ -81,7 +82,8 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
 
   @override
   Future<int> cancelScheduledSms(
-      {required String messageSid, required TwilioCreds twilioCreds}) async {
+      {required String messageSid,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
     final String url =
         RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSid);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);

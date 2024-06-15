@@ -26,11 +26,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late TwilioFlutter twilioFlutter;
+  late TwilioMessagingService twilioMessagingService;
 
   @override
   void initState() {
     twilioFlutter =
         TwilioFlutter(accountSid: "", authToken: "", twilioNumber: "");
+    twilioMessagingService = TwilioMessagingService(
+        accountSid: "", authToken: "", messagingServiceSid: "");
     super.initState();
   }
 
@@ -50,14 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void sendScheduledSms() async {
-    await twilioFlutter.sendScheduledSms(
+    await twilioMessagingService.sendScheduledSms(
         toNumber: '',
         messageBody: 'hello world',
         sendAt: '2024-03-18T16:18:55Z');
   }
 
   void cancelScheduledSMS() async {
-    await twilioFlutter.cancelScheduledSms(messageSid: '');
+    await twilioMessagingService.cancelScheduledSms(messageSid: '');
   }
 
   @override

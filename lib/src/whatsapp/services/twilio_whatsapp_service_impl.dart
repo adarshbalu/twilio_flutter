@@ -1,3 +1,4 @@
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
@@ -44,13 +45,12 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
   Future<int> sendScheduledWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
+      required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt}) {
     try {
-      _validator.validateTwilio(twilioCreds);
       _validator.validateDateTime(sendAt);
       logger.info(
-          "Scheduled WhatsApp Message Initiated from [${twilioCreds.twilioNumber}]");
+          "Scheduled WhatsApp Message Initiated from [${twilioCreds.messagingServiceSid}]");
       return _whatsAppRepository.sendScheduledWhatsAppMessage(
           toNumber: toNumber,
           messageBody: messageBody,
@@ -69,7 +69,8 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
 
   @override
   Future<int> cancelScheduledWhatsAppMessage(
-      {required String messageSid, required TwilioCreds twilioCreds}) async {
+      {required String messageSid,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
     try {
       logger.info(
           "Cancel Scheduled WhatsApp Message initiated for : [${messageSid}]");

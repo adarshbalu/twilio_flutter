@@ -1,3 +1,4 @@
+import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/exceptions/http_exception.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
@@ -80,13 +81,13 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   Future<int> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
-      required TwilioCreds twilioCreds,
+      required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt,
       String? fromNumber}) async {
     try {
-      _smsValidator.validateTwilio(twilioCreds);
       _smsValidator.validateDateTime(sendAt);
-      logger.info("Scheduled SMS Initiated from [${twilioCreds.twilioNumber}]");
+      logger.info(
+          "Scheduled SMS Initiated from [${twilioCreds.messagingServiceSid}]");
       return await _smsRepository.sendScheduledSms(
           toNumber: toNumber,
           messageBody: messageBody,
@@ -105,7 +106,8 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
 
   @override
   Future<int> cancelScheduledSms(
-      {required String messageSid, required TwilioCreds twilioCreds}) async {
+      {required String messageSid,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
     try {
       logger.info("Cancel Scheduled SMS initiated for : [${messageSid}]");
       return await _smsRepository.cancelScheduledSms(
