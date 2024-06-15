@@ -1,4 +1,4 @@
-import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';

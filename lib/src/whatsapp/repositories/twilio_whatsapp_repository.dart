@@ -1,5 +1,5 @@
-import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
 
 abstract class TwilioWhatsAppRepository {
   Future<int> sendWhatsAppMessage(

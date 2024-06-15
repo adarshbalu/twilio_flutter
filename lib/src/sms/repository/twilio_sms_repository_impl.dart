@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:twilio_flutter/src/shared/dto/TwilioMessagingServiceCreds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
 import 'package:twilio_flutter/src/shared/services/network.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/shared/utils/log_helper.dart';
