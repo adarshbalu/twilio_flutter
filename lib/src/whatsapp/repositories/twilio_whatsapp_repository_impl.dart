@@ -25,18 +25,16 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
       required String messageBody,
       required TwilioCreds twilioCreds,
       String? fromNumber}) async {
-    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
-
+    final headers =
+        RequestUtils.generateHeaderWithBase64(twilioCreds.authString);
+    final String url = RequestUtils.generateMessagesUrl(twilioCreds.accountSid);
     final body = {
       'From': 'whatsapp:' + (fromNumber ?? twilioCreds.twilioNumber),
       'To': 'whatsapp:' + toNumber,
       'Body': messageBody
     };
     final http.Response response = await NetworkHelper.handleNetworkRequest(
-        url: twilioCreds.url,
-        headers: headers,
-        body: body,
-        requestType: RequestType.POST);
+        url: url, headers: headers, body: body, requestType: RequestType.POST);
     logger.info("Whatsapp Message Sent to [$toNumber] - [$messageBody]");
     return handleRequest(response: response, requestType: RequestType.POST);
   }

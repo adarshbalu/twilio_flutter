@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> sendWhatsApp() async {
-    TwilioResponse twilioResponse =
-      await  twilioFlutter.sendWhatsApp(toNumber: '', messageBody: 'hello world');
+    TwilioResponse twilioResponse = await twilioFlutter.sendWhatsApp(
+        toNumber: '', messageBody: 'hello world');
   }
 
   void getSms() async {
@@ -61,7 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cancelScheduledSMS() async {
-    TwilioResponse twilioResponse =  await twilioMessagingService.cancelScheduledSms(messageSid: '');
+    TwilioResponse twilioResponse =
+        await twilioMessagingService.cancelScheduledSms(messageSid: '');
   }
 
   @override

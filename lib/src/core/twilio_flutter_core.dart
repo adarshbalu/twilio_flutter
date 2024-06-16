@@ -2,8 +2,10 @@ library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
+import 'package:twilio_flutter/src/shared/enums/verification_channel.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
+import 'package:twilio_flutter/src/verify/services/twilio_verify_service.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
 
 ///
@@ -14,6 +16,7 @@ class TwilioFlutter {
   late TwilioCreds _twilioCreds;
   late TwilioSMSService _smsService;
   late TwilioWhatsAppService _whatsAppService;
+  late TwilioVerifyService _twilioVerifyService;
 
   /// Creates a TwilioFlutter Object with [accountSid] , [authToken] , [twilioNumber].
   /// Optional parameter [messagingServiceSid] can be passed in if [sendScheduledSms] is required.
@@ -39,6 +42,8 @@ class TwilioFlutter {
         locator.get<TwilioSMSService>(instanceName: "TwilioSMSServiceImpl");
     _whatsAppService = locator.get<TwilioWhatsAppService>(
         instanceName: "TwilioWhatsAppServiceImpl");
+    _twilioVerifyService = locator.get<TwilioVerifyService>(
+        instanceName: "TwilioVerifyServiceImpl");
   }
 
   ///	sendSMS
@@ -100,5 +105,55 @@ class TwilioFlutter {
         toNumber: toNumber,
         messageBody: messageBody,
         twilioCreds: _twilioCreds);
+  }
+
+  ///	createVerificationService
+  ///	 [serviceName] : Service name for the verification service
+  /// This method returns [TwilioResponse] and [metadata] from [TwilioResponse] will have the
+  /// verification service ID in the key:"sid"
+  ///
+  ///	For status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<TwilioResponse> createVerificationService(
+      {required String serviceName}) async {
+    return await _twilioVerifyService.createVerificationService(
+        serviceName: serviceName, twilioCreds: _twilioCreds);
+  }
+
+  ///	sendVerificationCode
+  ///	 [verificationChannel] : Channel for verification, possible values: sms, whatsapp
+  /// [recipient]: Recipient address, can be mobile number, email etc depending on channel
+  /// [verificationServiceId] : Verification service sid of the service
+  ///
+  ///	For status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<TwilioResponse> sendVerificationCode(
+      {required String verificationServiceId,
+      required String recipient,
+      required VerificationChannel verificationChannel}) async {
+    return await _twilioVerifyService.sendVerificationCode(
+        recipient: recipient,
+        twilioCreds: _twilioCreds,
+        verificationChannel: verificationChannel,
+        verificationServiceId: verificationServiceId);
+  }
+
+  ///	verifyCode
+  ///	 [code] : Code for verification
+  /// [recipient]: Recipient address, can be mobile number, email etc depending on channel
+  /// [verificationServiceId] : Verification service sid of the service
+  /// This method returns [TwilioResponse] and [metadata] from [TwilioResponse] has a
+  /// [status] key, if it is "approved" then the verification is success
+  ///	For status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<TwilioResponse> verifyCode(
+      {required String verificationServiceId,
+      required String recipient,
+      required String code}) async {
+    return await _twilioVerifyService.verifyCode(
+        recipient: recipient,
+        twilioCreds: _twilioCreds,
+        code: code,
+        verificationServiceId: verificationServiceId);
   }
 }
