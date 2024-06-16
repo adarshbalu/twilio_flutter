@@ -57,6 +57,7 @@ class TwilioMessagingService {
   ///	sendSms
   ///	 [toNumber] : The number to which sms message has to be sent.
   ///	 [messageBody] : The content of the message to be sent.
+  /// [fromNumber] : Optional, if the message has to be sent from a specific number
   /// This requires a Messaging service SID registered with twilio and
   /// Returns
   ///	201 -> message scheduled successfully.
@@ -64,16 +65,20 @@ class TwilioMessagingService {
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
   Future<TwilioResponse> sendSms(
-      {required String toNumber, required String messageBody}) async {
+      {required String toNumber,
+      required String messageBody,
+      String? fromNumber}) async {
     return await _smsService.sendSms(
         toNumber: toNumber,
         messageBody: messageBody,
-        twilioCreds: _twilioCreds);
+        twilioCreds: _twilioCreds,
+        fromNumber: fromNumber);
   }
 
   ///	sendWhatsAppMessage
   ///	 [toNumber] : The whatsapp number to which sms message has to be sent.
   ///	 [messageBody] : The content of the message to be sent.
+  /// [fromNumber] : Optional, if required to send from specific number
   /// This requires a Messaging service SID registered with twilio and
   /// Returns
   ///	201 -> message scheduled successfully.
@@ -83,7 +88,8 @@ class TwilioMessagingService {
   Future<TwilioResponse> sendWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required String sendAt}) async {
+      required String sendAt,
+      String? fromNumber}) async {
     return await _whatsAppService.sendWhatsApp(
         toNumber: toNumber,
         messageBody: messageBody,

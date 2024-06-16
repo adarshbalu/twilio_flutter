@@ -125,8 +125,22 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
   Future<TwilioResponse> sendSms(
       {required String toNumber,
       required String messageBody,
-      required TwilioMessagingServiceCreds twilioCreds}) {
-    // TODO: implement sendSms
-    throw UnimplementedError();
+      required TwilioMessagingServiceCreds twilioCreds,
+      String? fromNumber}) async {
+    try {
+      logger.info(
+          "Scheduled SMS Initiated from [${twilioCreds.messagingServiceSid}]");
+      return await _smsRepository.sendSms(
+          toNumber: toNumber,
+          messageBody: messageBody,
+          twilioCreds: twilioCreds,
+          fromNumber: fromNumber);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send SMS", thrownException: e);
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Unknown Error: Failed to Send SMS", thrownException: e);
+    }
   }
 }
