@@ -27,4 +27,10 @@ abstract class TwilioSMSService {
     required String messageSid,
     required TwilioMessagingServiceCreds twilioCreds,
   });
+
+  Future<TwilioResponse> sendSms(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds,
+      String? fromNumber});
 }

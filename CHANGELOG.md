@@ -1,3 +1,7 @@
+## [0.9.0] 2024-06-16
+
+- Send SMS and whatsapp using messaging service
+
 ## [0.8.0] 2024-06-16
 
 - Add twilio verify service

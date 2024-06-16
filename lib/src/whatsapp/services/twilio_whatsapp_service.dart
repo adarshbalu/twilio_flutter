@@ -18,4 +18,10 @@ abstract class TwilioWhatsAppService {
     required String messageSid,
     required TwilioMessagingServiceCreds twilioCreds,
   });
+
+  Future<TwilioResponse> sendWhatsApp(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds,
+      String? fromNumber});
 }

@@ -87,4 +87,28 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
           thrownException: e);
     }
   }
+
+  @override
+  Future<TwilioResponse> sendWhatsApp(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds,
+      String? fromNumber}) {
+    try {
+      logger.info(
+          "WhatsApp Message Initiated from [${twilioCreds.messagingServiceSid}]");
+      return _whatsAppRepository.sendWhatsApp(
+          toNumber: toNumber,
+          messageBody: messageBody,
+          twilioCreds: twilioCreds,
+          fromNumber: fromNumber);
+    } on HttpCallException catch (e) {
+      throw TwilioFlutterException(
+          message: "Failed to Send Whatsapp message", thrownException: e);
+    } on Exception catch (e) {
+      throw TwilioFlutterException(
+          message: "Unknown Error: Failed to Send Whatsapp message",
+          thrownException: e);
+    }
+  }
 }

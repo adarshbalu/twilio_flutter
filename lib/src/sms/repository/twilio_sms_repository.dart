@@ -28,6 +28,12 @@ abstract class TwilioSmsRepository extends NetworkRepository {
     required TwilioMessagingServiceCreds twilioCreds,
   });
 
+  Future<TwilioResponse> sendSms(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds,
+      String? fromNumber});
+
   Future<int> deleteMessage(
       {required String messageSID, required TwilioCreds twilioCreds});
 
