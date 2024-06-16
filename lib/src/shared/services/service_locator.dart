@@ -2,6 +2,10 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/src/email/repositories/twilio_email_repository.dart';
 import 'package:twilio_flutter/src/email/repositories/twilio_email_repository_impl.dart';
+import 'package:twilio_flutter/src/messenger/repository/twilio_messenger_repository.dart';
+import 'package:twilio_flutter/src/messenger/repository/twilio_messenger_repository_impl.dart';
+import 'package:twilio_flutter/src/messenger/services/twilio_messenger_service.dart';
+import 'package:twilio_flutter/src/messenger/services/twilio_messenger_service_impl.dart';
 import 'package:twilio_flutter/src/sms/repository/twilio_sms_repository_impl.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service_impl.dart';
@@ -46,5 +50,17 @@ void registerServices() {
     locator.registerSingleton<TwilioEmailRepository>(
         TwilioEmailRepositoryImpl(),
         instanceName: "TwilioEmailRepositoryImpl");
+  }
+  if (!locator.isRegistered<TwilioMessengerRepository>(
+      instanceName: "TwilioMessengerRepositoryImpl")) {
+    locator.registerSingleton<TwilioMessengerRepository>(
+        TwilioMessengerRepositoryImpl(),
+        instanceName: "TwilioMessengerRepositoryImpl");
+  }
+  if (!locator.isRegistered<TwilioMessengerService>(
+      instanceName: "TwilioMessengerServiceImpl")) {
+    locator.registerSingleton<TwilioMessengerService>(
+        TwilioMessengerServiceImpl(),
+        instanceName: "TwilioMessengerServiceImpl");
   }
 }
