@@ -1,4 +1,5 @@
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
@@ -42,7 +43,7 @@ class TwilioMessagingService {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendScheduledSms(
+  Future<TwilioResponse> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
       required String sendAt}) async {
@@ -64,7 +65,7 @@ class TwilioMessagingService {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendScheduledWhatsAppMessage(
+  Future<TwilioResponse> sendScheduledWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
       required String sendAt}) async {
@@ -82,7 +83,8 @@ class TwilioMessagingService {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> cancelScheduledSms({required String messageSid}) async {
+  Future<TwilioResponse> cancelScheduledSms(
+      {required String messageSid}) async {
     return await _smsService.cancelScheduledSms(
         twilioCreds: _twilioCreds, messageSid: messageSid);
   }
@@ -94,7 +96,7 @@ class TwilioMessagingService {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> cancelScheduledWhatsAppMessage(
+  Future<TwilioResponse> cancelScheduledWhatsAppMessage(
       {required String messageSid}) async {
     return await _whatsAppService.cancelScheduledWhatsAppMessage(
         twilioCreds: _twilioCreds, messageSid: messageSid);

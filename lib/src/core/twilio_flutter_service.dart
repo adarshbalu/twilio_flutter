@@ -1,9 +1,8 @@
 library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
-import 'package:twilio_flutter/src/sms/dto/twilio_message.dart';
-import 'package:twilio_flutter/src/sms/dto/twilio_message_list.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
 
@@ -49,12 +48,12 @@ class TwilioFlutter {
   ///
   ///	Method called to send text messages to the specified phone number with given content.
   ///
-  /// Returns
+  /// Returns [TwilioResponse]
   ///	201 -> message sent successfully.
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendSMS(
+  Future<TwilioResponse> sendSMS(
       {required String toNumber, required String messageBody}) async {
     return await _smsService.sendSMS(
         toNumber: toNumber,
@@ -80,7 +79,7 @@ class TwilioFlutter {
   /// Get all messages associated with your account
   /// Pass [pageSize] to get specific page sizes.
   /// [pageSize] value defaults to 20
-  Future<TwilioMessageList> getSmsList({String? pageSize}) async {
+  Future<TwilioResponse> getSmsList({String? pageSize}) async {
     return await _smsService.getSmsList(
         pageSize: pageSize, twilioCreds: _twilioCreds);
   }
@@ -88,7 +87,7 @@ class TwilioFlutter {
   /// getSMS
   /// Get all data of a specific message
   /// Pass [messageSid] as a non null Message SID.
-  Future<TwilioMessage> getSMS(String messageSid) async {
+  Future<TwilioResponse> getSMS(String messageSid) async {
     return await _smsService.getSmsData(
         messageSID: messageSid, twilioCreds: _twilioCreds);
   }
@@ -104,7 +103,7 @@ class TwilioFlutter {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<int> sendWhatsApp(
+  Future<TwilioResponse> sendWhatsApp(
       {required String toNumber, required String messageBody}) async {
     return await _whatsAppService.sendWhatsAppMessage(
         toNumber: toNumber,

@@ -1,5 +1,6 @@
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
+import 'package:twilio_flutter/src/shared/exceptions/http_exception.dart';
 import 'package:twilio_flutter/src/whatsapp/repositories/twilio_whatsapp_repository.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
 import 'package:twilio_flutter/src/whatsapp/validation/twilio_whatsapp_validator.dart';
@@ -20,7 +21,7 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
   final logger = LogHelper(className: 'TwilioWhatsAppServiceImpl');
 
   @override
-  Future<int> sendWhatsAppMessage(
+  Future<TwilioResponse> sendWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds}) async {
@@ -42,7 +43,7 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
   }
 
   @override
-  Future<int> sendScheduledWhatsAppMessage(
+  Future<TwilioResponse> sendScheduledWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
       required TwilioMessagingServiceCreds twilioCreds,
@@ -68,7 +69,7 @@ class TwilioWhatsAppServiceImpl extends TwilioWhatsAppService {
   }
 
   @override
-  Future<int> cancelScheduledWhatsAppMessage(
+  Future<TwilioResponse> cancelScheduledWhatsAppMessage(
       {required String messageSid,
       required TwilioMessagingServiceCreds twilioCreds}) async {
     try {
