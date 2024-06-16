@@ -5,17 +5,15 @@ class TwilioCreds {
   /// [authToken]: AuthToken associated with the Twilio account
   /// [twilioNumber]: Twilio number from which the message needs to be sent
   /// [messengerId]: Facebook page ID from which the message needs to be sent
-  /// [url] : Generated URL
-  /// [cred]: Generated Auth String
+  /// [authString]: Generated Auth String
   final String accountSid, authToken;
-  late String url, cred;
+  late String authString;
   String twilioNumber;
 
   TwilioCreds(
       {required this.accountSid,
       required this.authToken,
       required this.twilioNumber}) {
-    this.url = RequestUtils.generateMessagesUrl(accountSid);
-    this.cred = RequestUtils.generateAuthString(accountSid, authToken);
+    this.authString = RequestUtils.generateAuthString(accountSid, authToken);
   }
 }

@@ -25,17 +25,16 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       required String messageBody,
       required TwilioCreds twilioCreds,
       String? fromNumber}) async {
-    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final headers =
+        RequestUtils.generateHeaderWithBase64(twilioCreds.authString);
     final body = {
       'From': fromNumber ?? twilioCreds.twilioNumber,
       'To': toNumber,
       'Body': messageBody
     };
+    final String url = RequestUtils.generateMessagesUrl(twilioCreds.accountSid);
     final http.Response response = await NetworkHelper.handleNetworkRequest(
-        url: twilioCreds.url,
-        headers: headers,
-        body: body,
-        requestType: RequestType.POST);
+        url: url, headers: headers, body: body, requestType: RequestType.POST);
     logger.info("SMS Sent to [$toNumber] - [$messageBody]");
     return handleRequest(response: response, requestType: RequestType.POST);
   }
@@ -45,7 +44,8 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       {required String pageSize, required TwilioCreds twilioCreds}) async {
     final String url =
         RequestUtils.generateSmsListUrl(twilioCreds.accountSid, pageSize);
-    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final headers =
+        RequestUtils.generateHeaderWithBase64(twilioCreds.authString);
     final http.Response response = await NetworkHelper.handleNetworkRequest(
         url: url, headers: headers, requestType: RequestType.GET);
     logger.info("Received SMS List Successfully");
@@ -57,7 +57,8 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       {required String messageSID, required TwilioCreds twilioCreds}) async {
     String url =
         RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSID);
-    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final headers =
+        RequestUtils.generateHeaderWithBase64(twilioCreds.authString);
     final http.Response response = await NetworkHelper.handleNetworkRequest(
         url: url, headers: headers, requestType: RequestType.GET);
     logger.info("Received SMS Details Successfully");

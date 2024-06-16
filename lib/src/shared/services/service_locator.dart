@@ -9,6 +9,10 @@ import 'package:twilio_flutter/src/messenger/services/twilio_messenger_service_i
 import 'package:twilio_flutter/src/sms/repository/twilio_sms_repository_impl.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service_impl.dart';
+import 'package:twilio_flutter/src/verify/repository/twilio_verify_repository.dart';
+import 'package:twilio_flutter/src/verify/repository/twilio_verify_repository_impl.dart';
+import 'package:twilio_flutter/src/verify/services/twilio_verify_service.dart';
+import 'package:twilio_flutter/src/verify/services/twilio_verify_service_impl.dart';
 import 'package:twilio_flutter/src/whatsapp/services/twilio_whatsapp_service.dart';
 
 import '../../sms/repository/twilio_sms_repository.dart';
@@ -19,10 +23,12 @@ import '../../whatsapp/services/twilio_whatsapp_service_impl.dart';
 final GetIt locator = GetIt.instance;
 
 void registerServices() {
+  // HTTP client
   if (!locator.isRegistered<http.Client>(instanceName: "http.client")) {
     locator.registerSingleton<http.Client>(http.Client(),
         instanceName: "http.client");
   }
+  // Twilio SMS
   if (!locator.isRegistered<TwilioSmsRepository>(
       instanceName: "TwilioSMSRepositoryImpl")) {
     locator.registerSingleton<TwilioSmsRepository>(TwilioSMSRepositoryImpl(),
@@ -33,6 +39,7 @@ void registerServices() {
     locator.registerSingleton<TwilioSMSService>(TwilioSMSServiceImpl(),
         instanceName: "TwilioSMSServiceImpl");
   }
+  // Twilio WhatsApp
   if (!locator.isRegistered<TwilioWhatsAppRepository>(
       instanceName: "TwilioWhatsAppRepositoryImpl")) {
     locator.registerSingleton<TwilioWhatsAppRepository>(
@@ -45,12 +52,14 @@ void registerServices() {
         TwilioWhatsAppServiceImpl(),
         instanceName: "TwilioWhatsAppServiceImpl");
   }
+  // Twilio Email
   if (!locator.isRegistered<TwilioEmailRepository>(
       instanceName: "TwilioEmailRepositoryImpl")) {
     locator.registerSingleton<TwilioEmailRepository>(
         TwilioEmailRepositoryImpl(),
         instanceName: "TwilioEmailRepositoryImpl");
   }
+  // Twilio Messenger
   if (!locator.isRegistered<TwilioMessengerRepository>(
       instanceName: "TwilioMessengerRepositoryImpl")) {
     locator.registerSingleton<TwilioMessengerRepository>(
@@ -62,5 +71,17 @@ void registerServices() {
     locator.registerSingleton<TwilioMessengerService>(
         TwilioMessengerServiceImpl(),
         instanceName: "TwilioMessengerServiceImpl");
+  }
+  // Twilio verify
+  if (!locator.isRegistered<TwilioVerifyRepository>(
+      instanceName: "TwilioVerifyRepositoryImpl")) {
+    locator.registerSingleton<TwilioVerifyRepository>(
+        TwilioVerifyRepositoryImpl(),
+        instanceName: "TwilioVerifyRepositoryImpl");
+  }
+  if (!locator.isRegistered<TwilioVerifyService>(
+      instanceName: "TwilioVerifyServiceImpl")) {
+    locator.registerSingleton<TwilioVerifyService>(TwilioVerifyServiceImpl(),
+        instanceName: "TwilioVerifyServiceImpl");
   }
 }

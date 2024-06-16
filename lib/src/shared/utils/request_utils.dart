@@ -1,15 +1,29 @@
 import 'dart:convert';
 
 class RequestUtils {
-  static const String _baseUri = "https://api.twilio.com";
-  static const String _version = '2010-04-01';
+  static const String _messagesBaseUri = "https://api.twilio.com";
+  static const String _messagesVersion = '2010-04-01';
+  static const String _verifyVersion = 'v2';
+  static const String _verifyBaseUri = "https://verify.twilio.com";
 
-  static String get baseUri => _baseUri;
+  static String get messagesBaseUri => _messagesBaseUri;
 
-  static String get version => _version;
+  static String get messagesVersion => _messagesVersion;
 
   static String generateMessagesUrl(String accountSid) {
-    return '${_baseUri}/${_version}/Accounts/$accountSid/Messages.json';
+    return '${_messagesBaseUri}/${_messagesVersion}/Accounts/$accountSid/Messages.json';
+  }
+
+  static String generateCreateVerifyServiceUrl() {
+    return '${_verifyBaseUri}/${_verifyVersion}/Services';
+  }
+
+  static String generateSendVerifyCodeUrl(String verificationServiceId) {
+    return '${_verifyBaseUri}/${_verifyVersion}/Services/$verificationServiceId/Verifications';
+  }
+
+  static String generateVerifyCodeUrl(String verificationServiceId) {
+    return '${_verifyBaseUri}/${_verifyVersion}/Services/$verificationServiceId/VerificationCheck';
   }
 
   static String generateSmsListUrl(String accountSid, String pageSize) {
@@ -17,7 +31,7 @@ class RequestUtils {
   }
 
   static String generateSpecificSmsUrl(String accountSid, String messageSid) {
-    return '${_baseUri}/${_version}/Accounts/${accountSid}/Messages/${messageSid}' +
+    return '${_messagesBaseUri}/${_messagesVersion}/Accounts/${accountSid}/Messages/${messageSid}' +
         '.json';
   }
 
