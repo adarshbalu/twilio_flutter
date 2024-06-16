@@ -24,8 +24,7 @@ class TwilioFlutter {
   TwilioFlutter(
       {required String accountSid,
       required String authToken,
-      required String twilioNumber,
-      String? messagingServiceSid}) {
+      required String twilioNumber}) {
     // Register services
     registerServices();
 
@@ -59,14 +58,6 @@ class TwilioFlutter {
         toNumber: toNumber,
         messageBody: messageBody,
         twilioCreds: _twilioCreds);
-  }
-
-  /// changeTwilioNumber
-  /// [twilioNumber] : A non-null value for new twilio number
-  @Deprecated(
-      'Use changeDefaultTwilioNumber instead. Deprecated since version 0.4.0')
-  void changeTwilioNumber(String twilioNumber) {
-    this._twilioCreds.twilioNumber = twilioNumber;
   }
 
   /// changeDefaultTwilioNumber
