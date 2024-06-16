@@ -1,3 +1,5 @@
+/// [ErrorData] can be used to get the details of the exception caused
+/// [message] [moreInfo] [code] [status] are used to know more details
 class ErrorData {
   final String? message, moreInfo;
   final int? code, status;

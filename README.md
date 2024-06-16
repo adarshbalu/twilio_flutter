@@ -27,7 +27,7 @@ To use this package :
 dependencies:
   flutter:
     sdk: flutter
-  twilio_flutter: ^0.5.0
+  twilio_flutter:
 ```
 
 ## How to use

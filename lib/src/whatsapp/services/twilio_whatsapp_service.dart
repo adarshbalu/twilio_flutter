@@ -1,19 +1,20 @@
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
 
 abstract class TwilioWhatsAppService {
-  Future<int> sendWhatsAppMessage(
+  Future<TwilioResponse> sendWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds});
 
-  Future<int> sendScheduledWhatsAppMessage(
+  Future<TwilioResponse> sendScheduledWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
       required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt});
 
-  Future<int> cancelScheduledWhatsAppMessage({
+  Future<TwilioResponse> cancelScheduledWhatsAppMessage({
     required String messageSid,
     required TwilioMessagingServiceCreds twilioCreds,
   });

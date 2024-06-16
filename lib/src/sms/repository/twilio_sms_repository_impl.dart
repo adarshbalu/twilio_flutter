@@ -1,13 +1,13 @@
 import 'package:http/http.dart' as http;
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
+import 'package:twilio_flutter/src/shared/enums/request_type.dart';
 import 'package:twilio_flutter/src/shared/services/network.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/shared/utils/log_helper.dart';
 import 'package:twilio_flutter/src/shared/utils/request_utils.dart';
 
 import '../../shared/dto/twilio_creds.dart';
-import '../dto/message.dart';
-import '../dto/sms_data.dart';
 import 'twilio_sms_repository.dart';
 
 class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
@@ -20,7 +20,7 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   final logger = LogHelper(className: 'TwilioSMSRepositoryImpl');
 
   @override
-  Future<int> sendSMS(
+  Future<TwilioResponse> sendSMS(
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
@@ -31,36 +31,41 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       'To': toNumber,
       'Body': messageBody
     };
-    final http.Response response =
-        await NetworkHelper.createRequest(twilioCreds.url, headers, body);
+    final http.Response response = await NetworkHelper.handleNetworkRequest(
+        url: twilioCreds.url,
+        headers: headers,
+        body: body,
+        requestType: RequestType.POST);
     logger.info("SMS Sent to [$toNumber] - [$messageBody]");
-    return response.statusCode;
+    return handleRequest(response: response, requestType: RequestType.POST);
   }
 
   @override
-  Future<SmsData> getSmsList(
+  Future<TwilioResponse> getSmsList(
       {required String pageSize, required TwilioCreds twilioCreds}) async {
     final String url =
         RequestUtils.generateSmsListUrl(twilioCreds.accountSid, pageSize);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
-    final response = await NetworkHelper.getRequest(url, headers);
+    final http.Response response = await NetworkHelper.handleNetworkRequest(
+        url: url, headers: headers, requestType: RequestType.GET);
     logger.info("Received SMS List Successfully");
-    return SmsData.fromJson(response);
+    return handleRequest(response: response, requestType: RequestType.GET);
   }
 
   @override
-  Future<Message> getSmsData(
+  Future<TwilioResponse> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds}) async {
     String url =
         RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSID);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
-    final response = await NetworkHelper.getRequest(url, headers);
+    final http.Response response = await NetworkHelper.handleNetworkRequest(
+        url: url, headers: headers, requestType: RequestType.GET);
     logger.info("Received SMS Details Successfully");
-    return Message.fromJson(response);
+    return handleRequest(response: response, requestType: RequestType.GET);
   }
 
   @override
-  Future<int> sendScheduledSms(
+  Future<TwilioResponse> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
       required TwilioMessagingServiceCreds twilioCreds,
@@ -74,24 +79,27 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
       'MessagingServiceSid': twilioCreds.messagingServiceSid,
       'SendAt': sendAt
     };
-    final http.Response response =
-        await NetworkHelper.createRequest(twilioCreds.url, headers, body);
+    final http.Response response = await NetworkHelper.handleNetworkRequest(
+        url: twilioCreds.url,
+        headers: headers,
+        body: body,
+        requestType: RequestType.POST);
     logger.info("SMS Scheduled at [$sendAt] to [$toNumber] - [$messageBody]");
-    return response.statusCode;
+    return handleRequest(response: response, requestType: RequestType.POST);
   }
 
   @override
-  Future<int> cancelScheduledSms(
+  Future<TwilioResponse> cancelScheduledSms(
       {required String messageSid,
       required TwilioMessagingServiceCreds twilioCreds}) async {
     final String url =
         RequestUtils.generateSpecificSmsUrl(twilioCreds.accountSid, messageSid);
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {'Status': 'canceled'};
-    final http.Response response =
-        await NetworkHelper.createRequest(url, headers, body);
+    final http.Response response = await NetworkHelper.handleNetworkRequest(
+        url: url, headers: headers, body: body, requestType: RequestType.POST);
     logger.info("Cancelled SMS [$messageSid] Successfully");
-    return response.statusCode;
+    return handleRequest(response: response, requestType: RequestType.POST);
   }
 
   @override
@@ -101,21 +109,21 @@ class TwilioSMSRepositoryImpl extends TwilioSmsRepository {
   }
 
   @override
-  Future<SmsData> smsListFilterByDateAndNumbers(
+  Future<TwilioResponse> smsListFilterByDateAndNumbers(
       {String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterByDateAndNumbers
     throw UnimplementedError();
   }
 
   @override
-  Future<SmsData> smsListFilterBySentBefore(
+  Future<TwilioResponse> smsListFilterBySentBefore(
       {String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterBySentBefore
     throw UnimplementedError();
   }
 
   @override
-  Future<SmsData> smsListFilterByTimePeriod(
+  Future<TwilioResponse> smsListFilterByTimePeriod(
       {String? pageSize, TwilioCreds? twilioCreds}) {
     // TODO: implement smsListFilterByTimePeriod
     throw UnimplementedError();

@@ -38,16 +38,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void sendSms() async {
-    twilioFlutter.sendSMS(toNumber: '', messageBody: 'hello world');
+    TwilioResponse twilioResponse =
+        await twilioFlutter.sendSMS(toNumber: '', messageBody: 'hello world');
   }
 
-  void sendWhatsApp() {
-    twilioFlutter.sendWhatsApp(toNumber: '', messageBody: 'hello world');
+  Future<void> sendWhatsApp() async {
+    TwilioResponse twilioResponse =
+      await  twilioFlutter.sendWhatsApp(toNumber: '', messageBody: 'hello world');
   }
 
   void getSms() async {
-    var data = await twilioFlutter.getSmsList();
-    print(data);
+    TwilioResponse twilioResponse = await twilioFlutter.getSmsList();
 
     await twilioFlutter.getSMS('');
   }
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cancelScheduledSMS() async {
-    await twilioMessagingService.cancelScheduledSms(messageSid: '');
+    TwilioResponse twilioResponse =  await twilioMessagingService.cancelScheduledSms(messageSid: '');
   }
 
   @override
