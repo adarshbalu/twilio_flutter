@@ -1,3 +1,7 @@
+## [0.8.0] 2024-06-16
+
+- Add twilio verify service
+
 ## [0.7.0] 2024-06-16
 
 - Add facebook messenger service
