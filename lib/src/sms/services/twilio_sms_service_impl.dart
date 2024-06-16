@@ -120,4 +120,13 @@ class TwilioSMSServiceImpl extends TwilioSMSService {
           thrownException: e);
     }
   }
+
+  @override
+  Future<TwilioResponse> sendSms(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds}) {
+    // TODO: implement sendSms
+    throw UnimplementedError();
+  }
 }

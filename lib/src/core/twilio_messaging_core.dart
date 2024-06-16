@@ -54,6 +54,42 @@ class TwilioMessagingService {
         sendAt: sendAt);
   }
 
+  ///	sendSms
+  ///	 [toNumber] : The number to which sms message has to be sent.
+  ///	 [messageBody] : The content of the message to be sent.
+  /// This requires a Messaging service SID registered with twilio and
+  /// Returns
+  ///	201 -> message scheduled successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<TwilioResponse> sendSms(
+      {required String toNumber, required String messageBody}) async {
+    return await _smsService.sendSms(
+        toNumber: toNumber,
+        messageBody: messageBody,
+        twilioCreds: _twilioCreds);
+  }
+
+  ///	sendWhatsAppMessage
+  ///	 [toNumber] : The whatsapp number to which sms message has to be sent.
+  ///	 [messageBody] : The content of the message to be sent.
+  /// This requires a Messaging service SID registered with twilio and
+  /// Returns
+  ///	201 -> message scheduled successfully.
+  ///
+  ///	For more status codes refer
+  /// * https://www.twilio.com/docs/api/errors
+  Future<TwilioResponse> sendWhatsAppMessage(
+      {required String toNumber,
+      required String messageBody,
+      required String sendAt}) async {
+    return await _whatsAppService.sendWhatsApp(
+        toNumber: toNumber,
+        messageBody: messageBody,
+        twilioCreds: _twilioCreds);
+  }
+
   ///	sendScheduledWhatsAppMessage
   ///	 [toNumber] : The whatsapp number to which sms message has to be sent.
   ///	 [messageBody] : The content of the message to be sent.
