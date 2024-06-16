@@ -1,6 +1,11 @@
 import 'package:twilio_flutter/src/shared/dto/error_data.dart';
 import 'package:twilio_flutter/src/shared/enums/response_state.dart';
 
+/// [TwilioResponse] wraps the response of all the APIs
+/// [responseCode] give the response code of the requests
+/// [responseState] shows if the request fails or completes properly
+/// [errorData] has the error object
+/// [metadata] has all the info from the response as json
 class TwilioResponse {
   final int responseCode;
   final ResponseState responseState;

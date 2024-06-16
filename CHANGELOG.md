@@ -1,4 +1,6 @@
-## [0.6.0]
+## [0.6.0] 2024-06-16
+
+- Breaking change: Update the response of all API to `TwilioResponse`
 
 ## [0.5.0] 2024-06-15
 
