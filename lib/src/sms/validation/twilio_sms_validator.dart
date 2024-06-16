@@ -1,7 +1,11 @@
 class TwilioSmsValidator {
-  void validateFromNumber(String fromNumber) {
+  void validateNullNumber(String? number, String field) {
+    if (number != null) throw Exception("Input $field number is null");
+  }
+
+  void validateNumber(String number) {
     final RegExp regex = RegExp(r'^\+[1-9][0-9]{1,3}[0-9]{10}$');
-    if (!regex.hasMatch(fromNumber)) {
+    if (!regex.hasMatch(number)) {
       throw Exception("Input Twilio number is invalid");
     }
   }
