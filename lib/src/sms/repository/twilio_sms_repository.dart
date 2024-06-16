@@ -1,30 +1,29 @@
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
-import 'package:twilio_flutter/src/sms/dto/sms_data.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
+import 'package:twilio_flutter/src/shared/services/network_repository.dart';
 
-import '../dto/message.dart';
-
-abstract class TwilioSmsRepository {
-  Future<SmsData> getSmsList(
+abstract class TwilioSmsRepository extends NetworkRepository {
+  Future<TwilioResponse> getSmsList(
       {required String pageSize, required TwilioCreds twilioCreds});
 
-  Future<int> sendSMS(
+  Future<TwilioResponse> sendSMS(
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
       String? fromNumber});
 
-  Future<Message> getSmsData(
+  Future<TwilioResponse> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds});
 
-  Future<int> sendScheduledSms(
+  Future<TwilioResponse> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
       required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt,
       String? fromNumber});
 
-  Future<int> cancelScheduledSms({
+  Future<TwilioResponse> cancelScheduledSms({
     required String messageSid,
     required TwilioMessagingServiceCreds twilioCreds,
   });
@@ -32,12 +31,12 @@ abstract class TwilioSmsRepository {
   Future<int> deleteMessage(
       {required String messageSID, required TwilioCreds twilioCreds});
 
-  Future<SmsData> smsListFilterByTimePeriod(
+  Future<TwilioResponse> smsListFilterByTimePeriod(
       {required String pageSize, required TwilioCreds twilioCreds});
 
-  Future<SmsData> smsListFilterBySentBefore(
+  Future<TwilioResponse> smsListFilterBySentBefore(
       {required String pageSize, required TwilioCreds twilioCreds});
 
-  Future<SmsData> smsListFilterByDateAndNumbers(
+  Future<TwilioResponse> smsListFilterByDateAndNumbers(
       {required String pageSize, required TwilioCreds twilioCreds});
 }

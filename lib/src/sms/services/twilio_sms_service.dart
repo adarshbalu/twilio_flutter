@@ -1,30 +1,29 @@
 import 'package:twilio_flutter/src/shared/dto/twilio_messaging_service_creds.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
 
 import '../../shared/dto/twilio_creds.dart';
-import '../dto/message.dart';
-import '../dto/sms_data.dart';
 
 abstract class TwilioSMSService {
-  Future<int> sendSMS(
+  Future<TwilioResponse> sendSMS(
       {required String toNumber,
       required String messageBody,
       required TwilioCreds twilioCreds,
       String? fromNumber});
 
-  Future<SmsData> getSmsList(
+  Future<TwilioResponse> getSmsList(
       {required String? pageSize, required TwilioCreds twilioCreds});
 
-  Future<Message> getSmsData(
+  Future<TwilioResponse> getSmsData(
       {required String messageSID, required TwilioCreds twilioCreds});
 
-  Future<int> sendScheduledSms(
+  Future<TwilioResponse> sendScheduledSms(
       {required String toNumber,
       required String messageBody,
       required TwilioMessagingServiceCreds twilioCreds,
       required String sendAt,
       String? fromNumber});
 
-  Future<int> cancelScheduledSms({
+  Future<TwilioResponse> cancelScheduledSms({
     required String messageSid,
     required TwilioMessagingServiceCreds twilioCreds,
   });
