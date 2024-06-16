@@ -77,4 +77,24 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
     logger.info("Cancelled Whatsapp Message [$messageSid] Successfully");
     return handleRequest(response: response, requestType: RequestType.POST);
   }
+
+  @override
+  Future<TwilioResponse> sendWhatsApp(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds}) async {
+    final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
+    final body = {
+      'To': 'whatsapp:' + toNumber,
+      'Body': messageBody,
+      'MessagingServiceSid': twilioCreds.messagingServiceSid,
+    };
+    final http.Response response = await NetworkHelper.handleNetworkRequest(
+        url: twilioCreds.url,
+        headers: headers,
+        body: body,
+        requestType: RequestType.POST);
+    logger.info("WhatsApp Message to [$toNumber] - [$messageBody]");
+    return handleRequest(response: response, requestType: RequestType.POST);
+  }
 }

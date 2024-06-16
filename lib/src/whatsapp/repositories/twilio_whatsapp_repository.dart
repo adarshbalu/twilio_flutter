@@ -21,4 +21,9 @@ abstract class TwilioWhatsAppRepository extends NetworkRepository {
     required String messageSid,
     required TwilioMessagingServiceCreds twilioCreds,
   });
+
+  Future<TwilioResponse> sendWhatsApp(
+      {required String toNumber,
+      required String messageBody,
+      required TwilioMessagingServiceCreds twilioCreds});
 }
