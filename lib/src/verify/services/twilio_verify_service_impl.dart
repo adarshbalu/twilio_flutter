@@ -44,7 +44,7 @@ class TwilioVerifyServiceImpl extends TwilioVerifyService {
       return await _twilioVerifyRepository.sendVerificationCode(
           twilioCreds: twilioCreds,
           recipient: recipient,
-          verificationChannel: verificationChannel.toString().toLowerCase(),
+          verificationChannel: verificationChannel.name.toLowerCase(),
           verificationServiceId: verificationServiceId);
     } on HttpCallException catch (e) {
       throw TwilioFlutterException(
