@@ -82,13 +82,17 @@ class TwilioWhatsAppRepositoryImpl extends TwilioWhatsAppRepository {
   Future<TwilioResponse> sendWhatsApp(
       {required String toNumber,
       required String messageBody,
-      required TwilioMessagingServiceCreds twilioCreds}) async {
+      required TwilioMessagingServiceCreds twilioCreds,
+      String? fromNumber}) async {
     final headers = RequestUtils.generateHeaderWithBase64(twilioCreds.cred);
     final body = {
       'To': 'whatsapp:' + toNumber,
       'Body': messageBody,
       'MessagingServiceSid': twilioCreds.messagingServiceSid,
     };
+    if (fromNumber != null) {
+      body['From'] = 'whatsapp:' + fromNumber;
+    }
     final http.Response response = await NetworkHelper.handleNetworkRequest(
         url: twilioCreds.url,
         headers: headers,

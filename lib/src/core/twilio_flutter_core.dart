@@ -49,7 +49,7 @@ class TwilioFlutter {
   ///	sendSMS
   ///	 [toNumber] : The number to which text message has to be sent.
   ///	 [messageBody] : The content of the message to be sent.
-  ///
+  /// [fromNumber] : Optional, use to send from another Twilio number
   ///	Method called to send text messages to the specified phone number with given content.
   ///
   /// Returns [TwilioResponse]
@@ -58,11 +58,14 @@ class TwilioFlutter {
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
   Future<TwilioResponse> sendSMS(
-      {required String toNumber, required String messageBody}) async {
+      {required String toNumber,
+      required String messageBody,
+      String? fromNumber}) async {
     return await _smsService.sendSMS(
         toNumber: toNumber,
         messageBody: messageBody,
-        twilioCreds: _twilioCreds);
+        twilioCreds: _twilioCreds,
+        fromNumber: fromNumber);
   }
 
   /// changeDefaultTwilioNumber
