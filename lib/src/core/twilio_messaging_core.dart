@@ -88,12 +88,12 @@ class TwilioMessagingService {
   Future<TwilioResponse> sendWhatsAppMessage(
       {required String toNumber,
       required String messageBody,
-      required String sendAt,
       String? fromNumber}) async {
     return await _whatsAppService.sendWhatsApp(
         toNumber: toNumber,
         messageBody: messageBody,
-        twilioCreds: _twilioCreds);
+        twilioCreds: _twilioCreds,
+        fromNumber: fromNumber);
   }
 
   ///	sendScheduledWhatsAppMessage
