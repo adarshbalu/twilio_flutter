@@ -1,10 +1,7 @@
-## [0.9.1] 2024-06-19
-
-- Update README and update function signatures
-
-## [0.9.0] 2024-06-16
+## [0.9.0] 2024-06-23
 
 - Send SMS and whatsapp using messaging service
+- Update README and update function signatures
 
 ## [0.8.0] 2024-06-16
 
