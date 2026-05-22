@@ -2,6 +2,7 @@ library twilio_flutter;
 
 import 'package:twilio_flutter/src/shared/dto/twilio_creds.dart';
 import 'package:twilio_flutter/src/shared/dto/twilio_response.dart';
+import 'package:twilio_flutter/src/shared/dto/twilio_whatsapp_template.dart';
 import 'package:twilio_flutter/src/shared/enums/verification_channel.dart';
 import 'package:twilio_flutter/src/shared/services/service_locator.dart';
 import 'package:twilio_flutter/src/sms/services/twilio_sms_service.dart';
@@ -102,12 +103,25 @@ class TwilioFlutter {
   ///
   ///	For more status codes refer
   /// * https://www.twilio.com/docs/api/errors
-  Future<TwilioResponse> sendWhatsApp(
-      {required String toNumber, required String messageBody}) async {
+  Future<TwilioResponse> sendWhatsApp({
+    required String toNumber,
+    required String messageBody,
+    String? mediaUrl,
+  }) async {
     return await _whatsAppService.sendWhatsAppMessage(
         toNumber: toNumber,
         messageBody: messageBody,
+        mediaUrl: mediaUrl,
         twilioCreds: _twilioCreds);
+  }
+
+  ///	sendWhatsAppTemplate
+  ///	 [template] : The [TwilioWhatsAppTemplate] object containing all details for the template message to be sent.
+  Future<TwilioResponse> sendWhatsAppTemplate(
+      {required String toNumber,
+      required TwilioWhatsAppTemplate template}) async {
+    return await _whatsAppService.sendWhatsAppTemplate(
+        toNumber: toNumber, template: template, twilioCreds: _twilioCreds);
   }
 
   ///	createVerificationService

@@ -113,7 +113,7 @@ The following are the WhatsApp related features in **TwilioFlutter**.
 
 ```dart
 TwilioResponse response = await twilioFlutter.sendWhatsApp(toNumber : '',// replace with Mobile Number(With country code)
-messageBody : 'hello world');
+messageBody : 'hello world', mediaUrl : 'url_to_your_obj.png");
 ```
 
 | parameter   | type   | mandatory | remarks                                                                                     |
@@ -121,6 +121,21 @@ messageBody : 'hello world');
 | toNumber    | String | Yes       | The number to which the message has to sent to, should be a mobile number with country code |
 | messageBody | String | Yes       | The body of the message                                                                 |
 | fromNumber  | String | No        | A custom fromNumber other than the one configured with TwilioFlutter object. Should be mobile number with country code.                |
+| mediaUrl    | String | No        | The attachement's url of your message             |
+
+#### Send WhatsApp Template
+`twilioFlutter.sendWhatsAppTemplate()` can be used to send WhatsApp message using a template approved from WhatsApp Business Team by providing a ```dart TwilioWhatsAppTemplate(String contentSid, Map contentVariables)```.
+
+```dart
+TwilioResponse response = await twilioFlutter.sendWhatsAppTemplate(toNumber : '',// replace with Mobile Number(With country code)
+template : TwilioWhatsAppTemplate(contentSid: "id", contentVariables: {"var1":"val1","var2":"val2"}));
+```
+
+| parameter   | type   | mandatory     | remarks                                                                                     |
+| ----------- | ------ | --------------| ------------------------------------------------------------------------------------------- |
+| toNumber    | String | Yes           | The number to which the message has to sent to, should be a mobile number with country code |
+| template    | TwilioWhatsAppTemplate | Yes        | The template of your message          |
+
 
 ### Twilio Verification
 The following are the Twilio verify related features in **TwilioFlutter**.
